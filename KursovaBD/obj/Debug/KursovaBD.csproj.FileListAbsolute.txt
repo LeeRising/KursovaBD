@@ -1,0 +1,15 @@
+D:\MyProject\KursovaBD\KursovaBD\bin\Debug\KursovaBD.exe
+D:\MyProject\KursovaBD\KursovaBD\bin\Debug\KursovaBD.pdb
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.csprojResolveAssemblyReference.cache
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\App.g.cs
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD_MarkupCompile.cache
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD_MarkupCompile.lref
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.g.resources
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.Properties.Resources.resources
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.csproj.GenerateResource.Cache
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.exe
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\KursovaBD.pdb
+D:\MyProject\KursovaBD\KursovaBD\bin\Debug\KursovaBD.exe.config
+D:\MyProject\KursovaBD\KursovaBD\bin\Debug\MySql.Data.dll
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\UI\MainWindow.g.cs
+D:\MyProject\KursovaBD\KursovaBD\obj\Debug\UI\MainWindow.baml
