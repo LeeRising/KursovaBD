@@ -19,6 +19,8 @@ namespace KursovaBD
         public MainWindow()
         {
             InitializeComponent();
+            btn.Click += delegate {
+            };
         }
     }
 }
