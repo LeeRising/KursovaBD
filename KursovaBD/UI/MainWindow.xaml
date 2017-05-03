@@ -10,7 +10,8 @@
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         Title="Dogs Show" Height="550" Width="725"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Icon="/KursovaBD;component/Assets/favicon.ico"
         >
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,13 +19,10 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="520" />
         </Grid.ColumnDefinitions>
-        <StackPanel Background="Gray" x:Name="MainMenu" Width="200" 
-                    Grid.Column="0">
-            <Button Content="Test" x:Name="btn"/>
-        </StackPanel>
-        <GridSplitter ResizeDirection="Columns" ResizeBehavior="PreviousAndNext"
-                      Grid.Column="1" HorizontalAlignment="Stretch"/>
-        <Grid Background="Aqua" x:Name="MainWindowContent" Width="520" 
+        <StackPanel Background="BlanchedAlmond" x:Name="MainMenu" Width="200" 
+                    Grid.Column="0"/>
+        <Separator Grid.Column="1" HorizontalAlignment="Stretch"/>
+        <Grid Background="AliceBlue" x:Name="MainWindowContent" Width="520" 
               Grid.Column="2">
         </Grid>
     </Grid>
