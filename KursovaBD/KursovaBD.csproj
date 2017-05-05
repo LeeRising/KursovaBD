@@ -75,6 +75,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools\BDStructure\Connector.cs" />
     <Compile Include="Tools\CheckInternetConnection.cs" />
     <Compile Include="Tools\Cryptography.cs" />
     <Compile Include="Tools\RelativeTime.cs" />
@@ -118,6 +119,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets\Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

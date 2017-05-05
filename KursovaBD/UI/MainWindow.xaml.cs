@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,6 +21,10 @@ namespace KursovaBD
         public MainWindow()
         {
             InitializeComponent();
+        }
+        private void LoginAsAdminDialog_Closing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            
         }
     }
 }

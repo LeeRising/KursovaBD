@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursovaBD"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls" x:Class="KursovaBD.MainWindow"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:system="clr-namespace:System;assembly=mscorlib" x:Class="KursovaBD.MainWindow"
         mc:Ignorable="d"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
@@ -19,11 +20,66 @@
             <ColumnDefinition Width="5" />
             <ColumnDefinition Width="520" />
         </Grid.ColumnDefinitions>
-        <StackPanel Background="BlanchedAlmond" x:Name="MainMenu" Width="200" 
-                    Grid.Column="0"/>
+        <StackPanel Background="BlanchedAlmond" 
+                    x:Name="MainMenu" 
+                    Width="200" 
+                    Grid.Column="0">
+            <Button 
+                x:Name="DogsShowBtn"
+                Content="Dogs show"
+                Margin="15"
+                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+            <md:DialogHost DialogClosing="LoginAsAdminDialog_Closing"
+                       x:Name="LoginDialog" 
+                       Identifier="LoginDialogID"
+                       Grid.Column="0" Grid.Row="1" 
+                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                <md:DialogHost.DialogContent>
+                    <StackPanel Margin="16">
+                        <TextBlock>Login as Administrartor</TextBlock>
+                        <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch"
+                                 md:HintAssist.Hint="Login"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             x:Name="LoginTb" />
+                        <PasswordBox Margin="0 8 0 0" HorizontalAlignment="Stretch" 
+                                 md:HintAssist.Hint="Password"
+                                     Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
+                             x:Name="PassTb" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsDefault="True"
+                                        Margin="0 8 8 0"
+                                        Command="md:DialogHost.CloseDialogCommand">
+                                <Button.CommandParameter>
+                                    <system:Boolean>True</system:Boolean>
+                                </Button.CommandParameter>
+                                LOGIN
+                            </Button>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                        IsCancel="True"
+                                        Margin="0 8 8 0"
+                                        Command="md:DialogHost.CloseDialogCommand">
+                                <Button.CommandParameter>
+                                    <system:Boolean>False</system:Boolean>
+                                </Button.CommandParameter>
+                                CANCEL
+                            </Button>
+                        </StackPanel>
+                    </StackPanel>
+                </md:DialogHost.DialogContent>
+                <Button
+                x:Name="LoginAsAdminBtn"
+                Content="Login as Administrator"
+                Margin="12"
+                Command="{x:Static md:DialogHost.OpenDialogCommand}"
+                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+            </md:DialogHost>
+        </StackPanel>
         <Separator Grid.Column="1" HorizontalAlignment="Stretch"/>
-        <Grid Background="AliceBlue" x:Name="MainWindowContent" Width="520" 
-              Grid.Column="2">
+        <Grid Background="AliceBlue" 
+              x:Name="MainWindowContent" 
+              Width="520" 
+              Grid.Column="2" Grid.ColumnSpan="2">
         </Grid>
     </Grid>
 </Window>
