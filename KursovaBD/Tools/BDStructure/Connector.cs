@@ -9,22 +9,13 @@ namespace KursovaBD.Tools.BDStructure
 {
     public class Connector
     {
-        private string server;
-        private string database;
-        private string password;
-        private string uid;
         private static string connectionString;
 
         public Connector()
         {
-            server = "leerain-interactive.sytes.net";
-            database = "dogs_show";
-            uid = "admin";
-            password = "root";
-            connectionString = "SERVER=" + server + ";" + "DATABASE=" +
-            database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
+            connectionString = "Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root";
         }
-        public static MySqlConnection msc()
+        public MySqlConnection MySqlConnectionMethod()
         {
             return new MySqlConnection(connectionString);
         } 

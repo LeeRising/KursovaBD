@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="clr-namespace:KursovaBD"
-    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:system="clr-namespace:System;assembly=mscorlib" x:Class="KursovaBD.MainWindow"
     mc:Ignorable="d"
@@ -44,7 +44,7 @@
                           VerticalContentAlignment="Bottom"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="MinimizeBtn">
-                <md:PackIcon Kind="WindowMinimize"
+                <materialDesign:PackIcon Kind="WindowMinimize"
                              Width="30"
                              Height="20"
                              HorizontalAlignment="Right"
@@ -53,7 +53,7 @@
             <ToggleButton Height="30" Width="30"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="CloseBtn">
-                <md:PackIcon Kind="CloseBoxOutline"
+                <materialDesign:PackIcon Kind="CloseBoxOutline"
                              Height="30"
                              Width="30"
                              HorizontalAlignment="Right"
@@ -71,27 +71,34 @@
                 Content="Dogs show"
                 Margin="15"
                 Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
-            <md:DialogHost DialogClosing="LoginAsAdminDialog_Closing"
+            <Button 
+                x:Name="SendRegistrDogBtn"
+                Content="Registr my dog"
+                Margin="15"
+                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+            <materialDesign:DialogHost
+                DialogClosing="LoginDialog_DialogClosing"
                        x:Name="LoginDialog" 
                        Identifier="LoginDialogID"
                        Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Center" VerticalAlignment="Center">
-                <md:DialogHost.DialogContent>
+                <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
                         <TextBlock>Login as Administrartor</TextBlock>
                         <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch"
-                                 md:HintAssist.Hint="Login"
+                                 materialDesign:HintAssist.Hint="Login"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                              x:Name="LoginTb" />
                         <PasswordBox Margin="0 8 0 0" HorizontalAlignment="Stretch" 
-                                 md:HintAssist.Hint="Password"
+                                 materialDesign:HintAssist.Hint="Password"
                                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                              x:Name="PassTb" />
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                        IsDefault="True"
-                                        Margin="0 8 8 0"
-                                        Command="md:DialogHost.CloseDialogCommand">
+                                    IsDefault="True"
+                                    Margin="0 8 8 0"
+                                    x:Name="LoginBtn"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
                                 <Button.CommandParameter>
                                     <system:Boolean>True</system:Boolean>
                                 </Button.CommandParameter>
@@ -100,7 +107,7 @@
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                         IsCancel="True"
                                         Margin="0 8 8 0"
-                                        Command="md:DialogHost.CloseDialogCommand">
+                                        Command="materialDesign:DialogHost.CloseDialogCommand">
                                 <Button.CommandParameter>
                                     <system:Boolean>False</system:Boolean>
                                 </Button.CommandParameter>
@@ -108,31 +115,45 @@
                             </Button>
                         </StackPanel>
                     </StackPanel>
-                </md:DialogHost.DialogContent>
+                </materialDesign:DialogHost.DialogContent>
                 <Button
                 x:Name="LoginAsAdminBtn"
                 Content="Login as Administrator"
                 Margin="12"
-                Command="{x:Static md:DialogHost.OpenDialogCommand}"
+                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                 Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
-            </md:DialogHost>
+            </materialDesign:DialogHost>
+            <materialDesign:Badged Margin="12"
+                                   Badge="21"
+                                   Visibility="Hidden"
+                                   HorizontalAlignment="Center"
+                                   x:Name="CountingRequestBadge"
+                                   BadgeColorZoneMode="PrimaryDark">
+                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                        HorizontalAlignment="Stretch"
+                        x:Name="NewRequestsBtn"
+                Content="Show Request"/>
+            </materialDesign:Badged>
+            <Button
+                x:Name="NewRequestsBtn1"
+                Content="Show Request"
+                Margin="12"
+                Visibility="Hidden"
+                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
         </StackPanel>
-        
+
         <Separator Grid.Column="1"
                    Grid.Row="1"
                    HorizontalAlignment="Stretch"/>
-        
+
         <Grid Background="AliceBlue" 
               x:Name="MainWindowContent" 
               Width="520" 
               Grid.Column="2" 
               Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="407*"/>
-                <ColumnDefinition Width="101*"/>
-                <ColumnDefinition Width="8*"/>
-                <ColumnDefinition Width="5*"/>
-            </Grid.ColumnDefinitions>
+            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                         HorizontalAlignment="Stretch"
+                         x:Name="MessagesSnackbar"/>
         </Grid>
     </Grid>
 </Window>
