@@ -13,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using KursovaBD.Tools.BDStructure;
+using MySql.Data.MySqlClient;
 
 namespace KursovaBD
 {
@@ -21,10 +23,29 @@ namespace KursovaBD
         public MainWindow()
         {
             InitializeComponent();
+            #region TitleBar
+            CloseBtn.Click += delegate
+            {
+                Close();
+            };
+            MinimizeBtn.Click += delegate
+            {
+                MinimizeBtn.IsChecked = false;
+                WindowState = WindowState.Minimized;
+            };
+            #endregion
         }
         private void LoginAsAdminDialog_Closing(object sender, DialogClosingEventArgs eventArgs)
         {
-            
+            //try
+            //{
+            //    Connector.msc().Open();
+            //    MessageBox.Show("1");
+            //}
+            //catch (MySqlException ms)
+            //{
+            //    MessageBox.Show(ms.Message);
+            //}
         }
     }
 }
