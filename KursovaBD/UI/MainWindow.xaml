@@ -124,8 +124,8 @@
                 Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
             </materialDesign:DialogHost>
             <materialDesign:Badged Margin="12"
-                                   Badge="21"
-                                   Visibility="Hidden"
+                                   Badge="{Binding Count}"
+                                   Visibility="Visible"
                                    HorizontalAlignment="Center"
                                    x:Name="CountingRequestBadge"
                                    BadgeColorZoneMode="PrimaryDark">
