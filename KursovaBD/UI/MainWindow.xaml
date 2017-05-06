@@ -6,15 +6,16 @@
     xmlns:local="clr-namespace:KursovaBD"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
-    xmlns:system="clr-namespace:System;assembly=mscorlib" x:Class="KursovaBD.MainWindow"
+    x:Class="KursovaBD.MainWindow"
     mc:Ignorable="d"
     ResizeMode="CanMinimize"
     WindowStartupLocation="CenterScreen"
-    Title="Dogs Show" Height="550" Width="725"
+    Title="Dogs Show" 
+    Height="550" 
+    Width="725"
     Background="{DynamicResource MaterialDesignPaper}" 
     Icon="/KursovaBD;component/Assets/favicon.ico"
-    WindowStyle="None"
-        >
+    WindowStyle="None">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -26,20 +27,18 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.ColumnSpan="3"
+        <StackPanel x:Name="TitleBarPanel" 
+                    Grid.Row="0" Grid.ColumnSpan="3"
                     Background="White"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right"
-                    >
+                    HorizontalAlignment="Right">
             <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
-                       Margin="0,0,10,0"
-                   />
+                       Margin="0,0,10,0"/>
             <TextBlock Text="Dogs Show"
                        Height="30"
                        FontWeight="ExtraBold"
                        FontSize="15"
-                       Margin="0,5,540,0"
-                       />
+                       Margin="0,5,540,0"/>
             <ToggleButton Height="30" Width="30"
                           VerticalContentAlignment="Bottom"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
@@ -47,8 +46,7 @@
                 <materialDesign:PackIcon Kind="WindowMinimize"
                              Width="30"
                              Height="20"
-                             HorizontalAlignment="Right"
-                         />
+                             HorizontalAlignment="Right"/>
             </ToggleButton>
             <ToggleButton Height="30" Width="30"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
@@ -56,26 +54,43 @@
                 <materialDesign:PackIcon Kind="CloseBoxOutline"
                              Height="30"
                              Width="30"
-                             HorizontalAlignment="Right"
-                         />
+                             HorizontalAlignment="Right"/>
             </ToggleButton>
         </StackPanel>
 
-        <StackPanel Background="BlanchedAlmond" 
-                    x:Name="MainMenu" 
+        <StackPanel x:Name="MainMenu"
+                    Background="WhiteSmoke" 
                     Width="200" 
                     Grid.Column="0"
                     Grid.Row="1">
             <Button 
                 x:Name="DogsShowBtn"
                 Content="Dogs show"
-                Margin="15"
-                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+                Margin="12"
+                Click="DogsShowBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
+            <Button 
+                x:Name="HallofFameBtn"
+                Content="Hall of Fame"
+                Margin="12"
+                Click="HallofFameBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <Button 
                 x:Name="SendRegistrDogBtn"
-                Content="Registr my dog"
-                Margin="15"
-                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+                Content="Register my dog"
+                Click="SendRegistrDogBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Margin="12"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
+            <Button 
+                x:Name="ExpertRegisterBtn"
+                Content="Register as expert"
+                Click="ExpertRegisterBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Margin="12"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:DialogHost
                 DialogClosing="LoginDialog_DialogClosing"
                        x:Name="LoginDialog" 
@@ -93,67 +108,61 @@
                                  materialDesign:HintAssist.Hint="Password"
                                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"
                              x:Name="PassTb" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" >
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                     IsDefault="True"
                                     Margin="0 8 8 0"
                                     x:Name="LoginBtn"
-                                        Command="materialDesign:DialogHost.CloseDialogCommand">
-                                <Button.CommandParameter>
-                                    <system:Boolean>True</system:Boolean>
-                                </Button.CommandParameter>
+                                    Click="LoginBtn_Click"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand">
                                 LOGIN
                             </Button>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
-                                        IsCancel="True"
-                                        Margin="0 8 8 0"
-                                        Command="materialDesign:DialogHost.CloseDialogCommand">
-                                <Button.CommandParameter>
-                                    <system:Boolean>False</system:Boolean>
-                                </Button.CommandParameter>
+                                    IsCancel="True"
+                                    Margin="0 8 8 0"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand">
                                 CANCEL
                             </Button>
                         </StackPanel>
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
-                <Button
-                x:Name="LoginAsAdminBtn"
-                Content="Login as Administrator"
-                Margin="12"
-                Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
-                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
+                <Button x:Name="LoginAsAdminBtn"
+                        Content="Login as Administrator"
+                        Margin="12"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"/>
             </materialDesign:DialogHost>
-            <materialDesign:Badged Margin="12"
-                                   Badge="{Binding Count}"
-                                   Visibility="Visible"
-                                   HorizontalAlignment="Center"
-                                   x:Name="CountingRequestBadge"
+            <materialDesign:Badged x:Name="CountingRequestBadge"
+                                   Margin="12"
+                                   Badge="{Binding RequesCount}"
+                                   Visibility="Hidden"
+                                   HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
-                <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                <Button x:Name="ShowRequestsBtn"
+                        Style="{StaticResource MaterialDesignRaisedButton}"
                         HorizontalAlignment="Stretch"
-                        x:Name="NewRequestsBtn"
+                        materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Content="Show Request"/>
             </materialDesign:Badged>
-            <Button
-                x:Name="NewRequestsBtn1"
-                Content="Show Request"
-                Margin="12"
-                Visibility="Hidden"
-                Style="{DynamicResource MaterialDesignRaisedAccentButton}"/>
         </StackPanel>
 
         <Separator Grid.Column="1"
                    Grid.Row="1"
                    HorizontalAlignment="Stretch"/>
 
-        <Grid Background="AliceBlue" 
-              x:Name="MainWindowContent" 
+        <Grid x:Name="MainWindowContent" 
+              Background="AliceBlue"               
               Width="520" 
               Grid.Column="2" 
-              Grid.Row="1">
-            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
-                         HorizontalAlignment="Stretch"
-                         x:Name="MessagesSnackbar"/>
-        </Grid>
+              Grid.Row="1"/>
+        
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+            Width="450"
+            HorizontalAlignment="Stretch"
+            Margin="45,0,120,0"
+            x:Name="MessagesSnackbar" 
+            Grid.Column="2" 
+            Grid.Row="1"/>
     </Grid>
 </Window>
