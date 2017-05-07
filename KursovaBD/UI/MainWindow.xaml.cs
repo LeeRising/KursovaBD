@@ -59,7 +59,7 @@ namespace KursovaBD
                 AppConfigMethod();
 
                 DogsShowBtn.Style = PressedBtnStyle;
-                //Dogs Show Content
+                MainWindowContent.Children.Add(_DogsShow);
             }
             catch (MySqlException ms)
             {
@@ -122,18 +122,21 @@ namespace KursovaBD
                 else
                     Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
             }
-            if(IsLogin)
-                Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not empty!"));
+            if (IsLogin)
+                Task.Factory.StartNew(() => messageQueue.Enqueue("All fiel_DogsShow must be not empty!"));
             DbConnection.Close();
             IsLogin = false;
         }
-
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             IsLogin = true;
         }
+        private void TitleBarPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
 
-        void MenuToggler()
+        void MenuToggler(int elementIndex)
         {
             foreach (Button c in MainMenu.Children.OfType<Button>())
             {
@@ -141,38 +144,66 @@ namespace KursovaBD
                     c.Style = DefaultBtnStyle;
             }
         }
-
-        int elementIndex;
+        void ContentToggler(UIElement uie)
+        {
+            MainWindowContent.Children.RemoveAt(0);
+            MainWindowContent.Children.Add(uie);
+        }
+        
         Style DefaultBtnStyle, PressedBtnStyle;
-        DogsShow ds = new DogsShow();
+        DogsShow _DogsShow = new DogsShow();
+        HallOfFame _HallOfFame = new HallOfFame();
+        RegisterDog _RegisterDog = new RegisterDog();
+        RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
+        ShowRequests _ShowRequests = new ShowRequests();
         private void DogsShowBtn_Click(object sender, RoutedEventArgs e)
         {
-            //MainWindowContent.Children.Add(ds);
-            DogsShowBtn.Style = PressedBtnStyle;
-            elementIndex = MainMenu.Children.IndexOf(DogsShowBtn);
-            MenuToggler();
+            if (DogsShowBtn.Style == DefaultBtnStyle)
+            {
+                DogsShowBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(DogsShowBtn));
+                ContentToggler(_DogsShow);
+            }
         }
 
         private void SendRegistrDogBtn_Click(object sender, RoutedEventArgs e)
         {
-            SendRegistrDogBtn.Style = PressedBtnStyle;
-            elementIndex = MainMenu.Children.IndexOf(SendRegistrDogBtn);
-            MenuToggler();
+            if (SendRegistrDogBtn.Style == DefaultBtnStyle)
+            {
+                SendRegistrDogBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(SendRegistrDogBtn));
+                ContentToggler(_RegisterDog);
+            }
         }
 
         private void ExpertRegisterBtn_Click(object sender, RoutedEventArgs e)
         {
-            ExpertRegisterBtn.Style = PressedBtnStyle;
-            elementIndex = MainMenu.Children.IndexOf(ExpertRegisterBtn);
-            MenuToggler();
+            if (ExpertRegisterBtn.Style == DefaultBtnStyle)
+            {
+                ExpertRegisterBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(ExpertRegisterBtn));
+                ContentToggler(_RegisterAsExpert);
+            }
         }
 
         private void HallofFameBtn_Click(object sender, RoutedEventArgs e)
         {
-            HallofFameBtn.Style = PressedBtnStyle;
-            elementIndex = MainMenu.Children.IndexOf(HallofFameBtn);
-            MenuToggler();
-            //MainWindowContent.Children.Remove(ds);
+            if (HallofFameBtn.Style == DefaultBtnStyle)
+            {
+                HallofFameBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(HallofFameBtn));
+                ContentToggler(_HallOfFame);
+            }
+        }
+
+        private void ShowRequestsBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (ShowRequestsBtn.Style == DefaultBtnStyle)
+            {
+                ShowRequestsBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(ShowRequestsBtn));
+                ContentToggler(_ShowRequests);
+            }
         }
     }
 }

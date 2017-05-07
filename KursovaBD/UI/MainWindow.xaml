@@ -3,9 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:KursovaBD"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:local="clr-namespace:KursovaBD"
     x:Class="KursovaBD.MainWindow"
     mc:Ignorable="d"
     ResizeMode="CanMinimize"
@@ -31,7 +31,7 @@
                     Grid.Row="0" Grid.ColumnSpan="3"
                     Background="White"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" MouseDown="TitleBarPanel_MouseDown">
             <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
                        Margin="0,0,10,0"/>
             <TextBlock Text="Dogs Show"
@@ -142,6 +142,7 @@
                 <Button x:Name="ShowRequestsBtn"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         HorizontalAlignment="Stretch"
+                        Click="ShowRequestsBtn_Click"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Content="Show Request"/>
             </materialDesign:Badged>
@@ -153,7 +154,7 @@
 
         <Grid x:Name="MainWindowContent" 
               Background="AliceBlue"               
-              Width="520" 
+              Width="520"
               Grid.Column="2" 
               Grid.Row="1"/>
         
