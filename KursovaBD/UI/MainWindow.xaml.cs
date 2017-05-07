@@ -25,12 +25,12 @@ namespace KursovaBD
     public partial class MainWindow : Window
     {
         MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
-        SnackbarMessageQueue messageQueue;
         MySqlCommand msc;
         SQLiteAsyncConnection db = new SQLiteAsyncConnection("cfg\\AppConfiguration.sqlite", SQLiteOpenFlags.ReadWrite, true);
+        SnackbarMessageQueue messageQueue;
         public object RequesCount { get; private set; }
-
         private bool IsLogin = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -50,6 +50,10 @@ namespace KursovaBD
             {
                 MinimizeBtn.IsChecked = false;
                 WindowState = WindowState.Minimized;
+            };
+            TitleBarPanel.MouseDown += delegate
+            {
+                DragMove();
             };
             #endregion
 
@@ -110,11 +114,11 @@ namespace KursovaBD
             DbConnection.Open();
             if (!String.IsNullOrEmpty(LoginTb.Text) & !String.IsNullOrEmpty(PassTb.Password))
             {
-                msc = new MySqlCommand(String.Format("select * from organizer where login='{0}' and password='{1}'",
+                msc = new MySqlCommand(String.Format("select rights from users where login='{0}' and password='{1}'",
                     LoginTb.Text, Cryptography.getHashSha256(PassTb.Password)), DbConnection);
-                if (msc.ExecuteScalar() != null)
+                if ((string)msc.ExecuteScalar() == "organizer")
                 {
-                    LoginAsAdminBtn.Content = "Hello " + LoginTb.Text;
+                    UserLoginBtn.Content = "Hello " + LoginTb.Text;
                     CountingRequestBadge.Visibility = Visibility.Visible;
                     LoginTb.Text = "";
                     PassTb.Password = "";
@@ -130,10 +134,6 @@ namespace KursovaBD
         private void LoginBtn_Click(object sender, RoutedEventArgs e)
         {
             IsLogin = true;
-        }
-        private void TitleBarPanel_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            DragMove();
         }
 
         void MenuToggler(int elementIndex)
@@ -151,11 +151,14 @@ namespace KursovaBD
         }
         
         Style DefaultBtnStyle, PressedBtnStyle;
+
         DogsShow _DogsShow = new DogsShow();
         HallOfFame _HallOfFame = new HallOfFame();
         RegisterDog _RegisterDog = new RegisterDog();
         RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
         ShowRequests _ShowRequests = new ShowRequests();
+        UserRegister _UserRegister = new UserRegister();
+
         private void DogsShowBtn_Click(object sender, RoutedEventArgs e)
         {
             if (DogsShowBtn.Style == DefaultBtnStyle)
@@ -163,26 +166,7 @@ namespace KursovaBD
                 DogsShowBtn.Style = PressedBtnStyle;
                 MenuToggler(MainMenu.Children.IndexOf(DogsShowBtn));
                 ContentToggler(_DogsShow);
-            }
-        }
-
-        private void SendRegistrDogBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (SendRegistrDogBtn.Style == DefaultBtnStyle)
-            {
-                SendRegistrDogBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(SendRegistrDogBtn));
-                ContentToggler(_RegisterDog);
-            }
-        }
-
-        private void ExpertRegisterBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (ExpertRegisterBtn.Style == DefaultBtnStyle)
-            {
-                ExpertRegisterBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(ExpertRegisterBtn));
-                ContentToggler(_RegisterAsExpert);
+                UserLoginBtn.Style = DefaultBtnStyle;
             }
         }
 
@@ -193,6 +177,38 @@ namespace KursovaBD
                 HallofFameBtn.Style = PressedBtnStyle;
                 MenuToggler(MainMenu.Children.IndexOf(HallofFameBtn));
                 ContentToggler(_HallOfFame);
+                UserLoginBtn.Style = DefaultBtnStyle;
+                UserLoginBtn.Style = DefaultBtnStyle;
+            }
+        }
+
+        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (UserLoginBtn.Style == DefaultBtnStyle)
+            {
+                UserLoginBtn.Style = PressedBtnStyle;
+                MenuToggler(5);
+                ContentToggler(_UserRegister);
+            }
+        }
+        private void SendRegistrDogBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (SendRegistrDogBtn.Style == DefaultBtnStyle)
+            {
+                SendRegistrDogBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(SendRegistrDogBtn));
+                ContentToggler(_RegisterDog);
+                UserLoginBtn.Style = DefaultBtnStyle;
+            }
+        }
+        private void ExpertRegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (ExpertRegisterBtn.Style == DefaultBtnStyle)
+            {
+                ExpertRegisterBtn.Style = PressedBtnStyle;
+                MenuToggler(MainMenu.Children.IndexOf(ExpertRegisterBtn));
+                ContentToggler(_RegisterAsExpert);
+                UserLoginBtn.Style = DefaultBtnStyle;
             }
         }
 
@@ -203,6 +219,7 @@ namespace KursovaBD
                 ShowRequestsBtn.Style = PressedBtnStyle;
                 MenuToggler(MainMenu.Children.IndexOf(ShowRequestsBtn));
                 ContentToggler(_ShowRequests);
+                UserLoginBtn.Style = DefaultBtnStyle;
             }
         }
     }

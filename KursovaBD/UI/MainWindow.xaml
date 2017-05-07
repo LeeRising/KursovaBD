@@ -31,7 +31,7 @@
                     Grid.Row="0" Grid.ColumnSpan="3"
                     Background="White"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right" MouseDown="TitleBarPanel_MouseDown">
+                    HorizontalAlignment="Right">
             <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
                        Margin="0,0,10,0"/>
             <TextBlock Text="Dogs Show"
@@ -63,43 +63,26 @@
                     Width="200" 
                     Grid.Column="0"
                     Grid.Row="1">
-            <Button 
-                x:Name="DogsShowBtn"
+            <Button x:Name="DogsShowBtn"
                 Content="Dogs show"
                 Margin="12"
                 Click="DogsShowBtn_Click"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <Button 
-                x:Name="HallofFameBtn"
+            <Button x:Name="HallofFameBtn"
                 Content="Hall of Fame"
                 Margin="12"
                 Click="HallofFameBtn_Click"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <Button 
-                x:Name="SendRegistrDogBtn"
-                Content="Register my dog"
-                Click="SendRegistrDogBtn_Click"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                Margin="12"
-                Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <Button 
-                x:Name="ExpertRegisterBtn"
-                Content="Register as expert"
-                Click="ExpertRegisterBtn_Click"
-                materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                Margin="12"
-                Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <materialDesign:DialogHost
+            <materialDesign:DialogHost x:Name="LoginDialog"
                 DialogClosing="LoginDialog_DialogClosing"
-                       x:Name="LoginDialog" 
                        Identifier="LoginDialogID"
                        Grid.Column="0" Grid.Row="1" 
-                       HorizontalAlignment="Center" VerticalAlignment="Center">
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <materialDesign:DialogHost.DialogContent>
                     <StackPanel Margin="16">
-                        <TextBlock>Login as Administrartor</TextBlock>
+                        <TextBlock>User login</TextBlock>
                         <TextBox Margin="0 8 0 0" HorizontalAlignment="Stretch"
                                  materialDesign:HintAssist.Hint="Login"
                                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -113,30 +96,49 @@
                                     IsDefault="True"
                                     Margin="0 8 8 0"
                                     x:Name="LoginBtn"
+                                    Content="LOGIN"
                                     Click="LoginBtn_Click"
-                                    Command="materialDesign:DialogHost.CloseDialogCommand">
-                                LOGIN
-                            </Button>
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                     IsCancel="True"
                                     Margin="0 8 8 0"
-                                    Command="materialDesign:DialogHost.CloseDialogCommand">
-                                CANCEL
-                            </Button>
+                                    Content="CANCEL"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
                         </StackPanel>
+                        <Button x:Name="RegisterBtn"
+                                Margin="0,5"
+                                Click="RegisterBtn_Click"
+                                Style="{StaticResource MaterialDesignRaisedDarkButton}"
+                                Command="materialDesign:DialogHost.CloseDialogCommand"
+                                Content="Register"/>
                     </StackPanel>
                 </materialDesign:DialogHost.DialogContent>
-                <Button x:Name="LoginAsAdminBtn"
-                        Content="Login as Administrator"
+                <Button x:Name="UserLoginBtn"
+                        Content="Login"
                         Margin="12"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         Style="{DynamicResource MaterialDesignRaisedButton}"/>
             </materialDesign:DialogHost>
+            <Button x:Name="SendRegistrDogBtn"
+                Content="Register my dog"
+                Visibility="Collapsed"
+                Click="SendRegistrDogBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Margin="12"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
+            <Button 
+                x:Name="ExpertRegisterBtn"
+                Content="Register as expert"
+                Visibility="Collapsed"
+                Click="ExpertRegisterBtn_Click"
+                materialDesign:ShadowAssist.ShadowDepth="Depth3"
+                Margin="12"
+                Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:Badged x:Name="CountingRequestBadge"
                                    Margin="12"
                                    Badge="{Binding RequesCount}"
-                                   Visibility="Hidden"
+                                   Visibility="Collapsed"
                                    HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
                 <Button x:Name="ShowRequestsBtn"

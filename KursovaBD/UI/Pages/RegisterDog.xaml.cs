@@ -23,6 +23,8 @@ namespace KursovaBD.UI.Pages
         public RegisterDog()
         {
             InitializeComponent();
+            DataContext = this;
         }
-    }
+        string[] Breads = {"Akita Inu","English Bulldog","English Cocker Spaniel","Afghanician Bossia","Border Collie","Briar","Brusselsky Griffon","Welsh-Corgias","Greyhound","Dalmathin","Labrador","Keeshond","Hungarian Shepherd","Kurtzhaar","Levretka","Leonberger","Pekingese","Pomeransky Spitz","Poodle","The Samish dog","Japanese chin","Shelti","Shi-tcu"};
+}
 }
