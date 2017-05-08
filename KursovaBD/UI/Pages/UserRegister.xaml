@@ -7,61 +7,77 @@
              xmlns:local="clr-namespace:KursovaBD.UI.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="520" d:DesignWidth="520">
-    <StackPanel Orientation="Vertical" HorizontalAlignment="Left">
-        <TextBox FontSize="15"
+    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
+        <StackPanel Orientation="Horizontal"
+                    Margin="5"
+                    Width="340">
+            <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Login"
                      x:Name="LoginTb"
-                     Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+            <materialDesign:PackIcon x:Name="LoginChecker"
+                                     Kind="CloseCircle"
+                                     Visibility="Collapsed"
+                                     Height="50"/>
+        </StackPanel>
         <PasswordBox FontSize="15"
                      materialDesign:HintAssist.Hint="Password"
                      x:Name="PassTb"
                      Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
-        <PasswordBox FontSize="15"
+        <StackPanel Orientation="Horizontal" Width="340"
+                     Margin="5">
+            <PasswordBox FontSize="15"
                      materialDesign:HintAssist.Hint="Repeat password"
                      x:Name="RepeatPassTb"
-                     Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintPasswordBox}"/>
+            <materialDesign:PackIcon x:Name="PassChecker"
+                                     Kind="CloseCircle"
+                                     Visibility="Collapsed"
+                                     Height="50"/>
+        </StackPanel>
         <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Name"
                      x:Name="NameTb"
                      Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Surname"
                      x:Name="SurnameTb"
                      Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Father name"
                      x:Name="FathernameTb"
                      Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Passport info"
                      x:Name="PassportTb"
                      Margin="5"
-                     Width="250"
+                     Width="340"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
         <StackPanel Orientation="Horizontal">
             <Button x:Name="RegisterBtn"
                     Content="Register"
-                    Margin="5"
+                    Margin="15,10,0,5"
                     Width="125"
                     HorizontalAlignment="Left"/>
             <Button x:Name="CancelBtn"
                     Content="Cancel"
-                    Margin="5"
+                    Margin="83,10,0,5"
                     Width="125"
                     Style="{StaticResource MaterialDesignFlatButton}"
                     />
         </StackPanel>
+        <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                                 x:Name="MessagesSnackbar"
+                                 Margin="0,50,0,0"/>
     </StackPanel>
 </UserControl>
