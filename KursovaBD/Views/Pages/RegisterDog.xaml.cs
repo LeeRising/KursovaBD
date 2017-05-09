@@ -8,6 +8,7 @@ using System;
 using Microsoft.Win32;
 using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace KursovaBD.UI.Pages
 {
@@ -21,40 +22,58 @@ namespace KursovaBD.UI.Pages
         public List<string> Masters = new List<string>();
         OpenFileDialog ofd = new OpenFileDialog
         {
-            Filter= "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png"
+            Filter= "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png",
+            FileName="Chose dog picture"
         };
         int club_id, master_id;
+        string avatar;
         public RegisterDog()
         {
             InitializeComponent();
             DataContext = this;
             messageQueue = MessagesSnackbar.MessageQueue;
-            
+
+            ofd.FileOk += delegate
+            {
+                try
+                {
+                    DogPhoto.Source = new BitmapImage(new Uri(ofd.FileName));
+                    avatar = ofd.FileName;
+                }
+                catch (Exception ex)
+                {
+                    Task.Factory.StartNew(() => messageQueue.Enqueue(ex.Message));
+                }
+            };
             DogPhoto.MouseDown += delegate
             {
                 ofd.ShowDialog();
-                DogPhoto.Source = new BitmapImage(new Uri(ofd.FileName));
             };
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            DbConnection.Open();
-            msc = new MySqlCommand("select Club_name from clubs", DbConnection);
-            MySqlDataReader mdr = msc.ExecuteReader();
-            while (mdr.Read())
+            MySqlDataReader mdr;
+            using (DbConnection)
             {
-                Clubs.Add(mdr["Club_name"].ToString());
+                DbConnection.Open();
+                msc = new MySqlCommand("select Club_name from clubs", DbConnection);
+                mdr = msc.ExecuteReader();
+                while (mdr.Read())
+                {
+                    Clubs.Add(mdr["Club_name"].ToString());
+                }
             }
-            DbConnection.Close();
-            DbConnection.Open();
-            msc = new MySqlCommand("select Surname,Name from masters", DbConnection);
-            mdr = msc.ExecuteReader();
-            while (mdr.Read())
+            using (DbConnection)
             {
-                Masters.Add(mdr["Surname"].ToString() +" "+ mdr["Name"].ToString());
+                DbConnection.Open();
+                msc = new MySqlCommand("select Surname,Name from masters", DbConnection);
+                mdr = msc.ExecuteReader();
+                while (mdr.Read())
+                {
+                    Masters.Add(mdr["Surname"].ToString() + " " + mdr["Name"].ToString());
+                }
             }
-            DbConnection.Close();
             ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = Clubs });
             MasterComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = Masters });
         }

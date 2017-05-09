@@ -222,7 +222,6 @@
   <ItemGroup>
     <Folder Include="Assets\Styles\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Slider\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\No_image.png" />

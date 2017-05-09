@@ -65,7 +65,7 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "admin";
+            username = "test";
             password = Cryptography.getHashSha256("admin");
 #endif
 
