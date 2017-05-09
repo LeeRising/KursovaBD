@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using KursovaBD.Tools.AppConfiguration;
 using SQLite;
 using KursovaBD.UI.Pages;
+using MaterialDesignThemes.Wpf.Transitions;
 
 namespace KursovaBD
 {
@@ -31,7 +32,8 @@ namespace KursovaBD
         ShowRequests _ShowRequests = new ShowRequests();
         UserRegister _UserRegister = new UserRegister();
 
-        Dictionary<MenuButton, UserControl> _views = new Dictionary<MenuButton, UserControl>();
+        //Dictionary<MenuButton, UserControl> _views = new Dictionary<MenuButton, UserControl>();
+        Dictionary<MenuButton, int> _views = new Dictionary<MenuButton, int>();
         public object RequesCount { get; private set; }
         public bool IsLogin = false;
         string username, password;
@@ -66,13 +68,27 @@ namespace KursovaBD
             username = "admin";
             password = Cryptography.getHashSha256("admin");
 #endif
+
+            UserLoginBtn.Click += delegate
+            {
+                if ((string)UserLoginBtn.Content != "Login")
+                {
+                    LoginPanel.Visibility = Visibility.Collapsed;
+                    LogoutPanel.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    LoginPanel.Visibility = Visibility.Visible;
+                    LogoutPanel.Visibility = Visibility.Collapsed;
+                }
+            };
+
             try
             {
                 AppConfigMethod();
                 setViews();
                 SetDefaultContent();
-
-                //logining(username, password);
+                logining(username, password);
             }
             catch (MySqlException ms)
             {
@@ -119,20 +135,19 @@ namespace KursovaBD
         public void SetDefaultContent()
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
-            MainWindowContent.Children.Add(_DogsShow);
+            ContentSlider.SelectedIndex = 0;
         }
         void setViews()
         {
-            _views.Add(DogsShowBtn, _DogsShow);
-            _views.Add(HallofFameBtn, _HallOfFame);
-            _views.Add(DogRegisterBtn, _RegisterDog);
-            _views.Add(ExpertRegisterBtn, _RegisterAsExpert);
-            _views.Add(ShowRequestsBtn, _ShowRequests);
+            _views.Add(DogsShowBtn, 0);
+            _views.Add(HallofFameBtn, 1);
+            _views.Add(DogRegisterBtn, 2);
+            _views.Add(ExpertRegisterBtn, 3);
+            _views.Add(ShowRequestsBtn, 4);
         }
-        void contentToggler(UserControl uie)
+        void contentToggler(int uie)
         {
-            MainWindowContent.Children.Clear();
-            MainWindowContent.Children.Add(uie);
+            ContentSlider.SelectedIndex = uie;
         }
         private void resetButtons(Button button)
         {
@@ -184,10 +199,10 @@ namespace KursovaBD
         {
             IsLogin = true;
         }
-        
+
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
-            contentToggler(_UserRegister);
+            contentToggler(5);
             resetButtons(sender as Button);
         }
         private void menuButton_Clicked(object sender, RoutedEventArgs e)
@@ -196,5 +211,15 @@ namespace KursovaBD
             contentToggler(_views[button]);
             resetButtons(button);
         }
+
+        private void YesOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            username = "";
+            password = "";
+            CountingRequestBadge.Visibility = Visibility.Collapsed;
+            DogRegisterBtn.Visibility = Visibility.Collapsed;
+            UserLoginBtn.Content = "Login";
+        }
+
     }
 }

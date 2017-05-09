@@ -8,6 +8,7 @@
              Background="Black"
              d:DesignHeight="520" d:DesignWidth="520">
     <WrapPanel>
-        
+        <Button Content="Button" Width="250"/>
+
     </WrapPanel>
 </UserControl>

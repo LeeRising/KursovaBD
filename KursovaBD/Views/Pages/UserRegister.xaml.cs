@@ -23,23 +23,6 @@ namespace KursovaBD.UI.Pages
         MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
-        void LoginCheckerMethod()
-        {
-            if (!String.IsNullOrEmpty(LoginTb.Text))
-            {
-                DbConnection.Open();
-                LoginChecker.Visibility = Visibility.Visible;
-                msc = new MySqlCommand(String.Format("select id from users where login='{0}'", LoginTb.Text), DbConnection);
-                if (msc.ExecuteScalar() != null)
-                {
-                    Task.Factory.StartNew(() => messageQueue.Enqueue("This login is already taken!"));
-                    LoginChecker.Kind = PackIconKind.CloseCircle;
-                }
-                else
-                    LoginChecker.Kind = PackIconKind.CheckCircle;
-                DbConnection.Close();
-            }
-        }
         public UserRegister()
         {
             InitializeComponent();
@@ -134,6 +117,25 @@ namespace KursovaBD.UI.Pages
             {
                 MainWindow.Instance.SetDefaultContent();
             };
+        }
+        void LoginCheckerMethod()
+        {
+            if (!String.IsNullOrEmpty(LoginTb.Text))
+            {
+                using (DbConnection)
+                {
+                    DbConnection.Open();
+                    LoginChecker.Visibility = Visibility.Visible;
+                    msc = new MySqlCommand(String.Format("select id from users where login='{0}'", LoginTb.Text), DbConnection);
+                    if (msc.ExecuteScalar() != null)
+                    {
+                        Task.Factory.StartNew(() => messageQueue.Enqueue("This login is already taken!"));
+                        LoginChecker.Kind = PackIconKind.CloseCircle;
+                    }
+                    else
+                        LoginChecker.Kind = PackIconKind.CheckCircle;
+                }
+            }
         }
     }
 }
