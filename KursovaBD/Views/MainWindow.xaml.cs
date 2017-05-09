@@ -3,19 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
-using System.Data.SQLite;
 using KursovaBD.Tools.AppConfiguration;
 using SQLite;
 using KursovaBD.UI.Pages;
@@ -24,21 +15,34 @@ namespace KursovaBD
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow Instance { get; set; }
+
         MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
         MySqlCommand msc;
-        SQLiteAsyncConnection db = new SQLiteAsyncConnection("cfg\\AppConfiguration.sqlite", SQLiteOpenFlags.ReadWrite, true);
         SnackbarMessageQueue messageQueue;
+        SQLiteAsyncConnection db = new SQLiteAsyncConnection("cfg\\AppConfiguration.sqlite", SQLiteOpenFlags.ReadWrite, true);
         public object RequesCount { get; private set; }
         private bool IsLogin = false;
+
+        Style DefaultBtnStyle;
+
+        DogsShow _DogsShow = new DogsShow();
+        HallOfFame _HallOfFame = new HallOfFame();
+        RegisterDog _RegisterDog = new RegisterDog();
+        RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
+        ShowRequests _ShowRequests = new ShowRequests();
+        UserRegister _UserRegister = new UserRegister();
+
+        Dictionary<SelectButton, UserControl> _views = new Dictionary<SelectButton, UserControl>();
 
         public MainWindow()
         {
             InitializeComponent();
+            Instance = this;
 
             DataContext = this;
             messageQueue = MessagesSnackbar.MessageQueue;
-
-            PressedBtnStyle = FindResource("MaterialDesignRaisedAccentButton") as Style;
+            
             DefaultBtnStyle = FindResource("MaterialDesignRaisedButton") as Style;
 
             #region TitleBar
@@ -61,9 +65,8 @@ namespace KursovaBD
             {
                 CheckRequests();
                 AppConfigMethod();
-
-                DogsShowBtn.Style = PressedBtnStyle;
-                MainWindowContent.Children.Add(_DogsShow);
+                setViews();
+                SetDefaultContent();
             }
             catch (MySqlException ms)
             {
@@ -109,19 +112,51 @@ namespace KursovaBD
             //UserSetting.lang = db.GetAsync<UserAppInfo>(0).Result.translate;
         }
 
+        void setViews()
+        {
+            _views.Add(DogsShowBtn, _DogsShow);
+            _views.Add(HallofFameBtn, _HallOfFame);
+            _views.Add(SendRegistrDogBtn, _RegisterDog);
+            _views.Add(ExpertRegisterBtn, _RegisterAsExpert);
+            _views.Add(ShowRequestsBtn, _ShowRequests);
+        }
+
+        public void SetDefaultContent()
+        {
+            DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
+            MainWindowContent.Children.Add(_DogsShow);
+        }
+
         private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
         {
+            string username;
             DbConnection.Open();
             if (!String.IsNullOrEmpty(LoginTb.Text) & !String.IsNullOrEmpty(PassTb.Password))
             {
                 msc = new MySqlCommand(String.Format("select rights from users where login='{0}' and password='{1}'",
                     LoginTb.Text, Cryptography.getHashSha256(PassTb.Password)), DbConnection);
-                if ((string)msc.ExecuteScalar() == "organizer")
+                if (msc.ExecuteScalar() != null)
                 {
-                    UserLoginBtn.Content = "Hello " + LoginTb.Text;
-                    CountingRequestBadge.Visibility = Visibility.Visible;
-                    LoginTb.Text = "";
-                    PassTb.Password = "";
+                    if ((string)msc.ExecuteScalar() == "organizer")
+                    {
+                        UserLoginBtn.Content = "Hello " + LoginTb.Text;
+                        username = LoginTb.Text;
+                        CountingRequestBadge.Visibility = Visibility.Visible;
+                        LoginTb.Text = "";
+                        PassTb.Password = "";
+                        Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + username));
+                        return;
+                    }
+                    else
+                    {
+                        UserLoginBtn.Content = "Hello " + LoginTb.Text;
+                        SendRegistrDogBtn.Visibility = Visibility.Visible;
+                        username = LoginTb.Text;
+                        LoginTb.Text = "";
+                        PassTb.Password = "";
+                        Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + username));
+                        return;
+                    }
                 }
                 else
                     Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
@@ -136,91 +171,29 @@ namespace KursovaBD
             IsLogin = true;
         }
 
-        void MenuToggler(int elementIndex)
+        void ContentToggler(UserControl uie)
         {
-            foreach (Button c in MainMenu.Children.OfType<Button>())
-            {
-                if (c != MainMenu.Children[elementIndex])
-                    c.Style = DefaultBtnStyle;
-            }
-        }
-        void ContentToggler(UIElement uie)
-        {
-            MainWindowContent.Children.RemoveAt(0);
+            MainWindowContent.Children.Clear();
             MainWindowContent.Children.Add(uie);
         }
-        
-        Style DefaultBtnStyle, PressedBtnStyle;
-
-        DogsShow _DogsShow = new DogsShow();
-        HallOfFame _HallOfFame = new HallOfFame();
-        RegisterDog _RegisterDog = new RegisterDog();
-        RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
-        ShowRequests _ShowRequests = new ShowRequests();
-        UserRegister _UserRegister = new UserRegister();
-
-        private void DogsShowBtn_Click(object sender, RoutedEventArgs e)
+        private void resetButtons(Button button)
         {
-            if (DogsShowBtn.Style == DefaultBtnStyle)
-            {
-                DogsShowBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(DogsShowBtn));
-                ContentToggler(_DogsShow);
-                UserLoginBtn.Style = DefaultBtnStyle;
-            }
-        }
-
-        private void HallofFameBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (HallofFameBtn.Style == DefaultBtnStyle)
-            {
-                HallofFameBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(HallofFameBtn));
-                ContentToggler(_HallOfFame);
-                UserLoginBtn.Style = DefaultBtnStyle;
-                UserLoginBtn.Style = DefaultBtnStyle;
-            }
+            foreach (var btn in MainMenu.Children.OfType<SelectButton>())
+                if (btn != button)
+                    btn.Style = DefaultBtnStyle;
         }
 
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (UserLoginBtn.Style == DefaultBtnStyle)
-            {
-                UserLoginBtn.Style = PressedBtnStyle;
-                MenuToggler(5);
-                ContentToggler(_UserRegister);
-            }
-        }
-        private void SendRegistrDogBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (SendRegistrDogBtn.Style == DefaultBtnStyle)
-            {
-                SendRegistrDogBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(SendRegistrDogBtn));
-                ContentToggler(_RegisterDog);
-                UserLoginBtn.Style = DefaultBtnStyle;
-            }
-        }
-        private void ExpertRegisterBtn_Click(object sender, RoutedEventArgs e)
-        {
-            if (ExpertRegisterBtn.Style == DefaultBtnStyle)
-            {
-                ExpertRegisterBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(ExpertRegisterBtn));
-                ContentToggler(_RegisterAsExpert);
-                UserLoginBtn.Style = DefaultBtnStyle;
-            }
+            ContentToggler(_UserRegister);
+            resetButtons(sender as Button);
         }
 
-        private void ShowRequestsBtn_Click(object sender, RoutedEventArgs e)
+        private void menuButton_Clicked(object sender, RoutedEventArgs e)
         {
-            if (ShowRequestsBtn.Style == DefaultBtnStyle)
-            {
-                ShowRequestsBtn.Style = PressedBtnStyle;
-                MenuToggler(MainMenu.Children.IndexOf(ShowRequestsBtn));
-                ContentToggler(_ShowRequests);
-                UserLoginBtn.Style = DefaultBtnStyle;
-            }
+            var button = (sender as SelectButton);
+            ContentToggler(_views[button]);
+            resetButtons(button);
         }
     }
 }

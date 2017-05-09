@@ -40,7 +40,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -129,29 +129,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Tools\CheckInternetConnection.cs" />
-    <Compile Include="Tools\AppConfiguration\Configuration.cs" />
-    <Compile Include="Tools\Cryptography.cs" />
-    <Compile Include="Tools\RelativeTime.cs" />
-    <Compile Include="UI\Pages\DogsShow.xaml.cs">
+    <Compile Include="Views\CustomToolbox\SelectButton.cs" />
+    <Compile Include="Utilits\CheckInternetConnection.cs" />
+    <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
+    <Compile Include="Utilits\Cryptography.cs" />
+    <Compile Include="Utilits\RelativeTime.cs" />
+    <Compile Include="Views\Pages\DogsShow.xaml.cs">
       <DependentUpon>DogsShow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\HallOfFame.xaml.cs">
+    <Compile Include="Views\Pages\HallOfFame.xaml.cs">
       <DependentUpon>HallOfFame.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\RegisterAsExpert.xaml.cs">
+    <Compile Include="Views\Pages\RegisterAsExpert.xaml.cs">
       <DependentUpon>RegisterAsExpert.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\RegisterDog.xaml.cs">
+    <Compile Include="Views\Pages\RegisterDog.xaml.cs">
       <DependentUpon>RegisterDog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\ShowRequests.xaml.cs">
+    <Compile Include="Views\Pages\ShowRequests.xaml.cs">
       <DependentUpon>ShowRequests.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\Pages\UserRegister.xaml.cs">
+    <Compile Include="Views\Pages\UserRegister.xaml.cs">
       <DependentUpon>UserRegister.xaml</DependentUpon>
     </Compile>
-    <Page Include="UI\MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -159,33 +160,33 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tools\AppConfiguration\SQLite.cs" />
-    <Compile Include="Tools\AppConfiguration\SQLiteAsync.cs" />
-    <Compile Include="UI\MainWindow.xaml.cs">
+    <Compile Include="Utilits\AppConfiguration\SQLite.cs" />
+    <Compile Include="Utilits\AppConfiguration\SQLiteAsync.cs" />
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="UI\Pages\DogsShow.xaml">
+    <Page Include="Views\Pages\DogsShow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\HallOfFame.xaml">
+    <Page Include="Views\Pages\HallOfFame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\RegisterAsExpert.xaml">
+    <Page Include="Views\Pages\RegisterAsExpert.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\RegisterDog.xaml">
+    <Page Include="Views\Pages\RegisterDog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\ShowRequests.xaml">
+    <Page Include="Views\Pages\ShowRequests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\Pages\UserRegister.xaml">
+    <Page Include="Views\Pages\UserRegister.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -220,6 +221,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Styles\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\No_image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.105.0\build\net45\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.105.0\build\net45\System.Data.SQLite.Core.targets')" />

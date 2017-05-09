@@ -63,16 +63,16 @@
                     Width="200" 
                     Grid.Column="0"
                     Grid.Row="1">
-            <Button x:Name="DogsShowBtn"
+            <local:SelectButton x:Name="DogsShowBtn"
                 Content="Dogs show"
                 Margin="12"
-                Click="DogsShowBtn_Click"
+                Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <Button x:Name="HallofFameBtn"
+            <local:SelectButton x:Name="HallofFameBtn"
                 Content="Hall of Fame"
                 Margin="12"
-                Click="HallofFameBtn_Click"
+                Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:DialogHost x:Name="LoginDialog"
@@ -120,31 +120,31 @@
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         Style="{DynamicResource MaterialDesignRaisedButton}"/>
             </materialDesign:DialogHost>
-            <Button x:Name="SendRegistrDogBtn"
+            <local:SelectButton x:Name="SendRegistrDogBtn"
                 Content="Register my dog"
-                Visibility="Collapsed"
-                Click="SendRegistrDogBtn_Click"
+                Visibility="Visible"
+                Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <Button 
+            <local:SelectButton 
                 x:Name="ExpertRegisterBtn"
                 Content="Register as expert"
                 Visibility="Collapsed"
-                Click="ExpertRegisterBtn_Click"
+                Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:Badged x:Name="CountingRequestBadge"
                                    Margin="12"
                                    Badge="{Binding RequesCount}"
-                                   Visibility="Collapsed"
+                                   Visibility="Hidden"
                                    HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
-                <Button x:Name="ShowRequestsBtn"
+                <local:SelectButton x:Name="ShowRequestsBtn"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         HorizontalAlignment="Stretch"
-                        Click="ShowRequestsBtn_Click"
+                        Click="menuButton_Clicked"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Content="Show Request"/>
             </materialDesign:Badged>

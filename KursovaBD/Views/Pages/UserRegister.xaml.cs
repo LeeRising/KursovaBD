@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using MaterialDesignThemes.Wpf;
+using KursovaBD.Tools;
 
 namespace KursovaBD.UI.Pages
 {
@@ -42,7 +43,7 @@ namespace KursovaBD.UI.Pages
         public UserRegister()
         {
             InitializeComponent();
-
+            
             messageQueue = MessagesSnackbar.MessageQueue;
 
             LoginTb.KeyDown += (s, e) =>
@@ -106,7 +107,7 @@ namespace KursovaBD.UI.Pages
                     !String.IsNullOrEmpty(PassportTb.Text))
                     {
                         DbConnection.Open();
-                        msc = new MySqlCommand(String.Format("insert into users (login,password,rights) values('{0}','{1}','user')", LoginTb.Text,PassTb.Password), DbConnection);
+                        msc = new MySqlCommand(String.Format("insert into users (login,password,rights) values('{0}','{1}','user')", LoginTb.Text,Cryptography.getHashSha256(PassTb.Password)), DbConnection);
                         msc.ExecuteReader();
                         DbConnection.Close();
                         DbConnection.Open();
@@ -118,6 +119,10 @@ namespace KursovaBD.UI.Pages
                     else
                         Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not emtpy!"));
                 }
+            };
+            CancelBtn.Click += (sender, obj) =>
+            {
+                MainWindow.Instance.SetDefaultContent();
             };
         }
     }

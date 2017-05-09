@@ -3,7 +3,7 @@ using System.Text;
 
 namespace KursovaBD
 {
-    class Cryptography
+    public class Cryptography
     {
         internal static string getHashSha256(string password)
         {
