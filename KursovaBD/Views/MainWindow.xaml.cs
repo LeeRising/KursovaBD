@@ -21,9 +21,7 @@ namespace KursovaBD
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
         SQLiteAsyncConnection db = new SQLiteAsyncConnection("cfg\\AppConfiguration.sqlite", SQLiteOpenFlags.ReadWrite, true);
-        public object RequesCount { get; private set; }
-        private bool IsLogin = false;
-
+        
         Style DefaultBtnStyle;
 
         DogsShow _DogsShow = new DogsShow();
@@ -33,7 +31,10 @@ namespace KursovaBD
         ShowRequests _ShowRequests = new ShowRequests();
         UserRegister _UserRegister = new UserRegister();
 
-        Dictionary<SelectButton, UserControl> _views = new Dictionary<SelectButton, UserControl>();
+        Dictionary<MenuButton, UserControl> _views = new Dictionary<MenuButton, UserControl>();
+        public object RequesCount { get; private set; }
+        public bool IsLogin = false;
+        string username, password;
 
         public MainWindow()
         {
@@ -61,38 +62,22 @@ namespace KursovaBD
             };
             #endregion
 
+#if DEBUG
+            username = "admin";
+            password = Cryptography.getHashSha256("admin");
+#endif
             try
             {
-                CheckRequests();
                 AppConfigMethod();
                 setViews();
                 SetDefaultContent();
+
+                //logining(username, password);
             }
             catch (MySqlException ms)
             {
                 Task.Factory.StartNew(() => messageQueue.Enqueue(ms.Message));
             }
-        }
-        void CheckRequests()
-        {
-            DbConnection.Open();
-            msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
-            var v = int.Parse(msc.ExecuteScalar().ToString());
-            msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
-            v += int.Parse(msc.ExecuteScalar().ToString());
-            if (v != 0)
-            {
-                RequesCount = v;
-                ShowRequestsBtn.Content = v > 1 ? "Show requests" : "Show request";
-                ShowRequestsBtn.IsEnabled = true;
-            }
-            else
-            {
-                ShowRequestsBtn.Content = "None request";
-                ShowRequestsBtn.IsEnabled = false;
-                RequesCount = null;
-            }
-            DbConnection.Close();
         }
         void AppConfigMethod()
         {
@@ -111,88 +96,104 @@ namespace KursovaBD
             }
             //UserSetting.lang = db.GetAsync<UserAppInfo>(0).Result.translate;
         }
-
-        void setViews()
+        void CheckRequests()
         {
-            _views.Add(DogsShowBtn, _DogsShow);
-            _views.Add(HallofFameBtn, _HallOfFame);
-            _views.Add(SendRegistrDogBtn, _RegisterDog);
-            _views.Add(ExpertRegisterBtn, _RegisterAsExpert);
-            _views.Add(ShowRequestsBtn, _ShowRequests);
+            msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
+            var v = int.Parse(msc.ExecuteScalar().ToString());
+            msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
+            v += int.Parse(msc.ExecuteScalar().ToString());
+            if (v != 0)
+            {
+                RequesCount = v;
+                ShowRequestsBtn.Content = v > 1 ? "Show requests" : "Show request";
+                ShowRequestsBtn.IsEnabled = true;
+            }
+            else
+            {
+                ShowRequestsBtn.Content = "None request";
+                ShowRequestsBtn.IsEnabled = false;
+                RequesCount = null;
+            }
         }
-
+        
         public void SetDefaultContent()
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
             MainWindowContent.Children.Add(_DogsShow);
         }
-
-        private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        void setViews()
         {
-            string username;
-            DbConnection.Open();
-            if (!String.IsNullOrEmpty(LoginTb.Text) & !String.IsNullOrEmpty(PassTb.Password))
-            {
-                msc = new MySqlCommand(String.Format("select rights from users where login='{0}' and password='{1}'",
-                    LoginTb.Text, Cryptography.getHashSha256(PassTb.Password)), DbConnection);
-                if (msc.ExecuteScalar() != null)
-                {
-                    if ((string)msc.ExecuteScalar() == "organizer")
-                    {
-                        UserLoginBtn.Content = "Hello " + LoginTb.Text;
-                        username = LoginTb.Text;
-                        CountingRequestBadge.Visibility = Visibility.Visible;
-                        LoginTb.Text = "";
-                        PassTb.Password = "";
-                        Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + username));
-                        return;
-                    }
-                    else
-                    {
-                        UserLoginBtn.Content = "Hello " + LoginTb.Text;
-                        SendRegistrDogBtn.Visibility = Visibility.Visible;
-                        username = LoginTb.Text;
-                        LoginTb.Text = "";
-                        PassTb.Password = "";
-                        Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + username));
-                        return;
-                    }
-                }
-                else
-                    Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
-            }
-            if (IsLogin)
-                Task.Factory.StartNew(() => messageQueue.Enqueue("All fiel_DogsShow must be not empty!"));
-            DbConnection.Close();
-            IsLogin = false;
+            _views.Add(DogsShowBtn, _DogsShow);
+            _views.Add(HallofFameBtn, _HallOfFame);
+            _views.Add(DogRegisterBtn, _RegisterDog);
+            _views.Add(ExpertRegisterBtn, _RegisterAsExpert);
+            _views.Add(ShowRequestsBtn, _ShowRequests);
         }
-        private void LoginBtn_Click(object sender, RoutedEventArgs e)
-        {
-            IsLogin = true;
-        }
-
-        void ContentToggler(UserControl uie)
+        void contentToggler(UserControl uie)
         {
             MainWindowContent.Children.Clear();
             MainWindowContent.Children.Add(uie);
         }
         private void resetButtons(Button button)
         {
-            foreach (var btn in MainMenu.Children.OfType<SelectButton>())
+            foreach (var btn in MainMenu.Children.OfType<MenuButton>())
                 if (btn != button)
                     btn.Style = DefaultBtnStyle;
         }
 
-        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        void logining(string _username,string _password)
         {
-            ContentToggler(_UserRegister);
-            resetButtons(sender as Button);
+            using (DbConnection)
+            {
+                msc = new MySqlCommand(String.Format("select rights from users where login='{0}' and password='{1}'", _username, _password), DbConnection);
+                DbConnection.Open();
+                if (msc.ExecuteScalar() != null)
+                {
+                    if ((string)msc.ExecuteScalar() == "organizer")
+                    {
+                        UserLoginBtn.Content = "Hello " + _username;
+                        CountingRequestBadge.Visibility = Visibility.Visible;
+                        CheckRequests();
+                    }
+                    else
+                    {
+                        UserLoginBtn.Content = "Hello " + _username;
+                        DogRegisterBtn.Visibility = Visibility.Visible;
+                    }
+                }
+                else
+                    Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
+            }
+            LoginTb.Text = "";
+            PassTb.Password = "";
+            Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));
+            IsLogin = false;
         }
 
+        private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
+        {
+            if (!String.IsNullOrEmpty(LoginTb.Text) & !String.IsNullOrEmpty(PassTb.Password))
+            {
+                logining(LoginTb.Text, Cryptography.getHashSha256(PassTb.Password));
+                return;
+            }
+            if (IsLogin&&(String.IsNullOrEmpty(LoginTb.Text) || String.IsNullOrEmpty(PassTb.Password)))
+                Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not empty!"));
+        }
+        private void LoginBtn_Click(object sender, RoutedEventArgs e)
+        {
+            IsLogin = true;
+        }
+        
+        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            contentToggler(_UserRegister);
+            resetButtons(sender as Button);
+        }
         private void menuButton_Clicked(object sender, RoutedEventArgs e)
         {
-            var button = (sender as SelectButton);
-            ContentToggler(_views[button]);
+            var button = (sender as MenuButton);
+            contentToggler(_views[button]);
             resetButtons(button);
         }
     }

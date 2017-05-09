@@ -63,13 +63,13 @@
                     Width="200" 
                     Grid.Column="0"
                     Grid.Row="1">
-            <local:SelectButton x:Name="DogsShowBtn"
+            <local:MenuButton x:Name="DogsShowBtn"
                 Content="Dogs show"
                 Margin="12"
                 Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <local:SelectButton x:Name="HallofFameBtn"
+            <local:MenuButton x:Name="HallofFameBtn"
                 Content="Hall of Fame"
                 Margin="12"
                 Click="menuButton_Clicked"
@@ -120,15 +120,14 @@
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         Style="{DynamicResource MaterialDesignRaisedButton}"/>
             </materialDesign:DialogHost>
-            <local:SelectButton x:Name="SendRegistrDogBtn"
+            <local:MenuButton x:Name="DogRegisterBtn"
                 Content="Register my dog"
-                Visibility="Visible"
+                Visibility="Collapsed"
                 Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <local:SelectButton 
-                x:Name="ExpertRegisterBtn"
+            <local:MenuButton x:Name="ExpertRegisterBtn"
                 Content="Register as expert"
                 Visibility="Collapsed"
                 Click="menuButton_Clicked"
@@ -138,10 +137,10 @@
             <materialDesign:Badged x:Name="CountingRequestBadge"
                                    Margin="12"
                                    Badge="{Binding RequesCount}"
-                                   Visibility="Hidden"
+                                   Visibility="Collapsed"
                                    HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
-                <local:SelectButton x:Name="ShowRequestsBtn"
+                <local:MenuButton x:Name="ShowRequestsBtn"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         HorizontalAlignment="Stretch"
                         Click="menuButton_Clicked"

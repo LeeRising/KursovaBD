@@ -43,7 +43,7 @@ namespace KursovaBD.UI.Pages
         public UserRegister()
         {
             InitializeComponent();
-            
+
             messageQueue = MessagesSnackbar.MessageQueue;
 
             LoginTb.KeyDown += (s, e) =>
@@ -101,20 +101,30 @@ namespace KursovaBD.UI.Pages
             {
                 if (PassChecker.Kind == PackIconKind.CheckCircle && LoginChecker.Kind == PackIconKind.CheckCircle)
                 {
-                    if(!String.IsNullOrEmpty(NameTb.Text) &&
+                    if (!String.IsNullOrEmpty(NameTb.Text) &&
                     !String.IsNullOrEmpty(SurnameTb.Text) &&
                     !String.IsNullOrEmpty(FathernameTb.Text) &&
                     !String.IsNullOrEmpty(PassportTb.Text))
                     {
-                        DbConnection.Open();
-                        msc = new MySqlCommand(String.Format("insert into users (login,password,rights) values('{0}','{1}','user')", LoginTb.Text,Cryptography.getHashSha256(PassTb.Password)), DbConnection);
-                        msc.ExecuteReader();
-                        DbConnection.Close();
-                        DbConnection.Open();
-                        msc = new MySqlCommand(String.Format("insert into masters (Surname,Name,Fathername,Passport_info) values('{0}','{1}','{2}','{3}')", NameTb.Text, SurnameTb.Text, FathernameTb.Text, PassportTb.Text), DbConnection);
-                        msc.ExecuteReader();
-                        DbConnection.Close();
+                        using (DbConnection)
+                        {
+                            DbConnection.Open();
+                            msc = new MySqlCommand(String.Format("insert into users (login,password,rights) values('{0}','{1}','user')", LoginTb.Text, Cryptography.getHashSha256(PassTb.Password)), DbConnection);
+                            msc.ExecuteScalar();
+                            msc = new MySqlCommand(String.Format("insert into masters (Surname,Name,Fathername,Passport_info) values('{0}','{1}','{2}','{3}')", NameTb.Text, SurnameTb.Text, FathernameTb.Text, PassportTb.Text), DbConnection);
+                            msc.ExecuteScalar();
+                        }
                         Task.Factory.StartNew(() => messageQueue.Enqueue("New user was created!"));
+                        System.Windows.Forms.Timer t = new System.Windows.Forms.Timer
+                        {
+                            Enabled = true,
+                            Interval = 1500
+                        };
+                        t.Start();
+                        t.Tick += delegate
+                        {
+                            MainWindow.Instance.SetDefaultContent();
+                        };
                     }
                     else
                         Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not emtpy!"));

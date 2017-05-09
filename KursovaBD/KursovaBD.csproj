@@ -129,7 +129,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Views\CustomToolbox\SelectButton.cs" />
+    <Compile Include="Controls\MenuButton.cs" />
     <Compile Include="Utilits\CheckInternetConnection.cs" />
     <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
     <Compile Include="Utilits\Cryptography.cs" />
