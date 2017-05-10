@@ -11,6 +11,7 @@ using KursovaBD.Tools.AppConfiguration;
 using SQLite;
 using KursovaBD.UI.Pages;
 using MaterialDesignThemes.Wpf.Transitions;
+using System.Windows.Data;
 
 namespace KursovaBD
 {
@@ -33,7 +34,6 @@ namespace KursovaBD
         UserRegister _UserRegister = new UserRegister();
         
         Dictionary<MenuButton, int> _views = new Dictionary<MenuButton, int>();
-        public object RequesCount { get; private set; }
         public bool IsLogin = false;
         string username, password;
 
@@ -41,8 +41,7 @@ namespace KursovaBD
         {
             InitializeComponent();
             Instance = this;
-
-            DataContext = this;
+            
             messageQueue = MessagesSnackbar.MessageQueue;
             
             DefaultBtnStyle = FindResource("MaterialDesignRaisedButton") as Style;
@@ -64,7 +63,7 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "test";
+            username = "admin";
             password = Cryptography.getHashSha256("admin");
 #endif
 
@@ -87,7 +86,7 @@ namespace KursovaBD
                 AppConfigMethod();
                 setViews();
                 SetDefaultContent();
-                //logining(username, password);
+                logining(username, password);
             }
             catch (MySqlException ms)
             {
@@ -121,24 +120,27 @@ namespace KursovaBD
         }
         void CheckRequests()
         {
-            msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
-            var v = int.Parse(msc.ExecuteScalar().ToString());
-            msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
-            v += int.Parse(msc.ExecuteScalar().ToString());
-            if (v != 0)
+            using (DbConnection)
             {
-                RequesCount = v;
-                ShowRequestsBtn.Content = v > 1 ? "Show requests" : "Show request";
-                ShowRequestsBtn.IsEnabled = true;
-            }
-            else
-            {
-                ShowRequestsBtn.Content = "None request";
-                ShowRequestsBtn.IsEnabled = false;
-                RequesCount = null;
+                DbConnection.Open();
+                msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
+                var _requestCounter = int.Parse(msc.ExecuteScalar().ToString());
+                msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
+                _requestCounter += int.Parse(msc.ExecuteScalar().ToString());
+                if (_requestCounter > 0)
+                {
+                    CountingRequestBadge.Badge = _requestCounter;
+                    ShowRequestsBtn.Content = _requestCounter > 1 ? "Show requests" : "Show request";
+                    ShowRequestsBtn.IsEnabled = true;
+                }
+                else
+                {
+                    ShowRequestsBtn.Content = "None request";
+                    ShowRequestsBtn.IsEnabled = false;
+                }
             }
         }
-        
+
         public void SetDefaultContent()
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
@@ -175,7 +177,6 @@ namespace KursovaBD
                     {
                         UserLoginBtn.Content = "Hello " + _username;
                         CountingRequestBadge.Visibility = Visibility.Visible;
-                        CheckRequests();
                     }
                     else
                     {
@@ -186,6 +187,14 @@ namespace KursovaBD
                 else
                     Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
             }
+            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
+            t.Interval = 1;
+            t.Start();
+            t.Tick += (_, __) =>
+            {
+                CheckRequests();
+                t.Stop();
+            };
             LoginTb.Text = "";
             PassTb.Password = "";
             Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));

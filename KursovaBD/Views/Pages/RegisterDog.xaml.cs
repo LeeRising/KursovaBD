@@ -14,7 +14,6 @@ namespace KursovaBD.UI.Pages
 {
     public partial class RegisterDog : UserControl
     {
-        //Loaded="UserControl_Loaded"
         MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
@@ -27,7 +26,7 @@ namespace KursovaBD.UI.Pages
             FileName="Chose dog picture"
         };
         int club_id, master_id;
-        string avatar;
+        string avatar="as";
         public RegisterDog()
         {
             InitializeComponent();
@@ -53,17 +52,21 @@ namespace KursovaBD.UI.Pages
             CancelBtn.Click += delegate
             {
                 MainWindow.Instance.SetDefaultContent();
+                MainWindow.Instance.DogRegisterBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
             };
         }
 
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrEmpty(NameTb.Text) && !String.IsNullOrEmpty(AgeTb.Text) && !String.IsNullOrEmpty(DocumentInfoTb.Text) && !String.IsNullOrEmpty(ParentsnameTb.Text)&&
+            if (!String.IsNullOrEmpty(NameTb.Text) && !String.IsNullOrEmpty(AgeTb.Text) && !String.IsNullOrEmpty(DocumentInfoTb.Text) && !String.IsNullOrEmpty(ParentsnameTb.Text) &&
                 BreadComboBox.SelectedValue != null && MasterComboBox.SelectedValue != null && ClubComboBox.SelectedValue != null)
             {
                 using (DbConnection)
                 {
-                    msc = new MySqlCommand(String.Format("insert into dogs (Name,Clubs_id,Passport_info,Parents_name,Last_vaccenation_date,Master_id) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')"), DbConnection);
+                    DbConnection.Open();
+                    msc = new MySqlCommand(String.Format("insert into dogs (Club_id,Name,Breed,Age,Document_info,Parents_name,Date_last_vaccenation,Master_id,Photo,Request) " +
+                        "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','waiting')",
+                        ClubComboBox.SelectedIndex+1,NameTb.Text,BreadComboBox.SelectedValue,AgeTb.Text,DocumentInfoTb.Text,ParentsnameTb.Text, LastVacDate.DisplayDate.Date.ToString("yyyy-MM-dd"),MasterComboBox.SelectedIndex+1,avatar), DbConnection);
                     msc.ExecuteScalar();
                 }
             }

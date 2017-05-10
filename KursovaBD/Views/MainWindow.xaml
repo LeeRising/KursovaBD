@@ -144,7 +144,7 @@
             </materialDesign:DialogHost>
             <local:MenuButton x:Name="DogRegisterBtn"
                 Content="Register my dog"
-                Visibility="Visible"
+                Visibility="Collapsed"
                 Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"
@@ -158,7 +158,6 @@
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:Badged x:Name="CountingRequestBadge"
                                    Margin="12"
-                                   Badge="{Binding RequesCount}"
                                    Visibility="Collapsed"
                                    HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
