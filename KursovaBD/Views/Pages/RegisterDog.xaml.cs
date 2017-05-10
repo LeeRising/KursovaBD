@@ -14,13 +14,14 @@ namespace KursovaBD.UI.Pages
 {
     public partial class RegisterDog : UserControl
     {
+        //Loaded="UserControl_Loaded"
         MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
         public string[] Breads => new string[] { "Akita Inu", "English Bulldog", "English Cocker Spaniel", "Afghanician Bossia", "Border Collie", "Briar", "Brusselsky Griffon", "Welsh-Corgias", "Greyhound", "Dalmathin", "Labrador", "Keeshond", "Hungarian Shepherd", "Kurtzhaar", "Levretka", "Leonberger", "Pekingese", "Pomeransky Spitz", "Poodle", "The Samish dog", "Japanese chin", "Shelti", "Shi-tcu" };
         public List<string> Clubs = new List<string>();
         public List<string> Masters = new List<string>();
-        OpenFileDialog ofd = new OpenFileDialog
+        OpenFileDialog _OpenFileDialog = new OpenFileDialog
         {
             Filter= "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png",
             FileName="Chose dog picture"
@@ -33,22 +34,41 @@ namespace KursovaBD.UI.Pages
             DataContext = this;
             messageQueue = MessagesSnackbar.MessageQueue;
 
-            ofd.FileOk += delegate
+            _OpenFileDialog.FileOk += delegate
             {
                 try
                 {
-                    DogPhoto.Source = new BitmapImage(new Uri(ofd.FileName));
-                    avatar = ofd.FileName;
+                    DogPhoto.Source = new BitmapImage(new Uri(_OpenFileDialog.FileName));
+                    avatar = _OpenFileDialog.FileName;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Task.Factory.StartNew(() => messageQueue.Enqueue(ex.Message));
+                    _OpenFileDialog.ShowDialog();
                 }
             };
             DogPhoto.MouseDown += delegate
             {
-                ofd.ShowDialog();
+                _OpenFileDialog.ShowDialog();
             };
+            CancelBtn.Click += delegate
+            {
+                MainWindow.Instance.SetDefaultContent();
+            };
+        }
+
+        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (!String.IsNullOrEmpty(NameTb.Text) && !String.IsNullOrEmpty(AgeTb.Text) && !String.IsNullOrEmpty(DocumentInfoTb.Text) && !String.IsNullOrEmpty(ParentsnameTb.Text)&&
+                BreadComboBox.SelectedValue != null && MasterComboBox.SelectedValue != null && ClubComboBox.SelectedValue != null)
+            {
+                using (DbConnection)
+                {
+                    msc = new MySqlCommand(String.Format("insert into dogs (Name,Clubs_id,Passport_info,Parents_name,Last_vaccenation_date,Master_id) values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}')"), DbConnection);
+                    msc.ExecuteScalar();
+                }
+            }
+            else
+                Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not empty!"));
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

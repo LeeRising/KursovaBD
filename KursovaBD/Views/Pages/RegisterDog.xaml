@@ -6,7 +6,8 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:KursovaBD.UI.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="520" Loaded="UserControl_Loaded">
+             d:DesignHeight="520" d:DesignWidth="520" 
+             >
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="15,0,0,0">
             <TextBox FontSize="15"
@@ -58,6 +59,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="RegisterBtn"
                     Content="Register"
+                        Click="RegisterBtn_Click"
                     Margin="15,10,0,5"
                     Width="125"
                     HorizontalAlignment="Left"/>

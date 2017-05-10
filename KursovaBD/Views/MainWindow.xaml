@@ -144,7 +144,7 @@
             </materialDesign:DialogHost>
             <local:MenuButton x:Name="DogRegisterBtn"
                 Content="Register my dog"
-                Visibility="Collapsed"
+                Visibility="Visible"
                 Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"

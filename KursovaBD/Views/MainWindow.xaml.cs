@@ -31,8 +31,7 @@ namespace KursovaBD
         RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
         ShowRequests _ShowRequests = new ShowRequests();
         UserRegister _UserRegister = new UserRegister();
-
-        //Dictionary<MenuButton, UserControl> _views = new Dictionary<MenuButton, UserControl>();
+        
         Dictionary<MenuButton, int> _views = new Dictionary<MenuButton, int>();
         public object RequesCount { get; private set; }
         public bool IsLogin = false;
@@ -88,7 +87,7 @@ namespace KursovaBD
                 AppConfigMethod();
                 setViews();
                 SetDefaultContent();
-                logining(username, password);
+                //logining(username, password);
             }
             catch (MySqlException ms)
             {
@@ -97,20 +96,28 @@ namespace KursovaBD
         }
         void AppConfigMethod()
         {
-            if (!File.Exists("cfg\\AppConfiguration.sqlite"))
+            try
             {
-                System.Data.SQLite.SQLiteConnection.CreateFile("AppConfiguration.sqlite");
-                File.Move("AppConfiguration.sqlite", "cfg\\AppConfiguration.sqlite");
-                db.CreateTableAsync<AppConfig>();
-                var v = new List<AppConfig>();
-                v.Add(new AppConfig
+                if (!File.Exists("cfg\\AppConfiguration.sqlite"))
                 {
-                    login = "0",
-                    password = "0"
-                });
-                db.InsertAllAsync(v);
+                    System.Data.SQLite.SQLiteConnection.CreateFile("AppConfiguration.sqlite");
+                    File.Move("AppConfiguration.sqlite", "cfg\\AppConfiguration.sqlite");
+                    db.CreateTableAsync<AppConfig>();
+                    var v = new List<AppConfig>();
+                    v.Add(new AppConfig
+                    {
+                        login = "0",
+                        password = "0"
+                    });
+                    db.InsertAllAsync(v);
+                }
+                //UserSetting.lang = db.GetAsync<UserAppInfo>(0).Result.translate;
             }
-            //UserSetting.lang = db.GetAsync<UserAppInfo>(0).Result.translate;
+            catch (Exception)
+            {
+                Directory.CreateDirectory("cfg");
+                AppConfigMethod();
+            }
         }
         void CheckRequests()
         {
