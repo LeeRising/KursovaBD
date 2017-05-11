@@ -59,7 +59,7 @@ namespace KursovaBD.UI.Pages
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(NameTb.Text) && !String.IsNullOrEmpty(AgeTb.Text) && !String.IsNullOrEmpty(DocumentInfoTb.Text) && !String.IsNullOrEmpty(ParentsnameTb.Text) &&
-                BreadComboBox.SelectedValue != null && MasterComboBox.SelectedValue != null && ClubComboBox.SelectedValue != null)
+                BreadComboBox.SelectedValue != null &&  ClubComboBox.SelectedValue != null)
             {
                 using (DbConnection)
                 {
@@ -69,7 +69,7 @@ namespace KursovaBD.UI.Pages
                     avatar = avatar != "No_image.png" ? (_id==0?"1":(_id+=1).ToString()) + "." + avatar.Split('.')[1] : "No_image.png";
                     msc = new MySqlCommand(String.Format("insert into dogs (Club_id,Name,Breed,Age,Document_info,Parents_name,Date_last_vaccenation,Master_id,Photo,Request) " +
                         "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','waiting')",
-                        ClubComboBox.SelectedIndex+1,NameTb.Text,BreadComboBox.SelectedValue,AgeTb.Text,DocumentInfoTb.Text,ParentsnameTb.Text, LastVacDate.DisplayDate.Date.ToString("yyyy-MM-dd"),MasterComboBox.SelectedIndex+1,avatar), DbConnection);
+                        ClubComboBox.SelectedIndex+1,NameTb.Text,BreadComboBox.SelectedValue,AgeTb.Text,DocumentInfoTb.Text,ParentsnameTb.Text, LastVacDate.DisplayDate.Date.ToString("yyyy-MM-dd"),UserModel.Id,avatar), DbConnection);
                     msc.ExecuteNonQuery();
                     if (!String.IsNullOrEmpty(avatar1))
                     {

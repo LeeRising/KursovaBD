@@ -51,11 +51,6 @@
                      x:Name="ClubComboBox"
                      IsEditable="True"
                      Margin="5"/>
-            <ComboBox FontSize="15"
-                     IsEditable="True"
-                     materialDesign:HintAssist.Hint="Master"
-                     x:Name="MasterComboBox"
-                     Margin="5"/>
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="RegisterBtn"
                     Content="Register"
