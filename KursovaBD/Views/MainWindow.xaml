@@ -4,9 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-    xmlns:Custom="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:local="clr-namespace:KursovaBD"
     xmlns:pages="clr-namespace:KursovaBD.UI.Pages"
+    xmlns:pages1="clr-namespace:KursovaBD.Views.Pages"
     x:Class="KursovaBD.MainWindow"
     mc:Ignorable="d"
     ResizeMode="CanMinimize"
@@ -78,7 +78,6 @@
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
             <materialDesign:DialogHost x:Name="LoginDialogHost"
                 DialogClosing="LoginDialog_DialogClosing"
-                       Identifier="LoginDialogID"
                        Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <materialDesign:DialogHost.DialogContent>
@@ -149,13 +148,50 @@
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
                 Margin="12"
                 Style="{DynamicResource MaterialDesignRaisedButton}"/>
-            <local:MenuButton x:Name="ExpertRegisterBtn"
+            <materialDesign:DialogHost x:Name="ExpertPanelDialogHost"
+                       Grid.Column="0" Grid.Row="1"
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <materialDesign:DialogHost.DialogContent>
+                    <Grid>
+                        <StackPanel x:Name="RegisterAsExpertPanel" Margin="16" Orientation="Vertical">
+                            <TextBlock>Are you want register as expert?</TextBlock>
+                            <ComboBox Margin="0 8 0 0" HorizontalAlignment="Stretch"
+                                 materialDesign:HintAssist.Hint="Chose your club"
+                                      IsEditable="True"
+                             x:Name="ClubNameComboBox"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    x:Name="SendRequestBtn"
+                                    Content="SEND REQUEST    "
+                                    Click="SendRequestBtn_Click"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                                <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    Content="CANCEL"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel x:Name="WaitingAcceptsPanel"
+                                    Margin="16"
+                                    Visibility="Collapsed"
+                                    Orientation="Vertical">
+                            <TextBlock>You already send request!</TextBlock>
+                            <Button Margin="0 8 8 0"
+                                    Content="CANCEL"
+                                    Style="{StaticResource MaterialDesignFlatButton}"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:DialogHost.DialogContent>
+                <Button x:Name="ExpertPanelBtn"
                 Content="Register as expert"
                 Visibility="Collapsed"
-                Click="menuButton_Clicked"
                 materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                Margin="12"
-                Style="{DynamicResource MaterialDesignRaisedButton}"/>
+                        Margin="12"
+                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
+                        Style="{DynamicResource MaterialDesignRaisedButton}"/>
+            </materialDesign:DialogHost>
             <materialDesign:Badged x:Name="CountingRequestBadge"
                                    Margin="12"
                                    Visibility="Collapsed"
@@ -207,7 +243,7 @@
                         <materialDesign:TransitionEffect Kind = "SlideInFromRight" Duration="0:0:1.2" />
                         <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
                     </materialDesign:TransitionerSlide.OpeningEffects>
-                    <pages:RegisterAsExpert/>
+                    <pages1:ExpertPanel/>
                 </materialDesign:TransitionerSlide>
                 <materialDesign:TransitionerSlide ClipToBounds="True">
                     <materialDesign:TransitionerSlide.OpeningEffects>

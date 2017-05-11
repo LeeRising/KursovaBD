@@ -9,9 +9,9 @@ using MySql.Data.MySqlClient;
 using System.Threading.Tasks;
 using KursovaBD.Tools.AppConfiguration;
 using SQLite;
-using KursovaBD.UI.Pages;
-using MaterialDesignThemes.Wpf.Transitions;
 using System.Windows.Data;
+using KursovaBD.Models;
+using System.Windows.Input;
 
 namespace KursovaBD
 {
@@ -19,23 +19,18 @@ namespace KursovaBD
     {
         public static MainWindow Instance { get; set; }
 
-        MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
+        MySqlConnection DbConnection = Utilits.DbConnector._MySqlConnection();
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
         SQLiteAsyncConnection db = new SQLiteAsyncConnection("cfg\\AppConfiguration.sqlite", SQLiteOpenFlags.ReadWrite, true);
         
         Style DefaultBtnStyle;
-
-        DogsShow _DogsShow = new DogsShow();
-        HallOfFame _HallOfFame = new HallOfFame();
-        RegisterDog _RegisterDog = new RegisterDog();
-        RegisterAsExpert _RegisterAsExpert = new RegisterAsExpert();
-        ShowRequests _ShowRequests = new ShowRequests();
-        UserRegister _UserRegister = new UserRegister();
         
-        Dictionary<MenuButton, int> _views = new Dictionary<MenuButton, int>();
+        Dictionary<Button, int> _views = new Dictionary<Button, int>();
         public bool IsLogin = false;
         string username, password;
+
+        ICommand btnCommand;
 
         public MainWindow()
         {
@@ -45,7 +40,7 @@ namespace KursovaBD
             messageQueue = MessagesSnackbar.MessageQueue;
             
             DefaultBtnStyle = FindResource("MaterialDesignRaisedButton") as Style;
-
+            btnCommand = ExpertPanelBtn.Command;
             #region TitleBar
             CloseBtn.Click += delegate
             {
@@ -63,7 +58,7 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "admin";
+            username = "test";
             password = Cryptography.getHashSha256("admin");
 #endif
 
@@ -83,7 +78,7 @@ namespace KursovaBD
 
             try
             {
-                AppConfigMethod();
+                appConfigMethod();
                 setViews();
                 SetDefaultContent();
                 logining(username, password);
@@ -93,7 +88,8 @@ namespace KursovaBD
                 Task.Factory.StartNew(() => messageQueue.Enqueue(ms.Message));
             }
         }
-        void AppConfigMethod()
+
+        void appConfigMethod()
         {
             try
             {
@@ -115,10 +111,10 @@ namespace KursovaBD
             catch (Exception)
             {
                 Directory.CreateDirectory("cfg");
-                AppConfigMethod();
+                appConfigMethod();
             }
         }
-        void CheckRequests()
+        void checkRequests()
         {
             using (DbConnection)
             {
@@ -140,31 +136,47 @@ namespace KursovaBD
                 }
             }
         }
-
-        public void SetDefaultContent()
+        void expertChecker()
         {
-            DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
-            ContentSlider.SelectedIndex = 0;
+            using (DbConnection)
+            {
+                DbConnection.Open();
+                msc = new MySqlCommand(String.Format("select Request from experts where Login_id='{0}'", UserModel.Id), DbConnection);
+                if (msc.ExecuteScalar() == null)
+                {
+                    RegisterAsExpertPanel.Visibility = Visibility.Visible;
+                    WaitingAcceptsPanel.Visibility = Visibility.Collapsed;
+                    ExpertPanelBtn.Content = "Register as expert";
+                    ExpertPanelBtn.IsEnabled = true;
+                    ExpertPanelBtn.Command = btnCommand;
+                    ClubNameComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
+                }
+                if ((string)msc.ExecuteScalar() == "waiting")
+                {
+                    RegisterAsExpertPanel.Visibility = Visibility.Collapsed;
+                    WaitingAcceptsPanel.Visibility = Visibility.Visible;
+                    ExpertPanelBtn.Content = "Expert panel";
+                    ExpertPanelBtn.IsEnabled = true;
+                    ExpertPanelBtn.Command = btnCommand;
+                }
+                if ((string)msc.ExecuteScalar() == "accept")
+                {
+                    _views.Add(ExpertPanelBtn, 3);
+                    ExpertPanelBtn.Content = "Expert panel";
+                    ExpertPanelBtn.Command = null;
+                    ExpertPanelBtn.IsEnabled = true;
+                    ExpertPanelBtn.Click += menuButton_Clicked;
+                    ExpertPanelBtn.Style = FindResource("MaterialDesignRaisedLightButton") as Style;
+                }
+                if ((string)msc.ExecuteScalar() == "decline")
+                {
+                    ExpertPanelBtn.Content = "Expert panel";
+                    ExpertPanelBtn.IsEnabled = false;
+                    ExpertPanelBtn.Command = null;
+                }
+            }
         }
-        void setViews()
-        {
-            _views.Add(DogsShowBtn, 0);
-            _views.Add(HallofFameBtn, 1);
-            _views.Add(DogRegisterBtn, 2);
-            _views.Add(ExpertRegisterBtn, 3);
-            _views.Add(ShowRequestsBtn, 4);
-        }
-        void contentToggler(int uie)
-        {
-            ContentSlider.SelectedIndex = uie;
-        }
-        private void resetButtons(Button button)
-        {
-            foreach (var btn in MainMenu.Children.OfType<MenuButton>())
-                if (btn != button)
-                    btn.Style = DefaultBtnStyle;
-        }
-
+        
         void logining(string _username,string _password)
         {
             using (DbConnection)
@@ -182,7 +194,10 @@ namespace KursovaBD
                     {
                         UserLoginBtn.Content = "Hello " + _username;
                         DogRegisterBtn.Visibility = Visibility.Visible;
+                        ExpertPanelBtn.Visibility = Visibility.Visible;
                     }
+                    msc = new MySqlCommand(String.Format("select id from users where login='{0}' and password='{1}'", _username, _password), DbConnection);
+                    UserModel.Id = msc.ExecuteScalar().ToString();
                 }
                 else
                     Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
@@ -192,13 +207,38 @@ namespace KursovaBD
             t.Start();
             t.Tick += (_, __) =>
             {
-                CheckRequests();
+                if(UserModel.Id=="1")
+                    checkRequests();
                 t.Stop();
             };
             LoginTb.Text = "";
             PassTb.Password = "";
             Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));
             IsLogin = false;
+            expertChecker();
+        }
+        public void SetDefaultContent()
+        {
+            DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
+            ContentSlider.SelectedIndex = 0;
+        }
+        void setViews()
+        {
+            _views.Add(DogsShowBtn, 0);
+            _views.Add(HallofFameBtn, 1);
+            _views.Add(DogRegisterBtn, 2);
+            //_views.Add(ExpertPanelBtn as MenuButton, 3);
+            _views.Add(ShowRequestsBtn, 4);
+        }
+        void contentToggler(int uie)
+        {
+            ContentSlider.SelectedIndex = uie;
+        }
+        private void resetButtons(Button button)
+        {
+            foreach (var btn in MainMenu.Children.OfType<MenuButton>())
+                if (btn != button)
+                    btn.Style = DefaultBtnStyle;
         }
 
         private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
@@ -215,6 +255,15 @@ namespace KursovaBD
         {
             IsLogin = true;
         }
+        private void YesOutBtn_Click(object sender, RoutedEventArgs e)
+        {
+            username = "";
+            password = "";
+            CountingRequestBadge.Visibility = Visibility.Collapsed;
+            DogRegisterBtn.Visibility = Visibility.Collapsed;
+            ExpertPanelBtn.Visibility = Visibility.Collapsed;
+            UserLoginBtn.Content = "Login";
+        }
 
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
@@ -223,19 +272,27 @@ namespace KursovaBD
         }
         private void menuButton_Clicked(object sender, RoutedEventArgs e)
         {
-            var button = (sender as MenuButton);
+            var button = (sender as Button);
             contentToggler(_views[button]);
             resetButtons(button);
         }
-
-        private void YesOutBtn_Click(object sender, RoutedEventArgs e)
+        
+        private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
-            username = "";
-            password = "";
-            CountingRequestBadge.Visibility = Visibility.Collapsed;
-            DogRegisterBtn.Visibility = Visibility.Collapsed;
-            UserLoginBtn.Content = "Login";
+            if (ClubNameComboBox.SelectedValue != null)
+            {
+                using (DbConnection)
+                {
+                    DbConnection.Open();
+                    msc = new MySqlCommand(String.Format("insert into experts (Login_id,Surname,Name,Club_id,Request) value('{0}','{1}','{2}','{3}','waiting')",
+                        UserModel.Id,UserModel.Surname,UserModel.Name,ClubNameComboBox.SelectedIndex+1), DbConnection);
+                    msc.ExecuteNonQuery();
+                    Task.Factory.StartNew(() => messageQueue.Enqueue("Succesfull request send"));
+                }
+                expertChecker();
+            }
+            else
+                Task.Factory.StartNew(() => messageQueue.Enqueue("Please choose your club"));
         }
-
     }
 }

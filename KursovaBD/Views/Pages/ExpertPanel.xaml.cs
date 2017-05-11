@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KursovaBD.UI.Pages
+namespace KursovaBD.Views.Pages
 {
     /// <summary>
-    /// Interaction logic for RegisterAsExpert.xaml
+    /// Interaction logic for ExpertPanel.xaml
     /// </summary>
-    public partial class RegisterAsExpert : UserControl
+    public partial class ExpertPanel : UserControl
     {
-        public RegisterAsExpert()
+        public ExpertPanel()
         {
             InitializeComponent();
         }

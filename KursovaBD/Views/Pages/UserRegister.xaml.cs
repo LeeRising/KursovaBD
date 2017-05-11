@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
 using MaterialDesignThemes.Wpf;
-using KursovaBD.Tools;
 
 namespace KursovaBD.UI.Pages
 {
     public partial class UserRegister : UserControl
     {
-        MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
+        MySqlConnection DbConnection = Utilits.DbConnector._MySqlConnection();
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
         public UserRegister()

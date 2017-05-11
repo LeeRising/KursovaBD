@@ -130,18 +130,20 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\MenuButton.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Utilits\CheckInternetConnection.cs" />
     <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
     <Compile Include="Utilits\Cryptography.cs" />
+    <Compile Include="Utilits\DbConnector.cs" />
     <Compile Include="Utilits\RelativeTime.cs" />
     <Compile Include="Views\Pages\DogsShow.xaml.cs">
       <DependentUpon>DogsShow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\ExpertPanel.xaml.cs">
+      <DependentUpon>ExpertPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\HallOfFame.xaml.cs">
       <DependentUpon>HallOfFame.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Pages\RegisterAsExpert.xaml.cs">
-      <DependentUpon>RegisterAsExpert.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\RegisterDog.xaml.cs">
       <DependentUpon>RegisterDog.xaml</DependentUpon>
@@ -170,11 +172,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\HallOfFame.xaml">
+    <Page Include="Views\Pages\ExpertPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\RegisterAsExpert.xaml">
+    <Page Include="Views\Pages\HallOfFame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -221,7 +223,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Assets\Styles\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\No_image.png" />

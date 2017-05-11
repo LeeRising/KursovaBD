@@ -6,26 +6,23 @@ using MySql.Data.MySqlClient;
 using MaterialDesignThemes.Wpf;
 using System;
 using Microsoft.Win32;
-using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
+using KursovaBD.Models;
 
 namespace KursovaBD.UI.Pages
 {
     public partial class RegisterDog : UserControl
     {
-        MySqlConnection DbConnection = new MySqlConnection("Database=dogs_show;Data Source=leerain-interactive.sytes.net;User Id=admin;Password=root");
+        MySqlConnection DbConnection = Utilits.DbConnector._MySqlConnection();
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
         public string[] Breads => new string[] { "Akita Inu", "English Bulldog", "English Cocker Spaniel", "Afghanician Bossia", "Border Collie", "Briar", "Brusselsky Griffon", "Welsh-Corgias", "Greyhound", "Dalmathin", "Labrador", "Keeshond", "Hungarian Shepherd", "Kurtzhaar", "Levretka", "Leonberger", "Pekingese", "Pomeransky Spitz", "Poodle", "The Samish dog", "Japanese chin", "Shelti", "Shi-tcu" };
-        public List<string> Clubs = new List<string>();
-        public List<string> Masters = new List<string>();
         OpenFileDialog _OpenFileDialog = new OpenFileDialog
         {
             Filter= "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png",
             FileName="Chose dog picture"
         };
-        int club_id, master_id;
         string avatar="as";
         public RegisterDog()
         {
@@ -84,7 +81,7 @@ namespace KursovaBD.UI.Pages
                 mdr = msc.ExecuteReader();
                 while (mdr.Read())
                 {
-                    Clubs.Add(mdr["Club_name"].ToString());
+                    UserModel.Clubs.Add(mdr["Club_name"].ToString());
                 }
             }
             using (DbConnection)
@@ -94,11 +91,14 @@ namespace KursovaBD.UI.Pages
                 mdr = msc.ExecuteReader();
                 while (mdr.Read())
                 {
-                    Masters.Add(mdr["Surname"].ToString() + " " + mdr["Name"].ToString());
+                    UserModel.Masters.Add(mdr["Surname"].ToString() + " " + mdr["Name"].ToString());
                 }
             }
-            ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = Clubs });
-            MasterComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = Masters });
+            ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
+            MasterComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Masters });
+            string[] tmp = UserModel.Masters[int.Parse(UserModel.Id) - 1].ToString().Split(' ');
+            UserModel.Surname = tmp[0];
+            UserModel.Name = tmp[1];
         }
     }
 }
