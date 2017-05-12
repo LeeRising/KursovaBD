@@ -12,7 +12,7 @@ using KursovaBD.Models;
 using System.IO;
 using System.Net;
 
-namespace KursovaBD.UI.Pages
+namespace KursovaBD.Views.Pages
 {
     public partial class RegisterDog : UserControl
     {
@@ -123,7 +123,6 @@ namespace KursovaBD.UI.Pages
                 }
             }
             ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
-            MasterComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Masters });
             string[] tmp = UserModel.Masters[int.Parse(UserModel.Id) - 1].ToString().Split(' ');
             UserModel.Surname = tmp[0];
             UserModel.Name = tmp[1];

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using MySql.Data.MySqlClient;
 using MaterialDesignThemes.Wpf;
 
-namespace KursovaBD.UI.Pages
+namespace KursovaBD.Views.Pages
 {
     public partial class UserRegister : UserControl
     {

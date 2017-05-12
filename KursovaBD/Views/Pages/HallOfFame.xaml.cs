@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KursovaBD.UI.Pages
+namespace KursovaBD.Views.Pages
 {
     /// <summary>
     /// Interaction logic for HallOfFame.xaml

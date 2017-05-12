@@ -5,8 +5,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:local="clr-namespace:KursovaBD"
-    xmlns:pages="clr-namespace:KursovaBD.UI.Pages"
-    xmlns:pages1="clr-namespace:KursovaBD.Views.Pages"
+    xmlns:pages="clr-namespace:KursovaBD.Views.Pages"
     x:Class="KursovaBD.MainWindow"
     mc:Ignorable="d"
     ResizeMode="CanMinimize"
@@ -243,7 +242,7 @@
                         <materialDesign:TransitionEffect Kind = "SlideInFromRight" Duration="0:0:1.2" />
                         <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
                     </materialDesign:TransitionerSlide.OpeningEffects>
-                    <pages1:ExpertPanel/>
+                    <pages:ExpertPanel/>
                 </materialDesign:TransitionerSlide>
                 <materialDesign:TransitionerSlide ClipToBounds="True">
                     <materialDesign:TransitionerSlide.OpeningEffects>
