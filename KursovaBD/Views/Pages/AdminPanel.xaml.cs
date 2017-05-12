@@ -15,12 +15,9 @@ using System.Windows.Shapes;
 
 namespace KursovaBD.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for ShowRequests.xaml
-    /// </summary>
-    public partial class ShowRequests : UserControl
+    public partial class AdminPanel : UserControl
     {
-        public ShowRequests()
+        public AdminPanel()
         {
             InitializeComponent();
         }

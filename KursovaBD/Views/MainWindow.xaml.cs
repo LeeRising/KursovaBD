@@ -32,6 +32,8 @@ namespace KursovaBD
 
         ICommand btnCommand;
 
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer{Interval = 1};
+
         public MainWindow()
         {
             InitializeComponent();
@@ -59,8 +61,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "test";
-            password = Cryptography.getHashSha256("admin");
+            username = "1";
+            password = Cryptography.getHashSha256("1");
 #endif
 
             UserLoginBtn.Click += delegate
@@ -81,8 +83,8 @@ namespace KursovaBD
             {
                 appConfigMethod();
                 setViews();
-                SetDefaultContent();
                 logining(username, password);
+                SetDefaultContent();
             }
             catch (MySqlException ms)
             {
@@ -125,16 +127,7 @@ namespace KursovaBD
                 msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
                 _requestCounter += int.Parse(msc.ExecuteScalar().ToString());
                 if (_requestCounter > 0)
-                {
                     CountingRequestBadge.Badge = _requestCounter;
-                    ShowRequestsBtn.Content = _requestCounter > 1 ? "Show requests" : "Show request";
-                    ShowRequestsBtn.IsEnabled = true;
-                }
-                else
-                {
-                    ShowRequestsBtn.Content = "None request";
-                    ShowRequestsBtn.IsEnabled = false;
-                }
             }
         }
         void expertChecker()
@@ -229,15 +222,6 @@ namespace KursovaBD
             }
             else
                 Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
-            System.Windows.Forms.Timer t = new System.Windows.Forms.Timer();
-            t.Interval = 1;
-            t.Start();
-            t.Tick += (_, __) =>
-            {
-                if (UserModel.Id == "1")
-                    checkRequests();
-                t.Stop();
-            };
             LoginTb.Text = "";
             PassTb.Password = "";
             Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));
@@ -247,20 +231,25 @@ namespace KursovaBD
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
             ContentSlider.SelectedIndex = 0;
-            if (UserModel.Id == "1")
-                checkRequests();
-            else
+            timer.Start();
+            timer.Tick += (_, __) =>
             {
-                expertChecker();
-                dogChecker();
-            }
+                if (UserModel.Id == "1")
+                    checkRequests();
+                else
+                {
+                    expertChecker();
+                    dogChecker();
+                }
+                timer.Stop();
+            };
         }
         void setViews()
         {
             _views.Add(DogsShowBtn, 0);
             _views.Add(HallofFameBtn, 1);
             _views.Add(DogRegisterBtn, 2);
-            //_views.Add(ExpertPanelBtn as MenuButton, 3);
+            _views.Add(ExpertPanelBtn, 3);
             _views.Add(ShowRequestsBtn, 4);
         }
         void contentToggler(int uie)
@@ -272,6 +261,7 @@ namespace KursovaBD
             foreach (var btn in MainMenu.Children.OfType<MenuButton>())
                 if (btn != button)
                     btn.Style = DefaultBtnStyle;
+            ShowRequestsBtn.Style = DefaultBtnStyle;
         }
 
         private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)

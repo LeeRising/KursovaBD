@@ -148,8 +148,8 @@
     <Compile Include="Views\Pages\RegisterDog.xaml.cs">
       <DependentUpon>RegisterDog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Pages\ShowRequests.xaml.cs">
-      <DependentUpon>ShowRequests.xaml</DependentUpon>
+    <Compile Include="Views\Pages\AdminPanel.xaml.cs">
+      <DependentUpon>AdminPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Pages\UserRegister.xaml.cs">
       <DependentUpon>UserRegister.xaml</DependentUpon>
@@ -184,7 +184,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\ShowRequests.xaml">
+    <Page Include="Views\Pages\AdminPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

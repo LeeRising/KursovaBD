@@ -201,7 +201,7 @@
                         HorizontalAlignment="Stretch"
                         Click="menuButton_Clicked"
                         materialDesign:ShadowAssist.ShadowDepth="Depth3"
-                Content="Show Request"/>
+                Content="Admin panel"/>
             </materialDesign:Badged>
         </StackPanel>
 
@@ -249,7 +249,7 @@
                         <materialDesign:TransitionEffect Kind = "SlideInFromLeft" Duration="0:0:1.2" />
                         <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
                     </materialDesign:TransitionerSlide.OpeningEffects>
-                    <pages:ShowRequests/>
+                    <pages:AdminPanel/>
                 </materialDesign:TransitionerSlide>
                 <materialDesign:TransitionerSlide ClipToBounds="True">
                     <materialDesign:TransitionerSlide.OpeningEffects>
