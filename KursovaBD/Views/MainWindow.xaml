@@ -140,7 +140,7 @@
                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}"
                         Style="{DynamicResource MaterialDesignRaisedButton}"/>
             </materialDesign:DialogHost>
-            <local:MenuButton x:Name="DogRegisterBtn"
+            <local:MenuButton x:Name="MyDogBtn"
                 Content="Register my dog"
                 Visibility="Collapsed"
                 Click="menuButton_Clicked"
@@ -257,6 +257,13 @@
                         <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
                     </materialDesign:TransitionerSlide.OpeningEffects>
                     <pages:UserRegister/>
+                </materialDesign:TransitionerSlide>
+                <materialDesign:TransitionerSlide ClipToBounds="True">
+                    <materialDesign:TransitionerSlide.OpeningEffects>
+                        <materialDesign:TransitionEffect Kind = "SlideInFromBottom" Duration="0:0:1.2" />
+                        <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
+                    </materialDesign:TransitionerSlide.OpeningEffects>
+                    <pages:MyDogPage/>
                 </materialDesign:TransitionerSlide>
             </materialDesign:Transitioner>
         </Grid>

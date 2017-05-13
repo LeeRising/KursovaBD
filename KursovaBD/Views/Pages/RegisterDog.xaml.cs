@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using MySql.Data.MySqlClient;
@@ -19,13 +18,15 @@ namespace KursovaBD.Views.Pages
         MySqlConnection DbConnection = Utilits.DbConnector._MySqlConnection();
         MySqlCommand msc;
         SnackbarMessageQueue messageQueue;
-        public string[] Breads => new string[] { "Akita Inu", "English Bulldog", "English Cocker Spaniel", "Afghanician Bossia", "Border Collie", "Briar", "Brusselsky Griffon", "Welsh-Corgias", "Greyhound", "Dalmathin", "Labrador", "Keeshond", "Hungarian Shepherd", "Kurtzhaar", "Levretka", "Leonberger", "Pekingese", "Pomeransky Spitz", "Poodle", "The Samish dog", "Japanese chin", "Shelti", "Shi-tcu" };
+        public string[] Breads => new string[] { "Akita Inu", "English Bulldog", "English Cocker Spaniel", "Afghanician Bossia", "Border Collie", "Briar", "Brusselsky Griffon", "Welsh-Corgias", "Greyhound", "Dalmathin" };
         OpenFileDialog _OpenFileDialog = new OpenFileDialog
         {
-            Filter= "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png",
-            FileName="Chose dog picture"
+            Filter = "Image Files (*.bmp, *.jpg ,*.png)|*.bmp;*.jpg;*.png",
+            FileName = "Chose dog picture"
         };
-        string avatar = "No_image.png",avatar1;
+        string avatar = "No_image.png", avatar1;
+        System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1};
+        bool _enter = false;
         public RegisterDog()
         {
             InitializeComponent();
@@ -52,25 +53,42 @@ namespace KursovaBD.Views.Pages
             CancelBtn.Click += delegate
             {
                 MainWindow.Instance.SetDefaultContent();
-                MainWindow.Instance.DogRegisterBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
+                MainWindow.Instance.MyDogBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
+                _enter = false;
+            };
+            t.Start();
+            t.Tick += delegate
+              {
+                  if (_enter)
+                  {
+                      t.Interval = 7000;
+                      ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
+                  }
+                  else
+                      t.Interval = 1;
+              };
+            this.MouseEnter += delegate
+            {
+                if (!_enter)
+                    _enter = true ;
             };
         }
 
-        private void RegisterBtn_Click(object sender, RoutedEventArgs e)
+        private async void RegisterBtn_Click(object sender, RoutedEventArgs e)
         {
             if (!String.IsNullOrEmpty(NameTb.Text) && !String.IsNullOrEmpty(AgeTb.Text) && !String.IsNullOrEmpty(DocumentInfoTb.Text) && !String.IsNullOrEmpty(ParentsnameTb.Text) &&
-                BreadComboBox.SelectedValue != null &&  ClubComboBox.SelectedValue != null)
+                BreadComboBox.SelectedValue != null && ClubComboBox.SelectedValue != null)
             {
                 using (DbConnection)
                 {
-                    DbConnection.Open();
-                    msc = new MySqlCommand("select count(id) from dogs",DbConnection);
-                    var _id = Int64.Parse(msc.ExecuteScalar().ToString());
-                    avatar = avatar != "No_image.png" ? (_id==0?"1":(_id+=1).ToString()) + "." + avatar.Split('.')[1] : "No_image.png";
+                    await DbConnection.OpenAsync();
+                    msc = new MySqlCommand("select count(id) from dogs", DbConnection);
+                    var _id = (Int64)await msc.ExecuteScalarAsync();
+                    avatar = avatar != "No_image.png" ? (_id == 0 ? "1" : (_id += 1).ToString()) + "." + avatar.Split('.')[1] : "No_image.png";
                     msc = new MySqlCommand(String.Format("insert into dogs (Club_id,Name,Breed,Age,Document_info,Parents_name,Date_last_vaccenation,Master_id,Photo,Request) " +
                         "values ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','waiting')",
-                        ClubComboBox.SelectedIndex+1,NameTb.Text,BreadComboBox.SelectedValue,AgeTb.Text,DocumentInfoTb.Text,ParentsnameTb.Text, LastVacDate.DisplayDate.Date.ToString("yyyy-MM-dd"),UserModel.Id,avatar), DbConnection);
-                    msc.ExecuteNonQuery();
+                        ClubComboBox.SelectedIndex + 1, NameTb.Text, BreadComboBox.SelectedValue, AgeTb.Text, DocumentInfoTb.Text, ParentsnameTb.Text, LastVacDate.DisplayDate.Date.ToString("yyyy-MM-dd"), UserModel.Id, avatar), DbConnection);
+                    await msc.ExecuteNonQueryAsync();
                     if (!String.IsNullOrEmpty(avatar1))
                     {
                         File.Copy(avatar1, Path.Combine(AppDomain.CurrentDomain.BaseDirectory + @"\") + avatar);
@@ -91,41 +109,12 @@ namespace KursovaBD.Views.Pages
                         File.Delete(avatar);
                     }
                 }
-                Task.Factory.StartNew(() => messageQueue.Enqueue("New dog has been registred!"));
+                await Task.Factory.StartNew(() => messageQueue.Enqueue("New dog has been registred!"));
                 MainWindow.Instance.SetDefaultContent();
-                MainWindow.Instance.DogRegisterBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
+                MainWindow.Instance.MyDogBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
             }
             else
-                Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not empty!"));
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            MySqlDataReader mdr;
-            using (DbConnection)
-            {
-                DbConnection.Open();
-                msc = new MySqlCommand("select Club_name from clubs", DbConnection);
-                mdr = msc.ExecuteReader();
-                while (mdr.Read())
-                {
-                    UserModel.Clubs.Add(mdr["Club_name"].ToString());
-                }
-            }
-            using (DbConnection)
-            {
-                DbConnection.Open();
-                msc = new MySqlCommand("select Surname,Name from masters", DbConnection);
-                mdr = msc.ExecuteReader();
-                while (mdr.Read())
-                {
-                    UserModel.Masters.Add(mdr["Surname"].ToString() + " " + mdr["Name"].ToString());
-                }
-            }
-            ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
-            string[] tmp = UserModel.Masters[int.Parse(UserModel.Id) - 1].ToString().Split(' ');
-            UserModel.Surname = tmp[0];
-            UserModel.Name = tmp[1];
+                await Task.Factory.StartNew(() => messageQueue.Enqueue("All fields must be not empty!"));
         }
     }
 }

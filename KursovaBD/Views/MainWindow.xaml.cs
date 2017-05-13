@@ -12,6 +12,7 @@ using SQLite;
 using System.Windows.Data;
 using KursovaBD.Models;
 using System.Windows.Input;
+using KursovaBD.Views.Pages;
 
 namespace KursovaBD
 {
@@ -32,11 +33,12 @@ namespace KursovaBD
 
         ICommand btnCommand;
 
-        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer{Interval = 1};
+        System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
         public MainWindow()
         {
             InitializeComponent();
+
             Instance = this;
 
             messageQueue = MessagesSnackbar.MessageQueue;
@@ -61,8 +63,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "1";
-            password = Cryptography.getHashSha256("1");
+            username = "test";
+            password = Cryptography.getHashSha256("admin");
 #endif
 
             UserLoginBtn.Click += delegate
@@ -83,8 +85,8 @@ namespace KursovaBD
             {
                 appConfigMethod();
                 setViews();
-                logining(username, password);
                 SetDefaultContent();
+                logining(username, password);
             }
             catch (MySqlException ms)
             {
@@ -117,26 +119,27 @@ namespace KursovaBD
                 appConfigMethod();
             }
         }
-        void checkRequests()
+        async void checkRequests()
         {
             using (DbConnection)
             {
-                DbConnection.Open();
+                await DbConnection.OpenAsync();
                 msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
-                var _requestCounter = int.Parse(msc.ExecuteScalar().ToString());
+                var _requestCounter = int.Parse((await msc.ExecuteScalarAsync()).ToString());
                 msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
-                _requestCounter += int.Parse(msc.ExecuteScalar().ToString());
+                _requestCounter += int.Parse((await msc.ExecuteScalarAsync()).ToString());
                 if (_requestCounter > 0)
                     CountingRequestBadge.Badge = _requestCounter;
             }
         }
-        void expertChecker()
+        async void expertChecker()
         {
             using (DbConnection)
             {
-                DbConnection.Open();
+                await DbConnection.OpenAsync();
                 msc = new MySqlCommand(String.Format("select Request from experts where Login_id='{0}'", UserModel.Id), DbConnection);
-                if (msc.ExecuteScalar() == null)
+                var query = await msc.ExecuteScalarAsync();
+                if (query == null)
                 {
                     RegisterAsExpertPanel.Visibility = Visibility.Visible;
                     WaitingAcceptsPanel.Visibility = Visibility.Collapsed;
@@ -144,18 +147,18 @@ namespace KursovaBD
                     ExpertPanelBtn.IsEnabled = true;
                     ExpertPanelBtn.Command = btnCommand;
                     ClubNameComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
-                    DogRegisterBtn.Visibility = Visibility.Visible;
+                    MyDogBtn.Visibility = Visibility.Visible;
                 }
-                if ((string)msc.ExecuteScalar() == "waiting")
+                if ((string)query == "waiting")
                 {
                     RegisterAsExpertPanel.Visibility = Visibility.Collapsed;
                     WaitingAcceptsPanel.Visibility = Visibility.Visible;
                     ExpertPanelBtn.Content = "Expert panel";
                     ExpertPanelBtn.IsEnabled = true;
                     ExpertPanelBtn.Command = btnCommand;
-                    DogRegisterBtn.Visibility = Visibility.Collapsed;
+                    MyDogBtn.Visibility = Visibility.Collapsed;
                 }
-                if ((string)msc.ExecuteScalar() == "accept")
+                if ((string)query == "accept")
                 {
                     _views.Add(ExpertPanelBtn, 3);
                     ExpertPanelBtn.Content = "Expert panel";
@@ -163,48 +166,89 @@ namespace KursovaBD
                     ExpertPanelBtn.IsEnabled = true;
                     ExpertPanelBtn.Click += menuButton_Clicked;
                     ExpertPanelBtn.Style = FindResource("MaterialDesignRaisedLightButton") as Style;
-                    DogRegisterBtn.Visibility = Visibility.Collapsed;
+                    MyDogBtn.Visibility = Visibility.Collapsed;
                 }
-                if ((string)msc.ExecuteScalar() == "decline")
+                if ((string)query == "decline")
                 {
                     ExpertPanelBtn.Content = "Expert panel";
                     ExpertPanelBtn.IsEnabled = false;
                     ExpertPanelBtn.Command = null;
-                    DogRegisterBtn.Visibility = Visibility.Visible;
+                    MyDogBtn.Visibility = Visibility.Visible;
                 }
             }
         }
-        void dogChecker()
+        async void dogChecker()
         {
             using (DbConnection)
             {
-                DbConnection.Open();
-                msc = new MySqlCommand(String.Format("select Request from dogs where Master_id='{0}'", UserModel.Id), DbConnection);
-                switch ((string)msc.ExecuteScalar())
+                await DbConnection.OpenAsync();
+                msc = new MySqlCommand(String.Format("select Request from dogs where Master_id='{0}'", UserModel.Id), DbConnection);                
+                switch ((string)await msc.ExecuteScalarAsync())
                 {
                     case null:
-                        DogRegisterBtn.Visibility = Visibility.Visible;
+                        MyDogBtn.Visibility = Visibility.Visible;
                         ExpertPanelBtn.Visibility = Visibility.Visible;
-                        DogRegisterBtn.IsEnabled = true;
+                        MyDogBtn.IsEnabled = true;
+                        MyDogBtn.Content = "Register my dog";
+                        MyDogBtn.IsEnabled = true;
+                        _views.Remove(MyDogBtn);
+                        _views.Add(MyDogBtn, 2);
+                        break;
+                    case "accept":
+                        MyDogBtn.Visibility = Visibility.Visible;
+                        MyDogBtn.Content = "My dog";
+                        MyDogBtn.IsEnabled = true;
+                        _views.Remove(MyDogBtn);
+                        _views.Add(MyDogBtn, 6);
                         break;
                     default:
-                        DogRegisterBtn.IsEnabled = false;
+                        MyDogBtn.IsEnabled = false;
+                        MyDogBtn.Content = "My dog";
                         ExpertPanelBtn.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
         }
+        async void clubsAndmastersChecker()
+        {
+            UserModel.Clubs = new List<string>();
+            UserModel.Masters = new List<string>();
+            MySqlDataReader mdr;
+            using (DbConnection)
+            {
+                await DbConnection.OpenAsync();
+                msc = new MySqlCommand("select Club_name from clubs", DbConnection);
+                mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
+                while (await mdr.ReadAsync())
+                {
+                    UserModel.Clubs.Add(mdr["Club_name"].ToString());
+                }
+            }
+            using (DbConnection)
+            {
+                await DbConnection.OpenAsync();
+                msc = new MySqlCommand("select Surname,Name from masters", DbConnection);
+                mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
+                while (await mdr.ReadAsync())
+                {
+                    UserModel.Masters.Add(mdr["Surname"].ToString() + " " + mdr["Name"].ToString());
+                }
+            }
+            string[] tmp = UserModel.Masters[(int)UserModel.Id - 1].ToString().Split(' ');
+            UserModel.Surname = tmp[0];
+            UserModel.Name = tmp[1];
+        }
 
-        void logining(string _username, string _password)
+        async void logining(string _username, string _password)
         {
             string queary;
             using (DbConnection)
             {
-                DbConnection.Open();
+                await DbConnection.OpenAsync();
                 msc = new MySqlCommand(String.Format("select id from users where login='{0}' and password='{1}'", _username, _password), DbConnection);
-                UserModel.Id = msc.ExecuteScalar().ToString();
+                UserModel.Id = await msc.ExecuteScalarAsync()!=null?(Int64)await msc.ExecuteScalarAsync():0;
                 msc = new MySqlCommand(String.Format("select rights from users where login='{0}' and password='{1}'", _username, _password), DbConnection);
-                queary = msc.ExecuteScalar() as string;
+                queary = await msc.ExecuteScalarAsync() as string;
             }
             if (queary!= null)
             {
@@ -216,39 +260,41 @@ namespace KursovaBD
                 else
                 {
                     UserLoginBtn.Content = "Hello " + _username;
-                    expertChecker();
-                    dogChecker();
                 }
+                timer.Start();
+                timer.Interval = 1;
+                timer.Tick += (_, __) =>
+                {
+                    timer.Interval = 7000;
+                    if (UserModel.Id == 1)
+                    {
+                        checkRequests();
+                    }
+                    else
+                    {
+                        expertChecker();
+                        dogChecker();
+                        clubsAndmastersChecker();
+                    }
+                };
             }
             else
-                Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
+                await Task.Factory.StartNew(() => messageQueue.Enqueue("Login or password is incorect!"));
             LoginTb.Text = "";
             PassTb.Password = "";
-            Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));
+            await Task.Factory.StartNew(() => messageQueue.Enqueue("Welcome " + _username));
             IsLogin = false;
         }
         public void SetDefaultContent()
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
             ContentSlider.SelectedIndex = 0;
-            timer.Start();
-            timer.Tick += (_, __) =>
-            {
-                if (UserModel.Id == "1")
-                    checkRequests();
-                else
-                {
-                    expertChecker();
-                    dogChecker();
-                }
-                timer.Stop();
-            };
         }
         void setViews()
         {
             _views.Add(DogsShowBtn, 0);
             _views.Add(HallofFameBtn, 1);
-            _views.Add(DogRegisterBtn, 2);
+            _views.Add(MyDogBtn, 2);
             _views.Add(ExpertPanelBtn, 3);
             _views.Add(ShowRequestsBtn, 4);
         }
@@ -283,9 +329,13 @@ namespace KursovaBD
             username = "";
             password = "";
             CountingRequestBadge.Visibility = Visibility.Collapsed;
-            DogRegisterBtn.Visibility = Visibility.Collapsed;
+            MyDogBtn.Visibility = Visibility.Collapsed;
             ExpertPanelBtn.Visibility = Visibility.Collapsed;
             UserLoginBtn.Content = "Login";
+            timer.Stop();
+            MyDogBtn.IsEnabled = true;
+            SetDefaultContent();
+            MyDogBtn.Style = DefaultBtnStyle;
         }
 
         private void RegisterBtn_Click(object sender, RoutedEventArgs e)
@@ -298,24 +348,26 @@ namespace KursovaBD
             var button = (sender as Button);
             contentToggler(_views[button]);
             resetButtons(button);
+            if (button == MyDogBtn)
+                MyDogPage.Instance.GetDogInfo();
         }
 
-        private void SendRequestBtn_Click(object sender, RoutedEventArgs e)
+        private async void SendRequestBtn_Click(object sender, RoutedEventArgs e)
         {
             if (ClubNameComboBox.SelectedValue != null)
             {
                 using (DbConnection)
                 {
-                    DbConnection.Open();
+                    await DbConnection.OpenAsync();
                     msc = new MySqlCommand(String.Format("insert into experts (Login_id,Surname,Name,Club_id,Request) value('{0}','{1}','{2}','{3}','waiting')",
                         UserModel.Id, UserModel.Surname, UserModel.Name, ClubNameComboBox.SelectedIndex + 1), DbConnection);
-                    msc.ExecuteNonQuery();
-                    Task.Factory.StartNew(() => messageQueue.Enqueue("Succesfull request send"));
+                    await msc.ExecuteNonQueryAsync();
+                    await Task.Factory.StartNew(() => messageQueue.Enqueue("Succesfull request send"));
                 }
                 expertChecker();
             }
             else
-                Task.Factory.StartNew(() => messageQueue.Enqueue("Please choose your club"));
+                await Task.Factory.StartNew(() => messageQueue.Enqueue("Please choose your club"));
         }
     }
 }

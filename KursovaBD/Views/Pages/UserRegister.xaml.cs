@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using MySql.Data.MySqlClient;
 using MaterialDesignThemes.Wpf;
 
@@ -18,18 +17,14 @@ namespace KursovaBD.Views.Pages
             InitializeComponent();
 
             messageQueue = MessagesSnackbar.MessageQueue;
-
-            LoginTb.KeyDown += (s, e) =>
-            {
-                if (e.Key == Key.Tab)
-                {
-                    LoginCheckerMethod();
-                }
-            };
+            
             LoginTb.TextChanged += delegate
             {
                 if (!String.IsNullOrEmpty(LoginTb.Text))
+                {
+                    LoginCheckerMethod();
                     LoginTb.Width = 310;
+                }
                 else
                 {
                     LoginTb.Width = 340;
@@ -57,7 +52,6 @@ namespace KursovaBD.Views.Pages
             };
             PassTb.PasswordChanged += (s, e) =>
             {
-                LoginCheckerMethod();
                 if (!String.IsNullOrEmpty(RepeatPassTb.Password) && !String.IsNullOrEmpty(PassTb.Password))
                 {
                     LoginChecker.Visibility = Visibility.Visible;
@@ -108,18 +102,18 @@ namespace KursovaBD.Views.Pages
                 MainWindow.Instance.SetDefaultContent();
             };
         }
-        void LoginCheckerMethod()
+        async void LoginCheckerMethod()
         {
             if (!String.IsNullOrEmpty(LoginTb.Text))
             {
                 using (DbConnection)
                 {
-                    DbConnection.Open();
+                    await DbConnection.OpenAsync();
                     LoginChecker.Visibility = Visibility.Visible;
                     msc = new MySqlCommand(String.Format("select id from users where login='{0}'", LoginTb.Text), DbConnection);
-                    if (msc.ExecuteScalar() != null)
+                    if (await msc.ExecuteScalarAsync() != null)
                     {
-                        Task.Factory.StartNew(() => messageQueue.Enqueue("This login is already taken!"));
+                        await Task.Factory.StartNew(() => messageQueue.Enqueue("This login is already taken!"));
                         LoginChecker.Kind = PackIconKind.CloseCircle;
                     }
                     else

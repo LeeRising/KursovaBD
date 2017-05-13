@@ -130,6 +130,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\MenuButton.cs" />
+    <Compile Include="Controls\RingCards.xaml.cs">
+      <DependentUpon>RingCards.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Utilits\CheckInternetConnection.cs" />
     <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
@@ -145,6 +148,9 @@
     <Compile Include="Views\Pages\HallOfFame.xaml.cs">
       <DependentUpon>HallOfFame.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Pages\MyDogPage.xaml.cs">
+      <DependentUpon>MyDogPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\RegisterDog.xaml.cs">
       <DependentUpon>RegisterDog.xaml</DependentUpon>
     </Compile>
@@ -154,6 +160,10 @@
     <Compile Include="Views\Pages\UserRegister.xaml.cs">
       <DependentUpon>UserRegister.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\RingCards.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Pages\HallOfFame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Pages\MyDogPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
