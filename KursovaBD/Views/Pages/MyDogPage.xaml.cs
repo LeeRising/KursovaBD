@@ -70,6 +70,7 @@ namespace KursovaBD.Views.Pages
                     string path = "cache/" + mdr["Photo"] as string;
                     if (!File.Exists(path))
                     {
+                        Directory.CreateDirectory("cache");
                         using (WebClient webClient = new WebClient())
                         {
                             webClient.DownloadFile(new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string), path);
