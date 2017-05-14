@@ -11,14 +11,14 @@
         <Image x:Name="DogAvatar"
                Stretch="Fill"
                Source="/KursovaBD;component/Assets/No_image.png"
-               HorizontalAlignment="Left" Height="160" Margin="10,10,0,0" VerticalAlignment="Top" Width="220"/>
+               HorizontalAlignment="Left" Height="230" Margin="10,10,0,0" VerticalAlignment="Top" Width="230"/>
         <TextBlock x:Name="DogNameAge"
                    FontSize="20"
-                   Width="200"
+                   Width="220"
                    Text="Dog name and age"
                    HorizontalAlignment="Left"
                    TextAlignment="Center"
-                   Margin="15,180,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                   Margin="15,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
         <TextBox x:Name="ClubName"
                  materialDesign:HintAssist.Hint="Club"
                  IsReadOnly="True"
@@ -47,18 +47,6 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="250,90,0,0"
                  />
-        <TextBox x:Name="About"
-                 materialDesign:HintAssist.Hint="Write about our dog"
-                 FontSize="15"
-                 Height="120"
-                 Width="460"
-                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                 SpellCheck.IsEnabled="True"
-                 TextWrapping="Wrap"
-                 AcceptsReturn="True"
-                 VerticalScrollBarVisibility="Auto"
-                 HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="30,220,0,0"/>
         <TextBox x:Name="LastVaccenationDate"
                  Height="50"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -67,7 +55,7 @@
                  FontSize="15"
                  Text="Last Vaccenation date"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="30,340,0,0"
+                 Margin="250,140,0,0"
                  />
         <TextBox x:Name="ParentsName"
                  Height="50"
@@ -77,8 +65,20 @@
                  FontSize="15"
                  Text="Parents name"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="30,390,0,0"
+                 Margin="250,190,0,0"
                  />
+        <TextBox x:Name="About"
+                 materialDesign:HintAssist.Hint="Write about our dog"
+                 FontSize="15"
+                 Height="150"
+                 Width="460"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 SpellCheck.IsEnabled="True"
+                 TextWrapping="Wrap"
+                 AcceptsReturn="True"
+                 VerticalScrollBarVisibility="Auto"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="30,270,0,0"/>
         <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                  x:Name="MessagesSnackbar"
                                  Margin="0,50,0,0"/>
