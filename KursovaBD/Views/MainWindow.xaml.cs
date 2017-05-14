@@ -63,7 +63,7 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "test";
+            username = "admin";
             password = Cryptography.getHashSha256("admin");
 #endif
 
@@ -274,8 +274,8 @@ namespace KursovaBD
                     {
                         expertChecker();
                         dogChecker();
-                        clubsAndmastersChecker();
                     }
+                    clubsAndmastersChecker();
                 };
             }
             else

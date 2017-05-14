@@ -133,12 +133,23 @@
     <Compile Include="Controls\RingCards.xaml.cs">
       <DependentUpon>RingCards.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\DogModel.cs" />
+    <Compile Include="Models\ExpertModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Utilits\CheckInternetConnection.cs" />
     <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
     <Compile Include="Utilits\Cryptography.cs" />
     <Compile Include="Utilits\DbConnector.cs" />
     <Compile Include="Utilits\RelativeTime.cs" />
+    <Compile Include="Views\Dialogs\BattlesDialogs.xaml.cs">
+      <DependentUpon>BattlesDialogs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\DogRequest.xaml.cs">
+      <DependentUpon>DogRequest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\ExpertRequest.xaml.cs">
+      <DependentUpon>ExpertRequest.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Pages\DogsShow.xaml.cs">
       <DependentUpon>DogsShow.xaml</DependentUpon>
     </Compile>
@@ -161,6 +172,18 @@
       <DependentUpon>UserRegister.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\RingCards.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\BattlesDialogs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\DogRequest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ExpertRequest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

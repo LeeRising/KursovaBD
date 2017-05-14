@@ -1,5 +1,4 @@
-﻿using KursovaBD.Views.Dialogs;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +10,18 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace KursovaBD.Views.Pages
+namespace KursovaBD.Views.Dialogs
 {
-    public partial class AdminPanel : UserControl
+    /// <summary>
+    /// Interaction logic for BattlesDialogs.xaml
+    /// </summary>
+    public partial class BattlesDialogs : Window
     {
-        public AdminPanel()
+        public BattlesDialogs()
         {
             InitializeComponent();
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DogRequest dr = new DogRequest();
-            dr.ShowDialog();
         }
     }
 }

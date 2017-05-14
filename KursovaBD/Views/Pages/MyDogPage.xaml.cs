@@ -63,22 +63,7 @@ namespace KursovaBD.Views.Pages
                 msc = new MySqlCommand(String.Format("select Club_id,Name,Breed,Age,Document_info,Parents_name,Date_last_vaccenation,Photo,About from dogs where Master_id='{0}'", UserModel.Id), _DbConnection);
                 MySqlDataReader mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
                 await mdr.ReadAsync();
-                if (mdr["Photo"] as string == "No_image.png")
-                    DogAvatar.Source = _no_image;
-                else
-                {
-                    string path = "cache/" + mdr["Photo"] as string;
-                    if (!File.Exists(path))
-                    {
-                        Directory.CreateDirectory("cache");
-                        using (WebClient webClient = new WebClient())
-                        {
-                            webClient.DownloadFile(new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string), path);
-                        }
-                    }
-                    string currentAssemblyPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-                    DogAvatar.Source = new BitmapImage(new Uri(String.Format("file:///{0}/{1}", currentAssemblyPath,path)));
-                }
+                DogAvatar.Source = mdr["Photo"] as string == "No_image.png" ? _no_image : new BitmapImage(new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string));
                 int _id = Convert.ToInt32(mdr[0]);
                 ClubName.Text = UserModel.Clubs[_id--];
                 DogNameAge.Text= (string)mdr[1]+","+ (string)mdr[3];
@@ -88,7 +73,7 @@ namespace KursovaBD.Views.Pages
                     HintAssist.SetHint(About, "About dog");
                 else
                     HintAssist.SetHint(About, "Write about our dog");
-                _lastUpdatesrt = About.Text = mdr[8]==null? "": (string)mdr[8];
+                _lastUpdatesrt = About.Text = mdr[8] as string ?? "";
                 LastVaccenationDate.Text = mdr[6].ToString().Split(' ')[0];
                 ParentsName.Text = (string)mdr[5];
             }
