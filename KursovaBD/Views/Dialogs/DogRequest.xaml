@@ -24,8 +24,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="405"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="490"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="TitleBarPanel" 
                     Grid.Row="0"
@@ -57,19 +56,70 @@
                              HorizontalAlignment="Right"/>
             </ToggleButton>
         </StackPanel>
-        <Grid Grid.Row="1">
-            <Image x:Name="DogAvatar"
+        <materialDesign:DialogHost x:Name="DogRequestDialog"
+                DialogClosing="DogRequestDialog_DialogClosing"
+                       Grid.Column="0" Grid.Row="1" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid>
+                    <StackPanel x:Name="DeclineReasonPanel" Margin="16"
+                                    Visibility="Visible">
+                        <TextBlock>Write decline reason</TextBlock>
+                        <TextBox Margin="0 8 0 0" 
+                                 HorizontalAlignment="Stretch"
+                                 Height="70"
+                                 Width="250"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 materialDesign:HintAssist.Hint="Decline reason"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             x:Name="DeclineTb" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    x:Name="SendBtn"
+                                    Content="SEND"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    Content="CANCEL"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel x:Name="NoneRequestPanel"
+                                    Margin="16"
+                                    Visibility="Collapsed"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                        <TextBlock>None request now!</TextBlock>
+                        <Button x:Name="CloseThisBtn" 
+                                        Content="CLOSE"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                        </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="405"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Image x:Name="DogAvatar"
                Stretch="Fill"
                    Source="{Binding PhotoUrl}"
                HorizontalAlignment="Left" Height="230" Margin="10,10,0,0" VerticalAlignment="Top" Width="230"/>
-            <TextBlock x:Name="DogNameAge"
+                    <TextBlock x:Name="DogNameAge"
                        Text="{Binding NameAge}" 
                        FontSize="20"
                        Width="220"
                        HorizontalAlignment="Left"
                        TextAlignment="Center"
                        Margin="15,240,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-            <TextBox x:Name="ClubName"
+                    <TextBox x:Name="ClubName"
                  materialDesign:HintAssist.Hint="Club"
                  IsReadOnly="True"
                  FontSize="15"
@@ -78,7 +128,7 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="250,10,0,0"
                  />
-            <TextBox x:Name="Breed"
+                    <TextBox x:Name="Breed"
                  materialDesign:HintAssist.Hint="Breed"
                  IsReadOnly="True"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
@@ -87,7 +137,7 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="250,55,0,0"
                  />
-            <TextBox x:Name="Document"
+                    <TextBox x:Name="Document"
                  materialDesign:HintAssist.Hint="Document info"
                  IsReadOnly="True"
                  Height="50"
@@ -97,7 +147,7 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="250,90,0,0"
                  />
-            <TextBox x:Name="LastVaccenationDate"
+                    <TextBox x:Name="LastVaccenationDate"
                  Height="50"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  materialDesign:HintAssist.Hint="Last vaccenation date"
@@ -107,7 +157,7 @@
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="250,140,0,0"
                  />
-            <TextBox x:Name="MasterName"
+                    <TextBox x:Name="MasterName"
                  Height="50"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  materialDesign:HintAssist.Hint="Master name"
@@ -115,9 +165,8 @@
                  FontSize="15"
                  Text="{Binding MasterName}"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,190,0,0"
-                 />
-            <TextBox x:Name="About"
+                 Margin="250,190,0,0"/>
+                    <TextBox x:Name="About"
                  materialDesign:HintAssist.Hint="About"
                  FontSize="15"
                  Height="130"
@@ -129,27 +178,29 @@
                  VerticalScrollBarVisibility="Auto"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="30,270,0,0"/>
-            <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
+                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                  x:Name="MessagesSnackbar"
                                  Margin="0,50,0,0"/>
-        </Grid>
-        <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
-            <Button x:Name="Previous" Margin="0,0,25,0">
-                <materialDesign:PackIcon Kind="SkipPreviousCircle" />
-            </Button>
-            <Button x:Name="Accept"
+                </Grid>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0,15,0,0">
+                    <Button x:Name="Previous" Margin="0,0,25,0">
+                        <materialDesign:PackIcon Kind="SkipPreviousCircle" />
+                    </Button>
+                    <Button x:Name="Accept"
                     Content="Accept" 
                     Width="80"
                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
                     Margin="0,0,25,0"/>
-            <Button x:Name="Decline"
+                    <Button x:Name="Decline"
                     Content="Decline" 
                     Width="80"
                     Style="{StaticResource MaterialDesignRaisedLightButton}"
                     Margin="0,0,25,0"/>
-            <Button x:Name="Next">
-                <materialDesign:PackIcon Kind="SkipNextCircle" />
-            </Button>
-        </StackPanel>
+                    <Button x:Name="Next">
+                        <materialDesign:PackIcon Kind="SkipNextCircle" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost>
     </Grid>
 </Window>

@@ -53,17 +53,30 @@ namespace KursovaBD.Views.Dialogs
             };
             Accept.Click += delegate
             {
-
+                requestAnswer("accept");
             };
             Decline.Click += delegate
             {
 
             };
-            this.KeyDown += (s, e) =>
+            this.KeyDown +=delegate
             {
                 if (Keyboard.IsKeyDown(Key.F5))
                     dbGeter();
             };
+            dbGeter();
+
+            DogRequestDialog.IsOpen = true;
+        }
+        async void requestAnswer(string _ans)
+        {
+            using (_DBConnection)
+            {
+                await _DBConnection.OpenAsync();
+                msc = new MySqlCommand(String.Format("update dogs set Request='{0}' where Master_id='{1}'",
+                    _ans=="accept"? "accept":"decline", UserModel.Masters.IndexOf(_DogRequestList[element_id].MasterName)+1),_DBConnection);
+                await msc.ExecuteNonQueryAsync();
+            }
             dbGeter();
         }
         async void dbGeter()
@@ -78,7 +91,7 @@ namespace KursovaBD.Views.Dialogs
                 {
                     _DogRequestList.Add(new DogModel
                     {
-                        NameAge = (string)mdr[0]+","+(string)mdr[1],
+                        NameAge = (string)mdr[0]+","+mdr[1].ToString(),
                         ClubName = UserModel.Clubs[Convert.ToInt32(mdr[2]) - 1],
                         Breed = (string)mdr[3],
                         DocumentInfo = (string)mdr[4],
@@ -89,11 +102,24 @@ namespace KursovaBD.Views.Dialogs
                     }); 
                 }
             }
-            switcher(element_id=0);
+            if (_DogRequestList.Count == 0)
+            {
+                DogRequestDialog.IsOpen = true;
+                NoneRequestPanel.Visibility = Visibility.Visible;
+                DeclineReasonPanel.Visibility = Visibility.Collapsed;
+            }
+            else
+                switcher(element_id=0);
         }
         void switcher(int _element_id)
         {
-            this.DataContext = _DogRequestList[_element_id];
+            if(_DogRequestList.Count>0)
+                this.DataContext = _DogRequestList[_element_id];
+        }
+
+        private void DogRequestDialog_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        {
+            
         }
     }
 }
