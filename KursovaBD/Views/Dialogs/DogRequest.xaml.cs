@@ -53,28 +53,31 @@ namespace KursovaBD.Views.Dialogs
             };
             Accept.Click += delegate
             {
-                requestAnswer("accept");
+                requestAnswer("accept",null);
             };
             Decline.Click += delegate
             {
-
+                DeclineReasonPanel.Visibility = Visibility.Visible;
+                NoneRequestPanel.Visibility = Visibility.Collapsed;
             };
             this.KeyDown +=delegate
             {
                 if (Keyboard.IsKeyDown(Key.F5))
                     dbGeter();
             };
+            CloseThisBtn.Click += delegate
+            {
+                this.Close();
+            };
             dbGeter();
-
-            DogRequestDialog.IsOpen = true;
         }
-        async void requestAnswer(string _ans)
+        async void requestAnswer(string _ans,string _declineReason)
         {
             using (_DBConnection)
             {
                 await _DBConnection.OpenAsync();
-                msc = new MySqlCommand(String.Format("update dogs set Request='{0}' where Master_id='{1}'",
-                    _ans=="accept"? "accept":"decline", UserModel.Masters.IndexOf(_DogRequestList[element_id].MasterName)+1),_DBConnection);
+                msc = new MySqlCommand(String.Format("update dogs set Request='{0}',Decline_reason='{1}' where Master_id='{2}'",
+                    _ans, _declineReason, UserModel.Masters.IndexOf(_DogRequestList[element_id].MasterName)+1),_DBConnection);
                 await msc.ExecuteNonQueryAsync();
             }
             dbGeter();
@@ -116,10 +119,16 @@ namespace KursovaBD.Views.Dialogs
             if(_DogRequestList.Count>0)
                 this.DataContext = _DogRequestList[_element_id];
         }
-
-        private void DogRequestDialog_DialogClosing(object sender, MaterialDesignThemes.Wpf.DialogClosingEventArgs eventArgs)
+        
+        private void SendBtn_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (!String.IsNullOrEmpty(DeclineTb.Text))
+            {
+                requestAnswer("decline", DeclineTb.Text);
+                DeclineTb.Text = "";
+            }
+            else
+                DogRequestDialog.IsOpen = true;
         }
     }
 }

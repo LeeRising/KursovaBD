@@ -11,16 +11,6 @@
     WindowStartupLocation="CenterScreen"
     Background="{DynamicResource MaterialDesignPaper}" 
     Icon="/KursovaBD;component/Assets/favicon.ico">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.INDIGO.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.LIME.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -57,7 +47,6 @@
             </ToggleButton>
         </StackPanel>
         <materialDesign:DialogHost x:Name="DogRequestDialog"
-                DialogClosing="DogRequestDialog_DialogClosing"
                        Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Center">
             <materialDesign:DialogHost.DialogContent>
@@ -80,6 +69,7 @@
                                     Margin="0 8 8 0"
                                     x:Name="SendBtn"
                                     Content="SEND"
+                                    Click="SendBtn_Click"
                                     Command="materialDesign:DialogHost.CloseDialogCommand"/>
                             <Button Style="{StaticResource MaterialDesignFlatButton}"
                                     Margin="0 8 8 0"
@@ -192,10 +182,11 @@
                     Style="{StaticResource MaterialDesignRaisedAccentButton}"
                     Margin="0,0,25,0"/>
                     <Button x:Name="Decline"
-                    Content="Decline" 
-                    Width="80"
-                    Style="{StaticResource MaterialDesignRaisedLightButton}"
-                    Margin="0,0,25,0"/>
+                            Content="Decline" 
+                            Width="80"
+                            Command="materialDesign:DialogHost.OpenDialogCommand"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            Margin="0,0,25,0"/>
                     <Button x:Name="Next">
                         <materialDesign:PackIcon Kind="SkipNextCircle" />
                     </Button>
