@@ -77,6 +77,7 @@ namespace KursovaBD.Views.Dialogs
             {
                 this.Close();
             };
+
             dbGeter();
         }
         async void requestAnswer(string _ans, string _declineReason)
