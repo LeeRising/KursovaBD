@@ -25,8 +25,7 @@ namespace KursovaBD.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            ExpertRequest dr = new ExpertRequest();
-            dr.ShowDialog();
+            
         }
     }
 }
