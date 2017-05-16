@@ -7,10 +7,10 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d" Height="520" Width="520"
         WindowStyle="None"
-    ResizeMode="CanMinimize"
-    WindowStartupLocation="CenterScreen"
-    Background="{DynamicResource MaterialDesignPaper}" 
-    Icon="/KursovaBD;component/Assets/favicon.ico">
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Icon="/KursovaBD;component/Assets/favicon.ico">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -168,9 +168,6 @@
                  VerticalScrollBarVisibility="Auto"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
                  Margin="30,270,0,0"/>
-                    <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
-                                 x:Name="MessagesSnackbar"
-                                 Margin="0,50,0,0"/>
                 </Grid>
                 <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0,15,0,0">
                     <Button x:Name="Previous" Margin="0,0,25,0">

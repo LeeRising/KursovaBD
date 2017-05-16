@@ -4,9 +4,160 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursovaBD.Views.Dialogs"
-        mc:Ignorable="d"
-        Title="ExpertRequest" Height="300" Width="300">
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" Height="340" Width="520"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Icon="/KursovaBD;component/Assets/favicon.ico">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="290"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="TitleBarPanel" 
+                    Grid.Row="0"
+                    Background="White"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
+                       Margin="0,0,10,0"/>
+            <TextBlock Text="Dogs Requests"
+                       Height="30"
+                       FontWeight="ExtraBold"
+                       FontSize="15"
+                       Margin="0,5,310,0"/>
+            <ToggleButton Height="30" Width="30"
+                          VerticalContentAlignment="Bottom"
+                    Style="{StaticResource MaterialDesignFlatToggleButton}"
+                    x:Name="MinimizeBtn">
+                <materialDesign:PackIcon Kind="WindowMinimize"
+                             Width="30"
+                             Height="20"
+                             HorizontalAlignment="Right"/>
+            </ToggleButton>
+            <ToggleButton Height="30" Width="30"
+                    Style="{StaticResource MaterialDesignFlatToggleButton}"
+                    x:Name="CloseBtn">
+                <materialDesign:PackIcon Kind="CloseBoxOutline"
+                             Height="30"
+                             Width="30"
+                             HorizontalAlignment="Right"/>
+            </ToggleButton>
+        </StackPanel>
+        <materialDesign:DialogHost x:Name="ExpertRequestDialog"
+                       Grid.Column="0" Grid.Row="1" 
+                       HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <materialDesign:DialogHost.DialogContent>
+                <Grid>
+                    <StackPanel x:Name="DeclineReasonPanel" Margin="16"
+                                    Visibility="Visible">
+                        <TextBlock>Write decline reason</TextBlock>
+                        <TextBox Margin="0 8 0 0" 
+                                 HorizontalAlignment="Stretch"
+                                 Height="70"
+                                 Width="250"
+                                 TextWrapping="Wrap"
+                                 AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 materialDesign:HintAssist.Hint="Decline reason"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                             x:Name="DeclineTb" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    x:Name="SendBtn"
+                                    Content="SEND"
+                                    Click="SendBtn_Click"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                            <Button Style="{StaticResource MaterialDesignFlatButton}"
+                                    Margin="0 8 8 0"
+                                    Content="CANCEL"
+                                    Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel x:Name="NoneRequestPanel"
+                                    Margin="16"
+                                    Visibility="Collapsed"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Orientation="Vertical">
+                        <TextBlock>None request now!</TextBlock>
+                        <Button x:Name="CloseThisBtn" 
+                                        Content="CLOSE"
+                                        Style="{StaticResource MaterialDesignFlatButton}"
+                                        Margin="0 8 8 0"
+                                        Command="materialDesign:DialogHost.CloseDialogCommand"/>
+                    </StackPanel>
+                </Grid>
+            </materialDesign:DialogHost.DialogContent>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="225"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0"
+                            Margin="10">
+                    <TextBox x:Name="Login"
+                 materialDesign:HintAssist.Hint="Login"
+                 IsReadOnly="True"
+                 FontSize="15"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 Text="{Binding Login}"
+                             Width="180"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="20,0,0,0"/>
+                    <TextBox x:Name="Surname"
+                 materialDesign:HintAssist.Hint="Surname"
+                 IsReadOnly="True"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 FontSize="15"
+                             Width="180"
+                 Text="{Binding Surname}"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="20,0,0,0"/>
+                    <TextBox x:Name="Name"
+                 materialDesign:HintAssist.Hint="Name"
+                 IsReadOnly="True"
+                 Height="50"
+                             Width="180"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 FontSize="15"
+                 Text="{Binding Name}"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="20,0,0,0"/>
+                    <TextBox x:Name="ClubName"
+                 Height="50"
+                             Width="250"
+                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 materialDesign:HintAssist.Hint="ClubName"
+                 IsReadOnly="True"
+                 FontSize="15"
+                 Text="{Binding ClubName}"
+                 HorizontalAlignment="Left" VerticalAlignment="Top"
+                 Margin="20,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="0,15,0,15">
+                    <Button x:Name="Previous" Margin="0,0,25,0">
+                        <materialDesign:PackIcon Kind="SkipPreviousCircle" />
+                    </Button>
+                    <Button x:Name="Accept"
+                    Content="Accept" 
+                    Width="80"
+                    Style="{StaticResource MaterialDesignRaisedAccentButton}"
+                    Margin="0,0,25,0"/>
+                    <Button x:Name="Decline"
+                            Content="Decline" 
+                            Width="80"
+                            Command="materialDesign:DialogHost.OpenDialogCommand"
+                            Style="{StaticResource MaterialDesignRaisedLightButton}"
+                            Margin="0,0,25,0"/>
+                    <Button x:Name="Next">
+                        <materialDesign:PackIcon Kind="SkipNextCircle" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </materialDesign:DialogHost>
     </Grid>
 </Window>

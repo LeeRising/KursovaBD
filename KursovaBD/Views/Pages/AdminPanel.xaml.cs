@@ -25,7 +25,7 @@ namespace KursovaBD.Views.Pages
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DogRequest dr = new DogRequest();
+            ExpertRequest dr = new ExpertRequest();
             dr.ShowDialog();
         }
     }
