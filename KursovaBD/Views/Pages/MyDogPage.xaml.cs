@@ -12,9 +12,6 @@ using KursovaBD.Models;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Input;
-using System.Net;
-using System.IO;
-using System.Reflection;
 
 namespace KursovaBD.Views.Pages
 {
@@ -66,7 +63,7 @@ namespace KursovaBD.Views.Pages
                 DogAvatar.Source = mdr["Photo"] as string == "No_image.png" ? _no_image : new BitmapImage(new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string));
                 int _id = Convert.ToInt32(mdr[0]);
                 ClubName.Text = UserModel.Clubs[_id--];
-                DogNameAge.Text= (string)mdr[1]+","+ (string)mdr[3];
+                DogNameAge.Text= (string)mdr[1]+","+ Convert.ToString(mdr[3]);
                 Breed.Text = (string)mdr[2];
                 Document.Text= (string)mdr[4];
                 if(mdr[8] as string != null)

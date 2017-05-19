@@ -137,7 +137,7 @@ namespace KursovaBD
             using (DbConnection)
             {
                 await DbConnection.OpenAsync();
-                msc = new MySqlCommand(String.Format("select Request from experts where Login_id='{0}'", UserModel.Id), DbConnection);
+                msc = new MySqlCommand(String.Format("select Request from experts where Login='{0}'", UserModel.Login), DbConnection);
                 var query = await msc.ExecuteScalarAsync();
                 if (query == null)
                 {
@@ -272,6 +272,7 @@ namespace KursovaBD
                     }
                     else
                     {
+                        UserModel.Login = _username;
                         expertChecker();
                         dogChecker();
                     }
@@ -295,7 +296,7 @@ namespace KursovaBD
             _views.Add(DogsShowBtn, 0);
             _views.Add(HallofFameBtn, 1);
             _views.Add(MyDogBtn, 2);
-            _views.Add(ExpertPanelBtn, 3);
+            //_views.Add(ExpertPanelBtn, 3);
             _views.Add(ShowRequestsBtn, 4);
         }
         void contentToggler(int uie)

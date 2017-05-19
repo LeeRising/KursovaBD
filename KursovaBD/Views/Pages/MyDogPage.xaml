@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="520">
+             d:DesignHeight="620" d:DesignWidth="620">
     <Grid>
         <Image x:Name="DogAvatar"
                Stretch="Fill"
@@ -26,7 +26,7 @@
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  Text="Club"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,10,0,0"
+                 Margin="270,10,0,0"
                  />
         <TextBox x:Name="Breed"
                  materialDesign:HintAssist.Hint="Breed"
@@ -35,7 +35,7 @@
                  FontSize="15"
                  Text="Breed"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,55,0,0"
+                 Margin="270,55,0,0"
                  />
         <TextBox x:Name="Document"
                  materialDesign:HintAssist.Hint="Document info"
@@ -45,7 +45,7 @@
                  FontSize="15"
                  Text="Document"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,90,0,0"
+                 Margin="270,90,0,0"
                  />
         <TextBox x:Name="LastVaccenationDate"
                  Height="50"
@@ -55,7 +55,7 @@
                  FontSize="15"
                  Text="Last Vaccenation date"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,140,0,0"
+                 Margin="270,140,0,0"
                  />
         <TextBox x:Name="ParentsName"
                  Height="50"
@@ -65,13 +65,13 @@
                  FontSize="15"
                  Text="Parents name"
                  HorizontalAlignment="Left" VerticalAlignment="Top"
-                 Margin="250,190,0,0"
+                 Margin="270,190,0,0"
                  />
         <TextBox x:Name="About"
                  materialDesign:HintAssist.Hint="Write about our dog"
                  FontSize="15"
                  Height="150"
-                 Width="460"
+                 Width="560"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  SpellCheck.IsEnabled="True"
                  TextWrapping="Wrap"

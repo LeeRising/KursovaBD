@@ -4,11 +4,144 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="520">
+             d:DesignHeight="620" d:DesignWidth="620">
     <Grid>
-        <Button Content="Test"
-                Click="Button_Click"
-                />
+        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Stretch"
+                    Height="300"
+                    Width="580"
+                    Margin="20,10,0,290"
+                    Background="AliceBlue">
+            <Expander ExpandDirection="Right">
+                <Expander.Header>
+                    <TextBlock Text="Dogs" RenderTransformOrigin=".5,.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90" />
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="8,24,16,24">
+                    <ScrollViewer>
+                        <DataGrid Margin="0 8 0 0" ItemsSource="{Binding Items3}" CanUserSortColumns="True" CanUserAddRows="False" AutoGenerateColumns="False"
+                      materialDesign:DataGridAssist.CellPadding="13 8 8 8" materialDesign:DataGridAssist.ColumnHeaderPadding="8">
+                            <DataGrid.Columns>
+                                <DataGridCheckBoxColumn Binding="{Binding IsSelected}" 
+                                            ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"
+                                            EditingElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnEditingStyle}"
+                                            >
+                                    <DataGridCheckBoxColumn.Header>
+                                        <Border Background="Transparent" Padding="6 0 6 0" HorizontalAlignment="Center">
+                                            <CheckBox HorizontalAlignment="Center"                                               
+                                          DataContext="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=DataContext}"
+                                          IsChecked="{Binding IsAllItems3Selected}" />
+                                        </Border>
+                                    </DataGridCheckBoxColumn.Header>
+                                </DataGridCheckBoxColumn>
+                                <DataGridTextColumn Binding="{Binding Code}"
+                                        Header="Code"
+                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}" />
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Name}"
+                                                               Header="Name"                                                        
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}" 
+                                                               />
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Description}"
+                                                               Header="Description"                                                        
+                                                               MaxLength="255" 
+                                                               EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}"  />
+                                <materialDesign:MaterialDataGridTextColumn Binding="{Binding Numeric}"
+                                                        Header="Numeric"                                                         
+                                                        EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnPopupEditingStyle}">
+                                    <DataGridTextColumn.HeaderStyle>
+                                        <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource MaterialDesignDataGridColumnHeader}">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </DataGridTextColumn.HeaderStyle>
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="{x:Type TextBlock}">
+                                            <Setter Property="HorizontalAlignment" Value="Right" />
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </materialDesign:MaterialDataGridTextColumn>
+                                <materialDesign:MaterialDataGridComboBoxColumn Header="Food"        
+                                                                   SelectedValueBinding="{Binding Food}"                                                            
+                                                                   ItemsSourceBinding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGrid}}, Path=DataContext.Foods}" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </ScrollViewer>
+                </StackPanel>
+            </Expander>
+            <Border Background="{DynamicResource MaterialDesignDivider}" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True" />
+            <Expander ExpandDirection="Right">
+                <Expander.Header>
+                    <TextBlock Text="Experts" RenderTransformOrigin=".5,.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90" />
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="8,24,16,24">
+                    <TextBlock Text="Your Content" />
+                    <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               MaxWidth="180"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Expander>
+            <Border Background="{DynamicResource MaterialDesignDivider}" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True" />
+            <Expander ExpandDirection="Right">
+                <Expander.Header>
+                    <TextBlock Text="Dogs battle" RenderTransformOrigin=".5,.5">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90" />
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="8,24,16,24">
+                    <TextBlock Text="Your Content" />
+                    <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               MaxWidth="180"
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+            </Expander>
+            <Border Background="{DynamicResource MaterialDesignDivider}" Width="1" VerticalAlignment="Stretch" SnapsToDevicePixels="True" />
+        </StackPanel>
+        <GroupBox Width="275" Height="250" Header="Dogs Requests" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="0,340,300,30">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <materialDesign:Badged x:Name="CountingDogRequestBadge"
+                                           Badge="10"
+                                           Margin="0,2"
+                                   BadgeColorZoneMode="Accent">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="NotificationClearAll" Height="32" Width="32" VerticalAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
+                        </StackPanel>
+                    </materialDesign:Badged>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <Grid x:Name="DogRequestsGroup"></Grid>
+        </GroupBox>
+        <GroupBox Width="275" Height="250" Header="Experts Requests" Style="{DynamicResource MaterialDesignCardGroupBox}" Margin="300,340,0,30">
+            <GroupBox.HeaderTemplate>
+                <DataTemplate>
+                    <materialDesign:Badged x:Name="CountingExpertRequestBadge"
+                                           Badge="10"
+                                           Margin="0,2"
+                                   BadgeColorZoneMode="Accent">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Account" Height="32" Width="32" VerticalAlignment="Center" />
+                            <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Style="{StaticResource MaterialDesignSubheadingTextBlock}" Text="{Binding}"/>
+                        </StackPanel>
+                    </materialDesign:Badged>
+                </DataTemplate>
+            </GroupBox.HeaderTemplate>
+            <Grid x:Name="ExpertsRequestsGroup"></Grid>
+        </GroupBox>
     </Grid>
 </UserControl>

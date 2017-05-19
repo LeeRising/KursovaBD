@@ -6,9 +6,9 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
              mc:Ignorable="d"
-             d:DesignHeight="520" d:DesignWidth="520">
+             d:DesignHeight="620" d:DesignWidth="620">
     <Grid>
-        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="15,0,0,0">
+        <StackPanel Height="330" Orientation="Vertical" HorizontalAlignment="Left" Margin="15,0,0,260">
             <TextBox FontSize="15"
                      materialDesign:HintAssist.Hint="Name"
                      Margin="5"
@@ -50,20 +50,6 @@
                      x:Name="ClubComboBox"
                      IsEditable="True"
                      Margin="5"/>
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="RegisterBtn"
-                    Content="Register"
-                        Click="RegisterBtn_Click"
-                    Margin="15,10,0,5"
-                    Width="125"
-                    HorizontalAlignment="Left"/>
-                <Button x:Name="CancelBtn"
-                    Content="Cancel"
-                    Margin="83,10,0,5"
-                    Width="125"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    />
-            </StackPanel>
             <materialDesign:Snackbar MessageQueue="{materialDesign:MessageQueue}"
                                  x:Name="MessagesSnackbar"
                                  Margin="0,50,0,0"/>
@@ -73,9 +59,23 @@
                ToolTip="Set dog photo"
                Source="/KursovaBD;component/Assets/No_image.png"
                HorizontalAlignment="Left" 
-               Height="146"
+               Height="250"
                Margin="375,42,0,0" 
                VerticalAlignment="Top" 
-               Width="135"/>
+               Width="230"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="55" Margin="145,345,145,220">
+            <Button x:Name="RegisterBtn"
+                    Content="Register"
+                        Click="RegisterBtn_Click"
+                    Margin="15,10,0,5"
+                    Width="125"
+                    HorizontalAlignment="Left"/>
+            <Button x:Name="CancelBtn"
+                    Content="Cancel"
+                    Margin="80,10,0,5"
+                    Width="125"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    />
+        </StackPanel>
     </Grid>
 </UserControl>

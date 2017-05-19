@@ -6,7 +6,7 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
              mc:Ignorable="d" 
-             d:DesignHeight="520" d:DesignWidth="520">
+             d:DesignHeight="620" d:DesignWidth="620">
     <StackPanel Orientation="Vertical" HorizontalAlignment="Left" Margin="20,0,0,0">
         <StackPanel Orientation="Horizontal"
                     Margin="5"

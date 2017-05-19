@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
              mc:Ignorable="d" 
              Background="Black"
-             d:DesignHeight="520" d:DesignWidth="520">
+             d:DesignHeight="620" d:DesignWidth="620">
     <WrapPanel>
         <Button Content="Button" Width="250"/>
 
