@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
+﻿using KursovaBD.Utilits;
 using System.Windows;
 
 namespace KursovaBD
@@ -12,5 +8,6 @@ namespace KursovaBD
     /// </summary>
     public partial class App : Application
     {
+        
     }
 }

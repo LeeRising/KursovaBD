@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Models\DogModel.cs" />
     <Compile Include="Models\ExpertModel.cs" />
+    <Compile Include="Models\HallOfFameModel.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Utilits\CheckInternetConnection.cs" />
     <Compile Include="Utilits\AppConfiguration\Configuration.cs" />
