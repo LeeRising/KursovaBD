@@ -12,6 +12,7 @@ namespace KursovaBD.Models
         public string MasterName { get; set; }
         public string About { get; set; }
         public Uri PhotoUrl { get; set; }
+        public int MedalsCount { get; set; }
 
         public DogModel()
         {

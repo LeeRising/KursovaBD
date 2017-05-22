@@ -9,6 +9,9 @@ namespace KursovaBD.Models
         private string company;
         private int price;
 
+        //Phone phone = (Phone)this.Resources["nexusPhone"];
+        //phone.Company = "LG"; // Меняем с Google на LG
+
         public string Title
         {
             get { return title; }

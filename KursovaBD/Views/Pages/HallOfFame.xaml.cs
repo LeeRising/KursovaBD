@@ -15,14 +15,12 @@ using System.Windows.Shapes;
 
 namespace KursovaBD.Views.Pages
 {
-    /// <summary>
-    /// Interaction logic for HallOfFame.xaml
-    /// </summary>
     public partial class HallOfFame : UserControl
     {
         public HallOfFame()
         {
             InitializeComponent();
+            //SELECT Name,Age FROM dogs ORDER BY Medals_count DESC LIMIT 3
         }
     }
 }
