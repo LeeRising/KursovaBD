@@ -25,11 +25,13 @@ namespace KursovaBD.Views.Pages
             FileName = "Chose dog picture"
         };
         string avatar = "No_image.png", avatar1;
-        System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1};
+        System.Windows.Forms.Timer t = new System.Windows.Forms.Timer { Interval = 1 };
         bool _enter = false;
+        public static RegisterDog Instance { get; set; }
         public RegisterDog()
         {
             InitializeComponent();
+            Instance = this;
             DataContext = this;
             messageQueue = MessagesSnackbar.MessageQueue;
 
@@ -56,21 +58,26 @@ namespace KursovaBD.Views.Pages
                 MainWindow.Instance.MyDogBtn.Style = FindResource("MaterialDesignRaisedButton") as Style;
                 _enter = false;
             };
-            t.Start();
-            t.Tick += delegate
-              {
-                  if (_enter)
-                  {
-                      t.Interval = 7000;
-                      ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
-                  }
-                  else
-                      t.Interval = 1;
-              };
+            
             this.MouseEnter += delegate
             {
                 if (!_enter)
-                    _enter = true ;
+                    _enter = true;
+            };
+        }
+
+        public void TimerChecker()
+        {
+            t.Start();
+            t.Tick += delegate
+            {
+                if (_enter)
+                {
+                    t.Interval = 7000;
+                    ClubComboBox.SetBinding(ComboBox.ItemsSourceProperty, new Binding() { Source = UserModel.Clubs });
+                }
+                else
+                    t.Interval = 1;
             };
         }
 

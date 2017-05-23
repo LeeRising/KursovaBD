@@ -63,8 +63,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "admin";
-            password = Cryptography.getHashSha256("admin");
+            username = "5";
+            password = Cryptography.getHashSha256("1");
 #endif
 
             UserLoginBtn.Click += delegate
@@ -193,6 +193,7 @@ namespace KursovaBD
                         MyDogBtn.IsEnabled = true;
                         _views.Remove(MyDogBtn);
                         _views.Add(MyDogBtn, 2);
+                        RegisterDog.Instance.TimerChecker();
                         break;
                     case "accept":
                         MyDogBtn.Visibility = Visibility.Visible;

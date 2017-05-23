@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using MySql.Data.MySqlClient;
 using KursovaBD.Utilits;
 using KursovaBD.Models;
-using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.Data;
 
 namespace KursovaBD.Views.Pages
 {
@@ -39,7 +35,9 @@ namespace KursovaBD.Views.Pages
                         (string)mdr["Photo"] == "No_image.png" ? _no_image : new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string),
                         (int)mdr["Medals_count"]));
                 }
-                //TopClubsDataGrid. = ;
+                DataTable dt = new DataTable();
+                dt.Load(mdr);
+                TopClubsDataGrid.ItemsSource = dt.DefaultView;
             }
             FirstPlaceName.Text = _DogModel[0].NameAge + "," + Convert.ToString(_DogModel[0].MedalsCount);
             FirstPlaceImage.Source = new BitmapImage(_DogModel[0].PhotoUrl);
