@@ -18,5 +18,11 @@ namespace KursovaBD.Models
         {
 
         }
+        public DogModel(string name,Uri photoUrl,int medalsCount)
+        {
+            this.NameAge = name;
+            this.PhotoUrl = photoUrl;
+            this.MedalsCount = medalsCount;
+        }
     }
 }

@@ -9,7 +9,28 @@
              d:DesignHeight="620" d:DesignWidth="620">
     <Grid>
         <Image Height="100" Width="350" gif:ImageBehavior.AnimatedSource="/KursovaBD;component/Assets/Top/topdog.gif" Margin="135,10,135,510"/>
+
+        <Image x:Name="FirstPlaceImage" 
+               Source="/KursovaBD;component/Assets/No_image.png" 
+               Height="150" Width="150" Stretch="Fill" Margin="30,100,440,325"/>
+        <Image Source="/KursovaBD;component/Assets/Top/firstPlace.png" 
+               Height="90" Width="90" Margin="125,237,405,293"/>
+        <Image x:Name="SecondPlaceImage" 
+               Source="/KursovaBD;component/Assets/No_image.png" 
+               Height="150" Width="150" Stretch="Fill" Margin="200,100,200,325"/>
+        <Image Source="/KursovaBD;component/Assets/Top/secondPlace.png" 
+               Height="90" Width="90" Margin="330,237,205,293"/>
+        <Image x:Name="ThirdPlaceImage" 
+               Source="/KursovaBD;component/Assets/No_image.png" 
+               Height="150" Width="150" Stretch="Fill" Margin="415,100,5,325"/>
+        <Image Source="/KursovaBD;component/Assets/Top/thirdPlace.png" 
+               Height="90" Width="90" Margin="535,237,5,293"/>
+
         <Image Height="100" Width="350" gif:ImageBehavior.AnimatedSource="/KursovaBD;component/Assets/Top/topclub.gif" Margin="135,350,135,170"/>
         <DataGrid x:Name="TopClubsDataGrid" HorizontalAlignment="Left" Height="154" Margin="10,456,0,0" VerticalAlignment="Top" Width="600"/>
+        <TextBlock x:Name="FirstPlaceName" HorizontalAlignment="Left" TextAlignment="Center" Margin="50,275,0,0" TextWrapping="Wrap" Text="1 place" VerticalAlignment="Top" Width="100" Height="40"/>
+        <TextBlock x:Name="SecondPlaceName" HorizontalAlignment="Left" TextAlignment="Center" Margin="255,275,0,0" TextWrapping="Wrap" Text="2 place" VerticalAlignment="Top" Width="100" Height="40"/>
+        <TextBlock x:Name="ThirdPlaceName" HorizontalAlignment="Left" TextAlignment="Center" Margin="460,275,0,0" TextWrapping="Wrap" Text="3 place" VerticalAlignment="Top" Width="100" Height="40"/>
+
     </Grid>
 </UserControl>

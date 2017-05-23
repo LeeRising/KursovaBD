@@ -351,6 +351,8 @@ namespace KursovaBD
             resetButtons(button);
             if (button == MyDogBtn)
                 MyDogPage.Instance.GetDogInfo();
+            if (button == HallofFameBtn)
+                HallOfFame.Instance.GetInfo();
         }
 
         private async void SendRequestBtn_Click(object sender, RoutedEventArgs e)
