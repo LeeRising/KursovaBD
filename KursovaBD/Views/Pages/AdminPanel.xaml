@@ -7,5 +7,45 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="620" d:DesignWidth="620">
-    <Grid/>
+    <Grid>
+        <TabControl Background="Transparent" HorizontalAlignment="Left" Height="390" Margin="10,10,0,0" VerticalAlignment="Top" Width="600">
+            <TabItem Header="Dogs battle">
+                <Grid>
+                    <DataGrid x:Name="DogsBattleDataGrid"
+                              Background="Transparent"
+                              ItemsSource="{Binding Path=DogsBattleBinder}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Experts">
+                <Grid>
+                    <DataGrid x:Name="ExpertsDataGrid"
+                              Background="Transparent"
+                              ItemsSource="{Binding Path=ExpertsBinder}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Clubs">
+                <Grid>
+                    <DataGrid x:Name="ClubsDataGrid"
+                              Background="Transparent"
+                              ItemsSource="{Binding Path=ClubsBinder}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Dogs">
+                <Grid>
+                    <DataGrid x:Name="DogsDataGrid"
+                              Background="Transparent"
+                              ItemsSource="{Binding Path=DogsBinder}"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Masters">
+                <Grid>
+                    <DataGrid x:Name="MastersDataGrid"
+                              Background="Transparent"
+                              ItemsSource="{Binding Path=MastersBinder}"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Button x:Name="DogsRequestBtn" Content="Dogs Request" HorizontalAlignment="Left" Margin="40,405,0,0" VerticalAlignment="Top" Width="180"/>
+        <Button x:Name="ExpertsRequestBtn" Content="Experts Request" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="180" Margin="0,405,40,0"/>
+    </Grid>
 </UserControl>

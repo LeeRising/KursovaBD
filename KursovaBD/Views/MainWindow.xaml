@@ -198,7 +198,7 @@
                                    Visibility="Collapsed"
                                    HorizontalAlignment="Center"                                   
                                    BadgeColorZoneMode="PrimaryDark">
-                <local:MenuButton x:Name="ShowRequestsBtn"
+                <local:MenuButton x:Name="AdminPabelBtn"
                         Style="{StaticResource MaterialDesignRaisedButton}"
                         HorizontalAlignment="Stretch"
                         Click="menuButton_Clicked"

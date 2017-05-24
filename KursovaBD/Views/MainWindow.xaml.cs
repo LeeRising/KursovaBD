@@ -35,6 +35,9 @@ namespace KursovaBD
 
         System.Windows.Forms.Timer timer = new System.Windows.Forms.Timer();
 
+        public static bool IsShowDogsRequest { get; set; }
+        public static bool IsShowExpertsRequest { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -63,8 +66,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "5";
-            password = Cryptography.getHashSha256("1");
+            username = "admin";
+            password = Cryptography.getHashSha256("admin");
 #endif
 
             UserLoginBtn.Click += delegate
@@ -126,10 +129,11 @@ namespace KursovaBD
                 await DbConnection.OpenAsync();
                 msc = new MySqlCommand("select count(id) from dogs where Request='waiting'", DbConnection);
                 var _requestCounter = int.Parse((await msc.ExecuteScalarAsync()).ToString());
+                IsShowDogsRequest = int.Parse((await msc.ExecuteScalarAsync()).ToString()) == 0 ? false : true;
                 msc = new MySqlCommand("select count(id) from experts where Request='waiting'", DbConnection);
+                IsShowExpertsRequest = int.Parse((await msc.ExecuteScalarAsync()).ToString()) == 0 ? false : true;
                 _requestCounter += int.Parse((await msc.ExecuteScalarAsync()).ToString());
-                if (_requestCounter > 0)
-                    CountingRequestBadge.Badge = _requestCounter;
+                CountingRequestBadge.Badge = _requestCounter > 0 ? _requestCounter : (object)null;
             }
         }
         async void expertChecker()
@@ -298,7 +302,7 @@ namespace KursovaBD
             _views.Add(HallofFameBtn, 1);
             _views.Add(MyDogBtn, 2);
             //_views.Add(ExpertPanelBtn, 3);
-            _views.Add(ShowRequestsBtn, 4);
+            _views.Add(AdminPabelBtn, 4);
         }
         void contentToggler(int uie)
         {
@@ -309,7 +313,7 @@ namespace KursovaBD
             foreach (var btn in MainMenu.Children.OfType<MenuButton>())
                 if (btn != button)
                     btn.Style = DefaultBtnStyle;
-            ShowRequestsBtn.Style = DefaultBtnStyle;
+            AdminPabelBtn.Style = DefaultBtnStyle;
         }
 
         private void LoginDialog_DialogClosing(object sender, DialogClosingEventArgs eventArgs)
@@ -354,6 +358,8 @@ namespace KursovaBD
                 MyDogPage.Instance.GetDogInfo();
             if (button == HallofFameBtn)
                 HallOfFame.Instance.GetInfo();
+            if (button == AdminPabelBtn)
+                AdminPanel.Instance.GetInfo();
         }
 
         private async void SendRequestBtn_Click(object sender, RoutedEventArgs e)

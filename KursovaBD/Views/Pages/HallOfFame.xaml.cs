@@ -26,6 +26,16 @@ namespace KursovaBD.Views.Pages
             using (DbConnection)
             {
                 await DbConnection.OpenAsync();
+
+                msc = new MySqlCommand("SELECT id,Club_name,Medals_count FROM clubs ORDER BY Medals_count DESC LIMIT 5", DbConnection);
+                MySqlDataAdapter adp = new MySqlDataAdapter(msc);
+                DataSet ds = new DataSet();
+                adp.Fill(ds, "LoadDataBinding");
+                ds.Tables[0].Columns["id"].ColumnName = "№";
+                ds.Tables[0].Columns["Club_name"].ColumnName = "Club name";
+                ds.Tables[0].Columns["Medals_count"].ColumnName = "Medals count";
+                TopClubsDataGrid.DataContext = ds;
+
                 msc = new MySqlCommand("SELECT Name,Photo,Medals_count FROM dogs ORDER BY Medals_count DESC LIMIT 3", DbConnection);
                 MySqlDataReader mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
                 _DogModel.Clear();
@@ -35,9 +45,6 @@ namespace KursovaBD.Views.Pages
                         (string)mdr["Photo"] == "No_image.png" ? _no_image : new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string),
                         (int)mdr["Medals_count"]));
                 }
-                DataTable dt = new DataTable();
-                dt.Load(mdr);
-                TopClubsDataGrid.ItemsSource = dt.DefaultView;
             }
             FirstPlaceName.Text = _DogModel[0].NameAge + "," + Convert.ToString(_DogModel[0].MedalsCount);
             FirstPlaceImage.Source = new BitmapImage(_DogModel[0].PhotoUrl);
