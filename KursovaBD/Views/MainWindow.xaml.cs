@@ -66,8 +66,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "admin";
-            password = Cryptography.getHashSha256("admin");
+            username = "2";
+            password = Cryptography.getHashSha256("1");
 #endif
 
             UserLoginBtn.Click += delegate
@@ -164,7 +164,7 @@ namespace KursovaBD
                 }
                 if ((string)query == "accept")
                 {
-                    _views.Add(ExpertPanelBtn, 3);
+                    try{_views.Add(ExpertPanelBtn, 3);}catch (Exception){}
                     ExpertPanelBtn.Content = "Expert panel";
                     ExpertPanelBtn.Command = null;
                     ExpertPanelBtn.IsEnabled = true;
@@ -278,8 +278,8 @@ namespace KursovaBD
                     else
                     {
                         UserModel.Login = _username;
-                        expertChecker();
                         dogChecker();
+                        expertChecker();
                     }
                     clubsAndmastersChecker();
                 };
@@ -360,6 +360,8 @@ namespace KursovaBD
                 HallOfFame.Instance.GetInfo();
             if (button == AdminPabelBtn)
                 AdminPanel.Instance.GetInfo();
+            if (button == ExpertPanelBtn)
+                ExpertPanel.Instance.GetInfo();
         }
 
         private async void SendRequestBtn_Click(object sender, RoutedEventArgs e)

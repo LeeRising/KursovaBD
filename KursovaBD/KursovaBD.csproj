@@ -132,6 +132,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\DogCard.xaml.cs">
+      <DependentUpon>DogCard.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MenuButton.cs" />
     <Compile Include="Controls\RingCards.xaml.cs">
       <DependentUpon>RingCards.xaml</DependentUpon>
@@ -175,6 +178,10 @@
     <Compile Include="Views\Pages\UserRegister.xaml.cs">
       <DependentUpon>UserRegister.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\DogCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RingCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

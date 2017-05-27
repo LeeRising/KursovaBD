@@ -41,9 +41,12 @@ namespace KursovaBD.Views.Pages
                 _DogModel.Clear();
                 while (await mdr.ReadAsync())
                 {
-                    _DogModel.Add(new DogModel((string)mdr["Name"],
-                        (string)mdr["Photo"] == "No_image.png" ? _no_image : new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string),
-                        (int)mdr["Medals_count"]));
+                    _DogModel.Add(new DogModel
+                    {
+                        NameAge = (string)mdr["Name"],
+                        PhotoUrl = (string)mdr["Photo"] == "No_image.png" ? _no_image : new Uri("http://kursova.sytes.net/" + mdr["Photo"] as string),
+                        MedalsCount = (int)mdr["Medals_count"]
+                    });
                 }
             }
             FirstPlaceName.Text = _DogModel[0].NameAge + "," + Convert.ToString(_DogModel[0].MedalsCount);
