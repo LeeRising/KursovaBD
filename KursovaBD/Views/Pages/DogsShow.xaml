@@ -4,11 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
-             mc:Ignorable="d" 
-             Background="Black"
+             mc:Ignorable="d"
              d:DesignHeight="620" d:DesignWidth="620">
     <WrapPanel>
-        <Button Content="Button" Width="250"/>
-
     </WrapPanel>
 </UserControl>

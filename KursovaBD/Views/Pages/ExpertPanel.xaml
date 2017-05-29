@@ -6,5 +6,8 @@
              xmlns:local="clr-namespace:KursovaBD.Views.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="620" d:DesignWidth="620">
-    <WrapPanel x:Name="DogsPanel"/>
+    <StackPanel Orientation="Vertical" Margin="10">
+        <Button Click="EndBattleBtn_Click" Width="150" Content="End Battle"/>
+        <WrapPanel x:Name="DogsPanel"/>
+    </StackPanel>
 </UserControl>

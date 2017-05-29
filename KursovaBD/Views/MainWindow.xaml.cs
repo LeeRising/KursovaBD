@@ -66,8 +66,8 @@ namespace KursovaBD
             #endregion
 
 #if DEBUG
-            username = "2";
-            password = Cryptography.getHashSha256("1");
+            username = "admin";
+            password = Cryptography.getHashSha256("admin");
 #endif
 
             UserLoginBtn.Click += delegate

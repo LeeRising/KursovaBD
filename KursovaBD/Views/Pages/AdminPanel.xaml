@@ -45,7 +45,8 @@
                 </Grid>
             </TabItem>
         </TabControl>
-        <Button x:Name="DogsRequestBtn" Content="Dogs Request" HorizontalAlignment="Left" Margin="40,405,0,0" VerticalAlignment="Top" Width="180"/>
-        <Button x:Name="ExpertsRequestBtn" Content="Experts Request" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="180" Margin="0,405,40,0"/>
+        <Button x:Name="DogsRequestBtn" Content="Dogs Request" HorizontalAlignment="Left" Margin="40,405,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="ExpertsRequestBtn" Content="Experts Request" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="150" Margin="230,405,40,0"/>
+        <Button x:Name="BattleCreateBtn" Content="Battle create" HorizontalAlignment="Right"  VerticalAlignment="Top" Width="150" Margin="0,405,40,0"/>
     </Grid>
 </UserControl>

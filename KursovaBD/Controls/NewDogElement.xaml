@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="KursovaBD.Controls.NewDogElement"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:KursovaBD.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" d:DesignWidth="250" Height="30">
+    <Grid VerticalAlignment="Center">
+        <ComboBox x:Name="DogName" materialDesign:HintAssist.Hint="Dog name" IsEditable="True" Width="180" Margin="5,0,0,0" HorizontalAlignment="Left"/>
+        <Button x:Name="AddNewBtn" Height="25" Width="50" HorizontalAlignment="Right" Margin="0,0,5,0">
+            <materialDesign:PackIcon Kind="PlusCircleOutline"/>
+        </Button>
+    </Grid>
+</UserControl>

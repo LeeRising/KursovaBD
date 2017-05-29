@@ -31,17 +31,25 @@ namespace KursovaBD.Views.Pages
                 er.ShowDialog();
                 MainWindow.Instance.Show();
             };
+            BattleCreateBtn.Click += delegate
+            {
+                DogsBattleCreator dbc = new DogsBattleCreator();
+                MainWindow.Instance.Hide();
+                dbc.GetInfo();
+                dbc.ShowDialog();
+                MainWindow.Instance.Show();
+            };
         }
         public async void GetInfo()
         {
             using (DbConnection)
             {
                 await DbConnection.OpenAsync();
-                ds = new DataSet();
-                msc = new MySqlCommand("select * from dogs_battle",DbConnection);
-                mda = new MySqlDataAdapter(msc);
-                mda.Fill(ds, "DogsBattleBinder");
-                DogsBattleDataGrid.DataContext = ds;
+                //ds = new DataSet();
+                //msc = new MySqlCommand("select * from dogs_battle",DbConnection);
+                //mda = new MySqlDataAdapter(msc);
+                //mda.Fill(ds, "DogsBattleBinder");
+                //DogsBattleDataGrid.DataContext = ds;
 
                 ds = new DataSet();
                 msc = new MySqlCommand("select * from dogs", DbConnection);

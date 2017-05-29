@@ -1,0 +1,55 @@
+﻿<Window x:Class="KursovaBD.Views.Dialogs.DogsBattleCreator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KursovaBD.Views.Dialogs"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d" Height="520" Width="520"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource MaterialDesignPaper}" 
+        Icon="/KursovaBD;component/Assets/favicon.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="490"/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="TitleBarPanel" 
+                    Grid.Row="0"
+                    Background="White"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
+                       Margin="0,0,10,0"/>
+            <TextBlock Text="Dogs Battle Creator"
+                       Height="30"
+                       FontWeight="ExtraBold"
+                       FontSize="15"
+                       Margin="0,5,270,0"/>
+            <ToggleButton Height="30" Width="30"
+                          VerticalContentAlignment="Bottom"
+                    Style="{StaticResource MaterialDesignFlatToggleButton}"
+                    x:Name="MinimizeBtn">
+                <materialDesign:PackIcon Kind="WindowMinimize"
+                             Width="30"
+                             Height="20"
+                             HorizontalAlignment="Right"/>
+            </ToggleButton>
+            <ToggleButton Height="30" Width="30"
+                    Style="{StaticResource MaterialDesignFlatToggleButton}"
+                    x:Name="CloseBtn">
+                <materialDesign:PackIcon Kind="CloseBoxOutline"
+                             Height="30"
+                             Width="30"
+                             HorizontalAlignment="Right"/>
+            </ToggleButton>
+        </StackPanel>
+        <StackPanel Grid.Row="1">
+            <ComboBox x:Name="Breed" IsEditable="True" materialDesign:HintAssist.Hint="Breed"/>
+            <StackPanel x:Name="MemderAddPanel" Height="420"/>
+            <Button x:Name="CreateBattleBtn" Content="Create dog battle" Margin="0,5" Width="200"/>
+        </StackPanel>
+    </Grid>
+</Window>

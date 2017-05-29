@@ -136,6 +136,10 @@
       <DependentUpon>DogCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MenuButton.cs" />
+    <Compile Include="Controls\CustomRatingBar.cs" />
+    <Compile Include="Controls\NewDogElement.xaml.cs">
+      <DependentUpon>NewDogElement.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\RingCards.xaml.cs">
       <DependentUpon>RingCards.xaml</DependentUpon>
     </Compile>
@@ -153,6 +157,9 @@
     </Compile>
     <Compile Include="Views\Dialogs\DogRequest.xaml.cs">
       <DependentUpon>DogRequest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Dialogs\DogsBattleCreator.xaml.cs">
+      <DependentUpon>DogsBattleCreator.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Dialogs\ExpertRequest.xaml.cs">
       <DependentUpon>ExpertRequest.xaml</DependentUpon>
@@ -182,6 +189,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\NewDogElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\RingCards.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -191,6 +202,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\DogRequest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\DogsBattleCreator.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
