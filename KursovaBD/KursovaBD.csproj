@@ -161,6 +161,9 @@
     <Compile Include="Views\Dialogs\DogsBattleCreator.xaml.cs">
       <DependentUpon>DogsBattleCreator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Dialogs\ExpertChooserDialog.xaml.cs">
+      <DependentUpon>ExpertChooserDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Dialogs\ExpertRequest.xaml.cs">
       <DependentUpon>ExpertRequest.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Dialogs\DogsBattleCreator.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Dialogs\ExpertChooserDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

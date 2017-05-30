@@ -48,8 +48,9 @@
         </StackPanel>
         <StackPanel Grid.Row="1">
             <ComboBox x:Name="Breed" IsEditable="True" materialDesign:HintAssist.Hint="Breed"/>
-            <StackPanel x:Name="MemderAddPanel" Height="420"/>
-            <Button x:Name="CreateBattleBtn" Content="Create dog battle" Margin="0,5" Width="200"/>
+            <StackPanel x:Name="MemderAddPanel" Height="380"/>
+            <Button x:Name="ExpertAddBttn" Content="Experts Add" Width="250"/>
+            <Button x:Name="CreateBattleBtn" Content="Create dog battle" Margin="0,5" Width="200" IsEnabled="False"/>
         </StackPanel>
     </Grid>
 </Window>

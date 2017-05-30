@@ -1,6 +1,7 @@
 ﻿using KursovaBD.Views.Dialogs;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows;
 
 namespace KursovaBD.Controls
 {
@@ -10,10 +11,18 @@ namespace KursovaBD.Controls
         {
             InitializeComponent();
             DogName.ItemsSource = DogsBattleCreator.Instance._dogs.Select(x=>x.NameAge);
+            AddNewBtn.IsEnabled = false;
             AddNewBtn.Click += delegate
             {
                 DogsBattleCreator.Instance._dogs.RemoveAt(DogName.SelectedIndex);
                 DogsBattleCreator.Instance.AddDog();
+                AddNewBtn.Visibility = Visibility.Hidden;
+                DogName.IsEnabled = false;
+            };
+            DogName.SelectionChanged += delegate
+            {
+                if (DogName.SelectedValue != null)
+                    AddNewBtn.IsEnabled = true;
             };
         }
     }
