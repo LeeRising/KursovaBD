@@ -43,7 +43,7 @@ namespace KursovaBD
             InitializeComponent();
 
             Instance = this;
-
+            
             messageQueue = MessagesSnackbar.MessageQueue;
 
             DefaultBtnStyle = FindResource("MaterialDesignRaisedButton") as Style;

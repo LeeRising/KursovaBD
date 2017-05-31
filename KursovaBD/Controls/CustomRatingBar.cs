@@ -9,6 +9,8 @@ namespace KursovaBD.Controls
 {
     public class CustomRatingBar : RatingBar
     {
-
+        public CustomRatingBar()
+        {
+        }
     }
 }

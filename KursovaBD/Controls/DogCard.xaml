@@ -11,6 +11,6 @@
         <Image x:Name="Photo" HorizontalAlignment="Left" Height="100" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
         <TextBlock x:Name="Name" HorizontalAlignment="Left" Margin="10,115,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
         <TextBlock x:Name="Club" HorizontalAlignment="Left" Margin="10,131,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-        <materialDesign:RatingBar x:Name="DogMark" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,145,0,0"/>
+        <materialDesign:RatingBar x:Name="DogMark" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,145,0,0" Value="{Binding Rating, Mode=TwoWay}"/>
     </Grid>
 </UserControl>

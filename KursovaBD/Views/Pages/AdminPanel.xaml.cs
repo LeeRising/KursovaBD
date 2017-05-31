@@ -3,6 +3,10 @@ using MySql.Data.MySqlClient;
 using KursovaBD.Utilits;
 using System.Data;
 using KursovaBD.Views.Dialogs;
+using System.Windows.Data;
+using System;
+using System.Globalization;
+using System.Windows;
 
 namespace KursovaBD.Views.Pages
 {
@@ -45,11 +49,11 @@ namespace KursovaBD.Views.Pages
             using (DbConnection)
             {
                 await DbConnection.OpenAsync();
-                //ds = new DataSet();
-                //msc = new MySqlCommand("select * from dogs_battle",DbConnection);
-                //mda = new MySqlDataAdapter(msc);
-                //mda.Fill(ds, "DogsBattleBinder");
-                //DogsBattleDataGrid.DataContext = ds;
+                ds = new DataSet();
+                msc = new MySqlCommand("select * from dogs_battle", DbConnection);
+                mda = new MySqlDataAdapter(msc);
+                mda.Fill(ds, "DogsBattleBinder");
+                DogsBattleDataGrid.DataContext = ds;
 
                 ds = new DataSet();
                 msc = new MySqlCommand("select * from dogs", DbConnection);
@@ -83,4 +87,5 @@ namespace KursovaBD.Views.Pages
             ExpertsRequestBtn.IsEnabled = MainWindow.IsShowExpertsRequest ? true : false;
         }
     }
+
 }
