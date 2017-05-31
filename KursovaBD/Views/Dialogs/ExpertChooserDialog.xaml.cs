@@ -35,7 +35,7 @@ namespace KursovaBD.Views.Dialogs
             };
             AddBtn.Click += delegate
             {
-                ShowAddExpertPanel.Children.Add(new TextBox
+                ShowAddExpertPanel.Children.Add(new TextBlock
                 {
                     Text = Experts.SelectedValue as string,
                     Margin = new Thickness(5,5,0,0),
@@ -43,7 +43,6 @@ namespace KursovaBD.Views.Dialogs
                     TextAlignment = TextAlignment.Center
                 });
                 DogsBattleCreator.Instance._expert_ids.Add(experts[Experts.SelectedIndex].Id);
-                experts.RemoveAt(Experts.SelectedIndex);
             };
         }
         public async void GetInfo()
