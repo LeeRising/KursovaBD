@@ -12,7 +12,7 @@
         Height="170" Width="270">
     <Grid>
         <ComboBox x:Name="Experts" materialDesign:HintAssist.Hint="Choose expert" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="190"/>
-        <Button x:Name="AddBtn" HorizontalAlignment="Left" Margin="215,50,0,0" VerticalAlignment="Top">
+        <Button x:Name="AddBtn" HorizontalAlignment="Left" Margin="212,50,0,0" VerticalAlignment="Top" Height="28">
             <materialDesign:PackIcon Kind="PlusCircleOutline"/>
         </Button>
         <StackPanel x:Name="ShowAddExpertPanel" ScrollViewer.VerticalScrollBarVisibility="Visible" Background="WhiteSmoke" Margin="0,90,0,0"/>

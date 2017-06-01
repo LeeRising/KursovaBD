@@ -34,6 +34,7 @@
         <Image x:Name="Top5ClubsAnim" Height="100" Width="350" gif:ImageBehavior.AnimatedSource="/KursovaBD;component/Assets/Top/topclub.gif" Margin="135,210,135,170"/>
         <DataGrid x:Name="TopClubsDataGrid"
                   Background="Transparent"
+                  IsReadOnly="True"
                   ItemsSource="{Binding Path=LoadDataBinding}"
                   Width="600"
                   CanUserResizeColumns="False"

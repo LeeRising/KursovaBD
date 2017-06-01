@@ -136,7 +136,6 @@
       <DependentUpon>DogCard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MenuButton.cs" />
-    <Compile Include="Controls\CustomRatingBar.cs" />
     <Compile Include="Controls\NewDogElement.xaml.cs">
       <DependentUpon>NewDogElement.xaml</DependentUpon>
     </Compile>

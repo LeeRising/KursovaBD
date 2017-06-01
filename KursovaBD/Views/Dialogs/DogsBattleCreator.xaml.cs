@@ -23,9 +23,10 @@ namespace KursovaBD.Views.Dialogs
         MySqlConnection DbConnection = DbConnector._MySqlConnection();
         MySqlCommand msc;
         MySqlDataReader mdr;
-        public List<DogModel> _dogs = new List<DogModel>();
+        public List<DogModel> DogsList = new List<DogModel>();
         List<string> _breed = new List<string>();
         public List<int> _expert_ids = new List<int>();
+        string members_id;
         public static DogsBattleCreator Instance { get; set; }
 
         public DogsBattleCreator()
@@ -50,14 +51,16 @@ namespace KursovaBD.Views.Dialogs
             Breed.SelectionChanged += async delegate
             {
                 MemderAddPanel.Children.Clear();
-                _dogs.Clear();
+                DogsList.Clear();
+                membersGeter();
                 using (DbConnection)
                 {
                     await DbConnection.OpenAsync();
                     msc = new MySqlCommand(String.Format("select id,Name from dogs where Breed='{0}'", Breed.SelectedValue), DbConnection);
                     mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
                     while (await mdr.ReadAsync())
-                        _dogs.Add(new DogModel { Id = Convert.ToInt32(mdr[0]), NameAge = mdr[1] as string });
+                        if (!members_id.Contains(Convert.ToInt32(mdr[0]).ToString()))
+                            DogsList.Add(new DogModel { Id = Convert.ToInt32(mdr[0]), NameAge = mdr[1] as string });
                     mdr.Close();
                 }
                 AddDog();
@@ -72,8 +75,8 @@ namespace KursovaBD.Views.Dialogs
                 using (DbConnection)
                 {
                     await DbConnection.OpenAsync();
-                    string s = "",s1="";
-                    foreach (var item in _dogs.Select(x => x.Id).ToArray())
+                    string s = "", s1 = "";
+                    foreach (var item in DogsList.Select(x => x.Id).ToArray())
                     {
                         s += item.ToString() + ",";
                     }
@@ -83,8 +86,8 @@ namespace KursovaBD.Views.Dialogs
                         s1 += item.ToString() + ",";
                     }
                     s1 = s1.Substring(0, s1.Length - 1);
-                    msc = new MySqlCommand(String.Format("insert into dogs_battle Breed,Members_id,Date_start,Experts_id values ('{0}','{1}','{2}','{3}')", 
-                        Breed.SelectedValue, s,DateTime.Now.ToString("yyyy-MM-dd HH:MM:SS"),s1), DbConnection);
+                    msc = new MySqlCommand(String.Format("insert into dogs_battle Breed,Members_id,Date_start,Experts_id values ('{0}','{1}','{2}','{3}')",
+                        Breed.SelectedValue, s, DateTime.Now.ToString("yyyy-MM-dd HH:MM:SS"), s1), DbConnection);
                     await msc.ExecuteNonQueryAsync();
                 }
             };
@@ -106,7 +109,32 @@ namespace KursovaBD.Views.Dialogs
 
         public void AddDog()
         {
-            MemderAddPanel.Children.Add(new NewDogElement());
+            if (DogsList.Count != 0)
+                MemderAddPanel.Children.Add(new NewDogElement());
+            else
+                MessageBox.Show("All dogs are ended");
+        }
+
+        public void ExpertsChecker()
+        {
+            if (_expert_ids.Count > 0)
+                CreateBattleBtn.IsEnabled = true;
+        }
+
+        async void membersGeter()
+        {
+            members_id = "";
+            using (DbConnection)
+            {
+                await DbConnection.OpenAsync();
+                msc = new MySqlCommand("select Members_id from dogs_battle", DbConnection);
+                mdr = await msc.ExecuteReaderAsync() as MySqlDataReader;
+                while (await mdr.ReadAsync())
+                {
+                    members_id += mdr[0] as string + ",";
+                }
+                mdr.Close();
+            }
         }
     }
 }

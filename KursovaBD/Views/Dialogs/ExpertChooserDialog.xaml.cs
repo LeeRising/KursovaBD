@@ -35,6 +35,7 @@ namespace KursovaBD.Views.Dialogs
                     TextAlignment = TextAlignment.Center
                 });
                 DogsBattleCreator.Instance._expert_ids.Add(experts[Experts.SelectedIndex].Id);
+                DogsBattleCreator.Instance.ExpertsChecker();
             };
         }
         public async void GetInfo()

@@ -3,10 +3,6 @@ using MySql.Data.MySqlClient;
 using KursovaBD.Utilits;
 using System.Data;
 using KursovaBD.Views.Dialogs;
-using System.Windows.Data;
-using System;
-using System.Globalization;
-using System.Windows;
 
 namespace KursovaBD.Views.Pages
 {

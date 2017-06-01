@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KursovaBD.Views.Dialogs"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        mc:Ignorable="d" Height="520" Width="520"
+        mc:Ignorable="d" Height="320" Width="300"
         WindowStyle="None"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
@@ -14,28 +14,28 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
-            <RowDefinition Height="490"/>
+            <RowDefinition Height="290"/>
         </Grid.RowDefinitions>
         <StackPanel x:Name="TitleBarPanel" 
                     Grid.Row="0"
                     Background="White"
                     Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+                    HorizontalAlignment="Right" Width="300">
             <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
                        Margin="0,0,10,0"/>
             <TextBlock Text="Dogs Battle Creator"
-                       Height="30"
                        FontWeight="ExtraBold"
                        FontSize="15"
-                       Margin="0,5,270,0"/>
+                       Margin="0,0,0,10"/>
             <ToggleButton Height="30" Width="30"
                           VerticalContentAlignment="Bottom"
+                          Margin="55,0,0,0"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="MinimizeBtn">
                 <materialDesign:PackIcon Kind="WindowMinimize"
                              Width="30"
                              Height="20"
-                             HorizontalAlignment="Right"/>
+                             HorizontalAlignment="Left"/>
             </ToggleButton>
             <ToggleButton Height="30" Width="30"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
@@ -43,12 +43,16 @@
                 <materialDesign:PackIcon Kind="CloseBoxOutline"
                              Height="30"
                              Width="30"
-                             HorizontalAlignment="Right"/>
+                             HorizontalAlignment="Left"/>
             </ToggleButton>
         </StackPanel>
         <StackPanel Grid.Row="1">
             <ComboBox x:Name="Breed" IsEditable="True" materialDesign:HintAssist.Hint="Breed"/>
-            <StackPanel x:Name="MemderAddPanel" Height="380"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <Border Padding="10">
+                    <StackPanel x:Name="MemderAddPanel" Height="170"/>
+                </Border>
+            </ScrollViewer>
             <Button x:Name="ExpertAddBttn" Content="Experts Add" Width="250"/>
             <Button x:Name="CreateBattleBtn" Content="Create dog battle" Margin="0,5" Width="200" IsEnabled="False"/>
         </StackPanel>

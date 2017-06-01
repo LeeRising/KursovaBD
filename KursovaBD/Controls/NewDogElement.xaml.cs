@@ -10,11 +10,11 @@ namespace KursovaBD.Controls
         public NewDogElement()
         {
             InitializeComponent();
-            DogName.ItemsSource = DogsBattleCreator.Instance._dogs.Select(x=>x.NameAge);
+            DogName.ItemsSource = DogsBattleCreator.Instance.DogsList.Select(x=>x.NameAge);
             AddNewBtn.IsEnabled = false;
             AddNewBtn.Click += delegate
             {
-                DogsBattleCreator.Instance._dogs.RemoveAt(DogName.SelectedIndex);
+                DogsBattleCreator.Instance.DogsList.RemoveAt(DogName.SelectedIndex);
                 DogsBattleCreator.Instance.AddDog();
                 AddNewBtn.Visibility = Visibility.Hidden;
                 DogName.IsEnabled = false;
