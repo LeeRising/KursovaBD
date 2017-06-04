@@ -16,28 +16,32 @@
             <RowDefinition Height="30"/>
             <RowDefinition Height="290"/>
         </Grid.RowDefinitions>
-        <StackPanel x:Name="TitleBarPanel" 
-                    Grid.Row="0"
+        <Grid x:Name="TitleBarPanel" 
+                    Grid.Row="0" Grid.ColumnSpan="3"
                     Background="White"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right">
-            <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
-                       Margin="0,0,10,0"/>
-            <TextBlock Text="Dogs Requests"
+                    HorizontalAlignment="Stretch">
+            <Image Height="30" Width="30" 
+                   Source="/KursovaBD;component/Assets/favicon.ico"
+                   HorizontalAlignment="Left"/>
+            <TextBlock Text="Expert Request"
                        Height="30"
                        FontWeight="ExtraBold"
                        FontSize="15"
-                       Margin="0,5,310,0"/>
+                       Margin="35,10,0,0"
+                       HorizontalAlignment="Left"/>
             <ToggleButton Height="30" Width="30"
-                          VerticalContentAlignment="Bottom"
+                          Margin="0,0,30,0"
+                          HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="MinimizeBtn">
                 <materialDesign:PackIcon Kind="WindowMinimize"
                              Width="30"
                              Height="20"
-                             HorizontalAlignment="Right"/>
+                             HorizontalAlignment="Right"
+                                         Margin="0,14,0,0"/>
             </ToggleButton>
             <ToggleButton Height="30" Width="30"
+                          HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="CloseBtn">
                 <materialDesign:PackIcon Kind="CloseBoxOutline"
@@ -45,7 +49,7 @@
                              Width="30"
                              HorizontalAlignment="Right"/>
             </ToggleButton>
-        </StackPanel>
+        </Grid>
         <materialDesign:DialogHost x:Name="ExpertRequestDialog"
                        Grid.Column="0" Grid.Row="1" 
                        HorizontalAlignment="Stretch" VerticalAlignment="Top">

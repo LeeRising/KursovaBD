@@ -27,30 +27,32 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel x:Name="TitleBarPanel" 
+        <Grid x:Name="TitleBarPanel" 
                     Grid.Row="0" Grid.ColumnSpan="3"
                     Background="White"
-                    Orientation="Horizontal"
-                    HorizontalAlignment="Right" Width="825">
-            <Image Height="30" Width="30" Source="/KursovaBD;component/Assets/favicon.ico"
-                       Margin="0,0,10,0"/>
+                    HorizontalAlignment="Stretch">
+            <Image Height="30" Width="30" 
+                   Source="/KursovaBD;component/Assets/favicon.ico"
+                   HorizontalAlignment="Left"/>
             <TextBlock Text="Dogs Show"
                        Height="30"
                        FontWeight="ExtraBold"
                        FontSize="15"
-                       Margin="0,5,540,0"/>
+                       Margin="35,10,0,0"
+                       HorizontalAlignment="Left"/>
             <ToggleButton Height="30" Width="30"
-                          Margin="103,0,-100,0"
-                          VerticalContentAlignment="Bottom"
+                          Margin="0,0,30,0"
+                          HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="MinimizeBtn">
                 <materialDesign:PackIcon Kind="WindowMinimize"
                              Width="30"
                              Height="20"
-                             HorizontalAlignment="Right"/>
+                             HorizontalAlignment="Right"
+                                         Margin="0,14,0,0"/>
             </ToggleButton>
             <ToggleButton Height="30" Width="30"
-                          Margin="100,0"
+                          HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFlatToggleButton}"
                     x:Name="CloseBtn">
                 <materialDesign:PackIcon Kind="CloseBoxOutline"
@@ -58,7 +60,7 @@
                              Width="30"
                              HorizontalAlignment="Right"/>
             </ToggleButton>
-        </StackPanel>
+        </Grid>
 
         <StackPanel x:Name="MainMenu"
                     Background="WhiteSmoke" 
@@ -265,7 +267,7 @@
                         <materialDesign:TransitionEffect Kind = "SlideInFromBottom" Duration="0:0:1.2" />
                         <materialDesign:TransitionEffect Kind = "ExpandIn" Duration="0:0:1.2"/>
                     </materialDesign:TransitionerSlide.OpeningEffects>
-                    <pages:MyDogPage/>
+                    <pages:DogPage/>
                 </materialDesign:TransitionerSlide>
             </materialDesign:Transitioner>
         </Grid>

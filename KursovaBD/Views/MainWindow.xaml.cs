@@ -295,6 +295,7 @@ namespace KursovaBD
         {
             DogsShowBtn.Style = FindResource("MaterialDesignRaisedAccentButton") as Style;
             ContentSlider.SelectedIndex = 0;
+            DogsShow.Instance.GetInfo();
         }
         void setViews()
         {
@@ -355,7 +356,7 @@ namespace KursovaBD
             contentToggler(_views[button]);
             resetButtons(button);
             if (button == MyDogBtn)
-                MyDogPage.Instance.GetDogInfo();
+                DogPage.Instance.GetDogInfo();
             if (button == HallofFameBtn)
                 HallOfFame.Instance.GetInfo();
             if (button == AdminPabelBtn)
