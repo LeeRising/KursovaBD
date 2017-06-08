@@ -19,7 +19,6 @@ namespace KursovaBD.Views.Pages
         List<DogModel> _dogModel = new List<DogModel>();
         Uri _no_image = new Uri("pack://application:,,,/KursovaBD;component/Assets/No_image.png");
         int? ring_id;
-        int index;
 
         public static ExpertPanel Instance { get; set; }
 
